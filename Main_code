@@ -13,3 +13,7 @@
 import des librairies
 #####################
 import tkinter as tk
+import copy as cp
+import random as rd
+
+
