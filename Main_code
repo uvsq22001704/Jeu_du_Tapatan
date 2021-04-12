@@ -8,49 +8,58 @@
 # Hyacinthe MORASSE
 # https://github.com/uvsq22001704/Jeu_du_Tapatan
 ########################
-*********
 
-import des librairies
-#####################
+########################
+# import des librairies
+
 import tkinter as tk
 import copy as cp
 import random as rd
 from tkinter import font as tkFont
 
+########################
+# constantes
 
-###################
-fonctions
-###################
+HEIGHT = 800
+WIDTH = 1200
+helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
 
-def sauvegarder():
-    pass
-
+########################
+# fonctions
 
 def recharger():
     pass
 
+def sauvegarder():
+    pass
 
-##############
-main
-###############
+########################
+# menu
 
+
+########################
+# plateau
 
 plateau = tk.Tk()
-FONT = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
 
-canvas = tk.Canvas(plateau, height=800, width=1200,)
+canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
+
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                               command=sauvegarder, font=FONT)
+                               command=sauvegarder, font=helv26)
 bouton_recharger = tk.Button(plateau, text='Recharger la partie', 
-                             font=FONT ,command=recharger)
+                             font=helv26 ,command=recharger)
 score = tk.Label(plateau, text='SCORE :')
-
 
 bouton_sauvegarder.grid(row=3, column=0)
 bouton_recharger.grid(row=3, column=1)
 canvas.grid(row=0, columnspan=2)
 
+rouge1 = canvas.create_oval((50, 500), (100, 550), fill="red", outline="red")
+rouge2 = canvas.create_oval((50, 600), (100, 650), fill="red", outline="red")
+rouge3 = canvas.create_oval((50, 700), (100, 750), fill="red", outline="red")
+
+bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill="blue", outline="blue")
+bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill="blue", outline="blue")
+bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill="blue", outline="blue")
 
 plateau.mainloop()
-
-
