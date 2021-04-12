@@ -15,5 +15,42 @@ import des librairies
 import tkinter as tk
 import copy as cp
 import random as rd
+from tkinter import font as tkFont
+
+
+###################
+fonctions
+###################
+
+def sauvegarder():
+    pass
+
+
+def recharger():
+    pass
+
+
+##############
+main
+###############
+
+
+plateau = tk.Tk()
+helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
+
+canvas = tk.Canvas(plateau, height=800, width=1200,)
+bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
+                               command=sauvegarder, font=helv26)
+bouton_recharger = tk.Button(plateau, text='Recharger la partie', 
+                             font=helv26 ,command=recharger)
+score = tk.Label(plateau, text='SCORE :')
+
+
+bouton_sauvegarder.grid(row=3, column=0)
+bouton_recharger.grid(row=3, column=1)
+canvas.grid(row=0, columnspan=2)
+
+
+plateau.mainloop()
 
 
