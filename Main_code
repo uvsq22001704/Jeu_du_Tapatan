@@ -22,9 +22,9 @@ from tkinter import font as tkFont
 
 HEIGHT = 800
 WIDTH = 1200
-helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
-fontStyle = tkF.Font(family="Comic sans MS", size=20)
-fontStyle2 = tkF.Font(family="Comic sans MS", size=10)
+#helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
+#fontStyle = tkFont.Font(family="Comic sans MS", size=20)
+#fontStyle2 = tkFont.Font(family="Comic sans MS", size=10)
 
 ########################
 # fonctions
@@ -38,15 +38,14 @@ def sauvegarder():
 ########################
 # menu
 
-
 menu = tk.Tk()
 menu.title("Tapatan 97")
 
 bck = tk.Canvas(menu, bg = "red", height = 150, width = 400)
-titre = tk.Label(menu, text="Jeu Du Tapatan Win97", font = fontStyle)
-buttonII = tk.Button(menu, text="0 Joueurs", font = fontStyle2)
-buttonHH = tk.Button(menu, text="1 Joueur", font = fontStyle2)
-buttonHI = tk.Button(menu, text="2 Joueurs", font = fontStyle2)
+titre = tk.Label(menu, text="Jeu Du Tapatan Win97")
+buttonII = tk.Button(menu, text="0 Joueurs")
+buttonHH = tk.Button(menu, text="1 Joueur")
+buttonHI = tk.Button(menu, text="2 Joueurs")
 
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
 titre.grid(column = 0, row = 0, columnspan = 3,padx = 300)
@@ -56,6 +55,7 @@ buttonHI.grid(column = 0, row = 3, pady = 30)
 
 
 menu.mainloop()
+
 ########################
 # plateau
 
@@ -63,24 +63,9 @@ plateau = tk.Tk()
 
 canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
 
-canvas.grid()
-
-canvas.create_line((350,100),(850,100),fill="black")
-canvas.create_line((350,100),(350,600),fill="black")
-canvas.create_line((350,600),(850,600),fill="black")
-canvas.create_line((350,350),(850,350),fill="black")
-canvas.create_line((350,100),(850,600),fill="black")
-canvas.create_line((350,600),(850,100),fill="black")
-canvas.create_line((600,100),(600,600),fill="black")
-canvas.create_line((850,100),(850,600),fill="black")
-
-canvas.create_oval((325,75),(375,125),fill="black")
-
-
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                               command=sauvegarder, font=helv26)
-bouton_recharger = tk.Button(plateau, text='Recharger la partie', 
-                             font=helv26 ,command=recharger)
+                               command=sauvegarder)
+bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger)
 score = tk.Label(plateau, text='SCORE :')
 
 bouton_sauvegarder.grid(row=3, column=0)
@@ -94,5 +79,24 @@ rouge3 = canvas.create_oval((50, 700), (100, 750), fill="red", outline="red")
 bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill="blue", outline="blue")
 bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill="blue", outline="blue")
 bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill="blue", outline="blue")
+
+canvas.create_line((350,100),(850,100),fill="black")
+canvas.create_line((350,100),(350,600),fill="black")
+canvas.create_line((350,600),(850,600),fill="black")
+canvas.create_line((350,350),(850,350),fill="black")
+canvas.create_line((350,100),(850,600),fill="black")
+canvas.create_line((350,600),(850,100),fill="black")
+canvas.create_line((600,100),(600,600),fill="black")
+canvas.create_line((850,100),(850,600),fill="black")
+
+canvas.create_oval((325,325),(375,375),fill="grey", outline="grey")
+canvas.create_oval((325,75),(375,125),fill="grey", outline="grey")
+canvas.create_oval((325,575),(375,625),fill="grey", outline="grey")
+canvas.create_oval((575,325),(625,375),fill="grey", outline="grey")
+canvas.create_oval((575,75),(625,125),fill="grey", outline="grey")
+canvas.create_oval((575,575),(625,625),fill="grey", outline="grey")
+canvas.create_oval((825,325),(875,375),fill="grey", outline="grey")
+canvas.create_oval((825,75),(875,125),fill="grey", outline="grey")
+canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
 
 plateau.mainloop()
