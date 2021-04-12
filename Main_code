@@ -63,6 +63,20 @@ plateau = tk.Tk()
 
 canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
 
+canvas.grid()
+
+canvas.create_line((350,100),(850,100),fill="black")
+canvas.create_line((350,100),(350,600),fill="black")
+canvas.create_line((350,600),(850,600),fill="black")
+canvas.create_line((350,350),(850,350),fill="black")
+canvas.create_line((350,100),(850,600),fill="black")
+canvas.create_line((350,600),(850,100),fill="black")
+canvas.create_line((600,100),(600,600),fill="black")
+canvas.create_line((850,100),(850,600),fill="black")
+
+canvas.create_oval((325,75),(375,125),fill="black")
+
+
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
                                command=sauvegarder, font=helv26)
 bouton_recharger = tk.Button(plateau, text='Recharger la partie', 
