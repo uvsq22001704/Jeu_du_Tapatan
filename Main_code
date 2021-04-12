@@ -36,13 +36,13 @@ main
 
 
 plateau = tk.Tk()
-helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
+FONT = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
 
 canvas = tk.Canvas(plateau, height=800, width=1200,)
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                               command=sauvegarder, font=helv26)
+                               command=sauvegarder, font=FONT)
 bouton_recharger = tk.Button(plateau, text='Recharger la partie', 
-                             font=helv26 ,command=recharger)
+                             font=FONT ,command=recharger)
 score = tk.Label(plateau, text='SCORE :')
 
 
