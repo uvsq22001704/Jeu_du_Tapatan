@@ -153,7 +153,22 @@ def mapla():
 matrice [1][2] = 1 #juste un pour tester la fonct mapla
 mapla()
 
-                
+
+
+def dePion(event):
+    x, y = event.x, event.y
+    for i in range (3):
+        for j in range (3):
+            x1,y1,x2,y2 = canvas.coords(liCe[i][j])
+
+            if x <= x2 and y <= y2 and x >= x1 and y >= y1:
+                canvas.itemconfig(liCe[i][j], fill = 'blue')
+
+
+canvas.bind("<Button-1>", dePion)
+
+
+
 plateau.mainloop()
 
 ########################
