@@ -138,7 +138,8 @@ cercle22 = canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
 
 
 
-liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]]
+liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
+# ^ liste comportant l'id de tous les cercles pour pouvoir les modifier plus facilement ^   
 
 def mapla():
     '''~12) met à jour la couleur des pions sur le plateau'''
