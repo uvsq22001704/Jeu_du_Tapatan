@@ -26,6 +26,22 @@ WIDTH = 1200
 #fontStyle = tkFont.Font(family="Comic sans MS", size=20)
 #fontStyle2 = tkFont.Font(family="Comic sans MS", size=10)
 
+matrice = []
+
+for i in range (3):
+    matrice.append([])
+
+for j in range (3):
+    for i in range (3):
+        matrice[i].append(0)
+
+print (matrice)
+
+#0 gris
+#1 rouge
+#2 bleu
+
+
 ########################
 # fonctions
 
@@ -111,15 +127,26 @@ canvas.create_line((350,600),(850,100),fill="black")
 canvas.create_line((600,100),(600,600),fill="black")
 canvas.create_line((850,100),(850,600),fill="black")
 
-cercle11 = canvas.create_oval((325,75),(375,125),fill="grey", outline="grey")
-cercle12 = canvas.create_oval((325,325),(375,375),fill="grey", outline="grey")
-cercle13 = canvas.create_oval((325,575),(375,625),fill="grey", outline="grey")
-cercle21 = canvas.create_oval((575,75),(625,125),fill="grey", outline="grey")
-cercle22 = canvas.create_oval((575,325),(625,375),fill="grey", outline="grey")
-cercle23 = canvas.create_oval((575,575),(625,625),fill="grey", outline="grey")
-cercle31 = canvas.create_oval((825,75),(875,125),fill="grey", outline="grey")
-cercle32 = canvas.create_oval((825,325),(875,375),fill="grey", outline="grey")
-cercle33 = canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
+cercle00 = canvas.create_oval((325,75),(375,125),fill="grey", outline="grey")
+cercle01 = canvas.create_oval((325,325),(375,375),fill="grey", outline="grey")
+cercle02 = canvas.create_oval((325,575),(375,625),fill="grey", outline="grey")
+cercle10 = canvas.create_oval((575,75),(625,125),fill="grey", outline="grey")
+cercle11 = canvas.create_oval((575,325),(625,375),fill="grey", outline="grey")
+cercle12 = canvas.create_oval((575,575),(625,625),fill="grey", outline="grey")
+cercle20 = canvas.create_oval((825,75),(875,125),fill="grey", outline="grey")
+cercle21 = canvas.create_oval((825,325),(875,375),fill="grey", outline="grey")
+cercle22 = canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
+
+
+
+liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]]
+
+def mapla():
+    '''met à jour la couleur des pions sur le plateau'''
+    for i in range (3):
+        for j in range (3):
+            if matrice [j][i] == 1 :
+                canvas.itemconfig(liCe[i][j], fill = 'blue')
 
 plateau.mainloop()
 
