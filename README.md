@@ -1,5 +1,14 @@
 # Jeu_du_Tapatan
 
+Notations:
+
+    pour la matrice:
+    0 gris
+    1 rouge
+    2 bleu
+
+
+
 Jeu du Tapatan pour deux joueurs, soit un joueur réel et une IA, soit deux IA l'une contre l'autre. 
 
 Chacun des deux joueurs dispose de 3 jetons. Le vainqueur est le premier joueur à aligner 3 de ses jetons sur le plateau.
