@@ -92,9 +92,9 @@ bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
                                command=sauvegarder)
 bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger)
 
-score = tk.Label(plateau, text=('SCORE : ',r,' - ',b))
+#score = tk.Label(plateau, text=('SCORE : ',r,' - ',b))
 
-score.grid(row=0, columnspan=2)
+#score.grid(row=0, columnspan=2)
 
 r=0
 b=0
