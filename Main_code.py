@@ -26,15 +26,14 @@ WIDTH = 1200
 #fontStyle = tkFont.Font(family="Comic sans MS", size=20)
 #fontStyle2 = tkFont.Font(family="Comic sans MS", size=10)
 
-matrice = []
 
+matrice = []   # on créer une liste 2D dans laquelle se trouvent la couleur de chaque cases du plateau
 for i in range (3):
     matrice.append([])
 
 for j in range (3):
     for i in range (3):
         matrice[i].append(0)
-
 print (matrice)
 
 #0 gris
