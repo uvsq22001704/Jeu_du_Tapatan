@@ -41,11 +41,20 @@ def sauvegarder():
 menu = tk.Tk()
 menu.title("Tapatan 97")
 
+def P1j():
+    menu.destroy()
+
+def P2j(): 
+    menu.destroy()
+
+def P3j():
+    menu.destroy()
+
 bck = tk.Canvas(menu, bg = "red", height = 150, width = 400)
 titre = tk.Label(menu, text="Jeu Du Tapatan Win97")
-buttonII = tk.Button(menu, text="0 Joueurs")
-buttonHH = tk.Button(menu, text="1 Joueur")
-buttonHI = tk.Button(menu, text="2 Joueurs")
+buttonII = tk.Button(menu, text="0 Joueurs", command = P1j)
+buttonHH = tk.Button(menu, text="1 Joueur", command = P2j)
+buttonHI = tk.Button(menu, text="2 Joueurs", command = P3j)
 
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
 titre.grid(column = 0, row = 0, columnspan = 3,padx = 300)
