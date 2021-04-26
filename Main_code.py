@@ -156,6 +156,7 @@ mapla()
 
 
 def dePion(event):
+    '''place un pion sur le cercle gris cliqué'''
     x, y = event.x, event.y
     for i in range (3):
         for j in range (3):
