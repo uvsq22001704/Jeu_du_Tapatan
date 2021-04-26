@@ -146,8 +146,14 @@ def mapla():
     for i in range (3):
         for j in range (3):
             if matrice [j][i] == 1 :
+                canvas.itemconfig(liCe[i][j], fill = 'red')
+            if matrice [j][i] == 2 :
                 canvas.itemconfig(liCe[i][j], fill = 'blue')
 
+matrice [1][2] = 1 #juste un pour tester la fonct mapla
+mapla()
+
+                
 plateau.mainloop()
 
 ########################
