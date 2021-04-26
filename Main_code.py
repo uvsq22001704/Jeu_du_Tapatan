@@ -27,7 +27,7 @@ WIDTH = 1200
 #fontStyle2 = tkFont.Font(family="Comic sans MS", size=10)
 
 
-matrice = []   # on créer une liste 2D dans laquelle se trouvent la couleur de chaque cases du plateau
+matrice = []   #~3) on créer une liste 2D dans laquelle se trouvent la couleur de chaque cases du plateau
 for i in range (3):
     matrice.append([])
 
@@ -141,7 +141,7 @@ cercle22 = canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
 liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]]
 
 def mapla():
-    '''met à jour la couleur des pions sur le plateau'''
+    '''~12) met à jour la couleur des pions sur le plateau'''
     for i in range (3):
         for j in range (3):
             if matrice [j][i] == 1 :
