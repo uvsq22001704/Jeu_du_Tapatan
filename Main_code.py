@@ -251,65 +251,68 @@ def Place_Pion(event):
     print (tour)
     print (position_prece)
                 
-    won_ckeck(matrice) #je l'ai associé ici, à voir (NK)
+    win_ckeck(matrice) #je l'ai associé ici, à voir (NK)
     
 
-def won_ckeck(matrice):
+def win_ckeck(matrice):
     '''évalue après chaque tour si qqn a gagné. s'il y a un gagnant, un msg 
     s'affiche dans une nouvelle fenêtre. Lance une nouvelle partie'''
-    global r, b
+    global r, b, player
+    player = ''
     for i in range(3):
         if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1:
-            print( "Joueur 1 a gagné!!!!!!")
+            player = '1'
+            msg_gagne()
             r += 1
+            score.itemconfigure(score_rouge, text=r)
             fin_de_partie()
         elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2:
+            player = '2'
             msg_gagne()
             b += 1
             score.itemconfigure(score_bleu, text=b)
             fin_de_partie()
     for j in range(3):
         if  matrice[0][j] == matrice[1][j] == matrice[2][j] == 1:
-            print( "Joueur 1 a gagné!!!!!!")
+            player = '1'
+            msg_gagne()
             r += 1
+            score.itemconfigure(score_rouge, text=r)
             fin_de_partie()
         elif matrice[0][j] == matrice[1][j] == matrice[2][j] == 2:
+            player = '2'
             msg_gagne() 
             b += 1
             score.itemconfigure(score_bleu, text=b)
             fin_de_partie()
-    if matrice[0][0] ==  matrice[1][1] == matrice[2][2]:
-        if matrice[0][0] == 1:
-            print( "Joueur 1 a gagné!!!!!!")
-            r += 1
-            fin_de_partie()
-        elif matrice[0][0] == 2:
-            msg_gagne()
-            b += 1
-            score.itemconfigure(score_bleu, text=b)
-            fin_de_partie()
-    if matrice[2][0] ==  matrice[1][1] == matrice[0][2]:
-        if matrice[i][j] == 1:
-            print( "Joueur 1 a gagné!!!!!!")
-            r += 1
-            fin_de_partie()
-        elif matrice[2][0] == 2:
-            msg_gagne()
-            b += 1
-            score.itemconfigure(score_bleu, text=b)
-            fin_de_partie()
+    if matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 1 or matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 1:
+        player = '1'
+        msg_gagne()
+        r += 1
+        score.itemconfigure(score_rouge, text=r)
+        fin_de_partie()
+    if matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 2 or matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 2:
+        player = '2'
+        msg_gagne()
+        b += 1
+        score.itemconfigure(score_bleu, text=b)
+        fin_de_partie()
 
 
 def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
+    global player
     msg = tk.Toplevel(plateau)
     msg.title("Fin de partie")
     gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
     gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
-    gagné.create_text(190, 60, text='2', font=('helvetica', '16'))
+    gagné.create_text(190, 60, text=player, font=('helvetica', '16'))
     gagné.create_text(280, 60, text='a gagné !', font=('helvetica', '16'))
     gagné.grid()
-    #msg.after(3000, msg.destroy()) # ça marche pas????
+    #def fermer_msg():
+        #msg.destroy()
+    
+    #msg.after(3000, fermer_msg()) # ça marche pas????
 
 
 def fin_de_partie():
