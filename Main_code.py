@@ -191,11 +191,11 @@ def mapla():
     for i in range (3):
         for j in range (3):
             if matrice [i][j] == 1 :
-                canvas.itemconfig(liCe[i][j], fill = 'red')
+                canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
             if matrice [i][j] == 2 :
-                canvas.itemconfig(liCe[i][j], fill = 'blue')
+                canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
             if matrice [i][j] == 0 :
-                canvas.itemconfig(liCe[i][j], fill = 'grey')
+                canvas.itemconfig(liCe[i][j], fill = 'grey', outline = "grey")
 
 
 def affiche_tour():
@@ -218,28 +218,40 @@ def Place_Pion(event):
 
             if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0:
-                    canvas.itemconfig(liCe[i][j], fill = 'blue')
+                    canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                     tour += 1
                     nb_pions_b -= 1
+                    if nb_pions_b == 2:
+                        canvas.itemconfigure(bleu1, fill = "grey", outline="grey")
+                    elif nb_pions_b == 1:
+                        canvas.itemconfigure(bleu2, fill = "grey", outline="grey")
+                    elif nb_pions_b == 0:
+                        canvas.itemconfigure(bleu3, fill = "grey", outline="grey")
                     matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
                     
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 :
-                    canvas.itemconfig(liCe[i][j], fill = 'red')
+                    canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
+                    if nb_pions_r == 2:
+                        canvas.itemconfigure(rouge1, fill = "grey", outline="grey")
+                    elif nb_pions_r == 1:
+                        canvas.itemconfigure(rouge2, fill = "grey", outline="grey")
+                    elif nb_pions_r == 0:
+                        canvas.itemconfigure(rouge3, fill = "grey", outline="grey")
                     matrice[i][j] = 1 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
                     
             else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
-                    canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1')
+                    canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1', outline = 'RoyalBlue1')
                     matrice[i][j] = 0
                     nb_pions_b += 1
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 1:
-                    canvas.itemconfig(liCe[i][j], fill = 'coral1')
+                    canvas.itemconfig(liCe[i][j], fill = 'coral1', outline = 'coral1')
                     matrice[i][j] = 0
                     nb_pions_r += 1
     print (tour)
