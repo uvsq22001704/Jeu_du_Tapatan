@@ -52,11 +52,47 @@ position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete
 ########################
 # fonctions
 
-def recharger():
-    pass
+def recharger(): 
+    """charger la grille depuis le fichier sauvegarde.txt"""
+    fic = open("sauvegarde.txt", "r")
+    fond.delete(cercle00,cercle01,cercle02,cercle10,cercle11,cercle12,cercle20,cercle21,cercle22)
+    j = 0
+    for ligne in fic:
+        i = 0
+        val = ligne.split()
+        for e in val:
+            if e == "0 ":
+                x = i * 250 + 325
+                y = j * 250 + 75
+                cercle = fond.create_oval((x, y), (x + 50, y + 50), fill="grey")
+         
+            elif e =="1 " :
+                x = i * 250 + 325
+                y = j * 250 + 75
+                cercle = fond.create_oval((x, y), (x + 50, y + 50), fill="red")
+            elif e == "2 " :
+                 x = i * 250 + 325
+                 y = j * 250 + 75
+                 cercle = fond.create_oval((x, y), (x + 50, y + 50), fill="blue")
+            i += 1
+        j += 1
+    fic.close()  
+
 
 def sauvegarder():
-    pass
+     """sauvegarder la grille vers le fichier sauvegarde.txt"""
+     fic = open("sauvegarde.txt", "w")
+     for j in range(3):
+        for i in range(3):
+            if matrice[i][j] == 0:
+                (open("sauvegarde.txt", "w")).write("0 ")
+            elif matrice[i][j] == 1:
+                (open("sauvegarde.txt", "w")).write("1 ")
+            elif matrice[i][j] == 2:
+                (open("sauvegarde.txt", "w")).write("2 ")
+        (open("sauvegarde.txt", "w")).write("\n")
+     (open("sauvegarde.txt", "w")).close()
+
 
 ########################
 # menu
