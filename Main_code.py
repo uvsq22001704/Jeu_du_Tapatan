@@ -43,6 +43,10 @@ print (matrice)
 #1 rouge
 #2 bleu
 
+tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour rouge 
+
+nb_pions_r = 3
+nb_pions_b = 3
 
 ########################
 # fonctions
@@ -58,6 +62,12 @@ def sauvegarder():
 
 menu = tk.Tk()
 menu.title("Tapatan 97")
+
+def couleur (r, g, b):  
+    '''pour que ce soit plus zoli'''
+    return '#{:02x}{:02x}{:02x}'.format (r, g, b)
+col = couleur (rd.randint(0,255), rd.randint(0,255), rd.randint(0,255))
+
 
 def P0j():
     menu.destroy()
@@ -87,6 +97,7 @@ def regles():
     regles.grid(row=0)
     retour.grid(row=1)
 
+fond = tk.Canvas(menu, bg = col, height = 700, width = 1100)
 bck = tk.Canvas(menu, bg = "red", height = 150, width = 400)
 titre = tk.Label(menu, text="Jeu Du Tapatan Win97")
 buttonII = tk.Button(menu, text="0 Joueurs", command = P0j)
@@ -94,7 +105,7 @@ buttonHH = tk.Button(menu, text="1 Joueur", command = P1j)
 buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j)
 button_rules = tk.Button(menu, text='Règles du jeu', command=regles)
 
-
+fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
 titre.grid(column = 0, row = 0, columnspan = 3,padx = 300)
 buttonII.grid(column = 0, row = 1, padx = 500, pady = 30)
@@ -126,6 +137,9 @@ score_rouge = score.create_text(SCORE_W+80, SCORE_H, text=r, font=('helvetica', 
 score.create_text(SCORE_W+100, SCORE_H, text='-', font=('helvetica', '16'))
 score_bleu = score.create_text(SCORE_W+120, SCORE_H, text=b, font=('helvetica', '16'))
 
+indictour = tk.Canvas(plateau, height=60, width=300, bg='light blue') #canvas dans lequel s'affiche à qui est le tour
+tour_texte = indictour.create_text(SCORE_W, SCORE_H, text="tour de bleu", font=('helvetica', '16', ), fill = 'blue')
+
 
 #digit1 = tk.Label(plateau, text="0", width = 5, height = 5)
 #digit2 = tk.Label(plateau, text="-", width = 30, height = 5)
@@ -138,6 +152,7 @@ bouton_sauvegarder.grid(row=3, column=0)
 bouton_recharger.grid(row=3, column=1)
 canvas.grid(row=1, columnspan=2)
 score.grid(row=0, columnspan=2)
+indictour.grid(row = 2, columnspan=2)
 
 rouge1 = canvas.create_oval((50, 500), (100, 550), fill="red", outline="red")
 rouge2 = canvas.create_oval((50, 600), (100, 650), fill="red", outline="red")
@@ -175,28 +190,63 @@ def mapla():
     '''~12) met à jour la couleur des pions sur le plateau'''
     for i in range (3):
         for j in range (3):
-            if matrice [j][i] == 1 :
+            if matrice [i][j] == 1 :
                 canvas.itemconfig(liCe[i][j], fill = 'red')
-            if matrice [j][i] == 2 :
+            if matrice [i][j] == 2 :
                 canvas.itemconfig(liCe[i][j], fill = 'blue')
-
-matrice [1][2] = 1 #juste un pour tester la fonct mapla
-mapla()
-
+            if matrice [i][j] == 0 :
+                canvas.itemconfig(liCe[i][j], fill = 'grey')
 
 
-def dePion(event):
-    '''place un pion sur le cercle gris cliqué'''
+def affiche_tour():
+    '''met à jour le compteur de tour'''
+    if tour % 2 != 0:
+        indictour.itemconfig(tour_texte, fill = 'red')
+        indictour.itemconfig(tour_texte, text = 'tour de rouge')
+    elif tour % 2 == 0:
+        indictour.itemconfig(tour_texte, fill = 'blue')
+        indictour.itemconfig(tour_texte, text = 'tour de bleu')
+
+
+def Place_Pion(event):
+    '''place ou déplace un pion sur le cercle gris cliqué'''
+    global tour, nb_pions_b, nb_pions_r
     x, y = event.x, event.y
     for i in range (3):
         for j in range (3):
             x1,y1,x2,y2 = canvas.coords(liCe[i][j])
 
-            if x <= x2 and y <= y2 and x >= x1 and y >= y1:
-                canvas.itemconfig(liCe[i][j], fill = 'blue')
-                matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
+            if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
+                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0:
+                    canvas.itemconfig(liCe[i][j], fill = 'blue')
+                    tour += 1
+                    nb_pions_b -= 1
+                    matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
+                    affiche_tour()
+                    mapla()
+                    
+                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 :
+                    canvas.itemconfig(liCe[i][j], fill = 'red')
+                    tour += 1
+                    nb_pions_r -= 1
+                    matrice[i][j] = 1 #j'ai rajouté ça là pour l'instant (NK)
+                    affiche_tour()
+                    mapla()
+                    
+            else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
+                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
+                    canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1')
+                    matrice[i][j] = 0
+                    nb_pions_b += 1
+                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 1:
+                    canvas.itemconfig(liCe[i][j], fill = 'coral1')
+                    matrice[i][j] = 0
+                    nb_pions_r += 1
+    print (tour)
+                
     won_ckeck(matrice) #je l'ai associé ici, à voir (NK)
     
+
 def won_ckeck(matrice):
     '''évalue après chaque tour si qqn a gagné. s'il y a un gagnant, un msg 
     s'affiche dans une nouvelle fenêtre. Lance une nouvelle partie'''
@@ -262,7 +312,7 @@ def fin_de_partie():
     pass
 
 
-canvas.bind("<Button-1>", dePion)
+canvas.bind("<Button-1>", Place_Pion)
 
 
 
