@@ -260,28 +260,15 @@ def win_ckeck(matrice):
     global r, b, player
     player = ''
     for i in range(3):
-        if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1:
+        if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1 or matrice[0][i] == matrice[1][i] == matrice[2][i] == 1:
             player = '1'
             msg_gagne()
             r += 1
             score.itemconfigure(score_rouge, text=r)
             fin_de_partie()
-        elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2:
+        elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2 or matrice[0][i] == matrice[1][i] == matrice[2][i] ==2:
             player = '2'
             msg_gagne()
-            b += 1
-            score.itemconfigure(score_bleu, text=b)
-            fin_de_partie()
-    for j in range(3):
-        if  matrice[0][j] == matrice[1][j] == matrice[2][j] == 1:
-            player = '1'
-            msg_gagne()
-            r += 1
-            score.itemconfigure(score_rouge, text=r)
-            fin_de_partie()
-        elif matrice[0][j] == matrice[1][j] == matrice[2][j] == 2:
-            player = '2'
-            msg_gagne() 
             b += 1
             score.itemconfigure(score_bleu, text=b)
             fin_de_partie()
