@@ -44,8 +44,8 @@ tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour 
 nb_pions_r = 3
 nb_pions_b = 3
 
-r=0
-b=0
+r=0 #compteur du score rouge
+b=0 #compteur du score bleu
 
 position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete à déplacer
 
