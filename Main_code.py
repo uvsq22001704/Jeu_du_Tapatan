@@ -47,6 +47,8 @@ nb_pions_b = 3
 r=0
 b=0
 
+position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete à déplacer
+
 ########################
 # fonctions
 
@@ -202,12 +204,13 @@ def Place_Pion(event):
     x, y = event.x, event.y
     for i in range (3):
         for j in range (3):
-            x1,y1,x2,y2 = canvas.coords(liCe[i][j])
+            x1,y1,x2,y2 = canvas.coords(liCe[i][j]) 
 
             if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
-                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0:
+               #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
+                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
                     canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
-                    tour += 1
+                    tour += 1 
                     nb_pions_b -= 1
                     if nb_pions_b == 2:
                         canvas.itemconfigure(bleu1, fill = "grey", outline="grey")
@@ -218,8 +221,8 @@ def Place_Pion(event):
                     matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
-                    
-                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 :
+                    position_prece[0], position_prece[1] = 1,1
+                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
@@ -232,17 +235,21 @@ def Place_Pion(event):
                     matrice[i][j] = 1 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
-                    
+                    position_prece[0], position_prece[1] = 1,1  
             else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
                     canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1', outline = 'RoyalBlue1')
                     matrice[i][j] = 0
                     nb_pions_b += 1
+                    position_prece[0], position_prece[1] = i,j
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 1:
                     canvas.itemconfig(liCe[i][j], fill = 'coral1', outline = 'coral1')
                     matrice[i][j] = 0
                     nb_pions_r += 1
+                    position_prece[0], position_prece[1] = i,j
+                
     print (tour)
+    print (position_prece)
                 
     won_ckeck(matrice) #je l'ai associé ici, à voir (NK)
     
@@ -319,4 +326,3 @@ canvas.bind("<Button-1>", Place_Pion)
 plateau.mainloop()
 
 ########################
-
