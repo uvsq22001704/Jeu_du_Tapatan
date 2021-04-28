@@ -15,7 +15,6 @@
 import tkinter as tk
 import copy as cp
 import random as rd
-from tkinter import font as tkFont
 
 ########################
 # constantes
@@ -25,9 +24,6 @@ WIDTH = 1200
 
 SCORE_H = 30
 SCORE_W = 100
-#helv26 = tkFont.Font(family='Comic Sans MS', size=16, weight='bold')
-#fontStyle = tkFont.Font(family="Comic sans MS", size=20)
-#fontStyle2 = tkFont.Font(family="Comic sans MS", size=10)
 
 
 matrice = []   #~3) on créer une liste 2D dans laquelle se trouvent la couleur de chaque cases du plateau
@@ -47,6 +43,9 @@ tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour 
 
 nb_pions_r = 3
 nb_pions_b = 3
+
+r=0
+b=0
 
 ########################
 # fonctions
@@ -121,9 +120,6 @@ menu.mainloop()
 
 plateau = tk.Tk()
 
-r=0
-b=0
-
 canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
 
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
@@ -140,46 +136,38 @@ score_bleu = score.create_text(SCORE_W+120, SCORE_H, text=b, font=('helvetica', 
 indictour = tk.Canvas(plateau, height=60, width=300, bg='light blue') #canvas dans lequel s'affiche à qui est le tour
 tour_texte = indictour.create_text(SCORE_W, SCORE_H, text="tour de bleu", font=('helvetica', '16', ), fill = 'blue')
 
-
-#digit1 = tk.Label(plateau, text="0", width = 5, height = 5)
-#digit2 = tk.Label(plateau, text="-", width = 30, height = 5)
-#digit3 = tk.Label(plateau, text="0", width = 5, height = 5)
-#digit1.grid(column = 0, row = 0)
-#digit2.grid(column = 1, row = 0)
-#digit3.grid(column = 2, row = 0)
-
 bouton_sauvegarder.grid(row=3, column=0)
 bouton_recharger.grid(row=3, column=1)
 canvas.grid(row=1, columnspan=2)
 score.grid(row=0, columnspan=2)
 indictour.grid(row = 2, columnspan=2)
 
-rouge1 = canvas.create_oval((50, 500), (100, 550), fill="red", outline="red")
-rouge2 = canvas.create_oval((50, 600), (100, 650), fill="red", outline="red")
-rouge3 = canvas.create_oval((50, 700), (100, 750), fill="red", outline="red")
+rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")
+rouge2 = canvas.create_oval((50, 600), (100, 650), fill = "red", outline = "red")
+rouge3 = canvas.create_oval((50, 700), (100, 750), fill = "red", outline = "red")
 
-bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill="blue", outline="blue")
-bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill="blue", outline="blue")
-bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill="blue", outline="blue")
+bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill = "blue", outline = "blue")
+bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill = "blue", outline = "blue")
+bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill = "blue", outline = "blue")
 
-canvas.create_line((350,100),(850,100),fill="black")
-canvas.create_line((350,100),(350,600),fill="black")
-canvas.create_line((350,600),(850,600),fill="black")
-canvas.create_line((350,350),(850,350),fill="black")
-canvas.create_line((350,100),(850,600),fill="black")
-canvas.create_line((350,600),(850,100),fill="black")
-canvas.create_line((600,100),(600,600),fill="black")
-canvas.create_line((850,100),(850,600),fill="black")
+canvas.create_line((350, 100), (850, 100), fill = "black")
+canvas.create_line((350, 100), (350, 600), fill = "black")
+canvas.create_line((350, 600), (850, 600), fill = "black")
+canvas.create_line((350, 350), (850, 350), fill = "black")
+canvas.create_line((350, 100), (850, 600), fill = "black")
+canvas.create_line((350, 600), (850, 100), fill = "black")
+canvas.create_line((600, 100), (600, 600), fill = "black")
+canvas.create_line((850, 100), (850, 600), fill = "black")
 
-cercle00 = canvas.create_oval((325,75),(375,125),fill="grey", outline="grey")
-cercle01 = canvas.create_oval((325,325),(375,375),fill="grey", outline="grey")
-cercle02 = canvas.create_oval((325,575),(375,625),fill="grey", outline="grey")
-cercle10 = canvas.create_oval((575,75),(625,125),fill="grey", outline="grey")
-cercle11 = canvas.create_oval((575,325),(625,375),fill="grey", outline="grey")
-cercle12 = canvas.create_oval((575,575),(625,625),fill="grey", outline="grey")
-cercle20 = canvas.create_oval((825,75),(875,125),fill="grey", outline="grey")
-cercle21 = canvas.create_oval((825,325),(875,375),fill="grey", outline="grey")
-cercle22 = canvas.create_oval((825,575),(875,625),fill="grey", outline="grey")
+cercle00 = canvas.create_oval((325, 75), (375, 125), fill = "grey", outline = "grey")
+cercle01 = canvas.create_oval((325, 325), (375, 375), fill = "grey", outline = "grey")
+cercle02 = canvas.create_oval((325, 575), (375, 625), fill = "grey", outline = "grey")
+cercle10 = canvas.create_oval((575, 75), (625, 125), fill = "grey", outline = "grey")
+cercle11 = canvas.create_oval((575, 325), (625, 375), fill = "grey", outline = "grey")
+cercle12 = canvas.create_oval((575, 575), (625, 625), fill = "grey", outline = "grey")
+cercle20 = canvas.create_oval((825, 75), (875, 125), fill = "grey", outline = "grey")
+cercle21 = canvas.create_oval((825, 325), (875, 375), fill = "grey", outline = "grey")
+cercle22 = canvas.create_oval((825, 575), (875, 625), fill = "grey", outline = "grey")
 
 
 
