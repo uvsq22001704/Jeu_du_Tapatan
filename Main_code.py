@@ -49,6 +49,9 @@ b=0 #compteur du score bleu
 
 position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete à déplacer
 
+fantome_de_tes_matrices_passées = [] #index chaques matrices de la manche dans l'éventualité d'un match nul
+
+nb_ia = 0
 ########################
 # fonctions
 
@@ -103,16 +106,23 @@ menu.title("Tapatan 97")
 def couleur (r, g, b):  
     '''pour que ce soit plus zoli'''
     return '#{:02x}{:02x}{:02x}'.format (r, g, b)
-col = couleur (rd.randint(0,255), rd.randint(0,255), rd.randint(0,255))
+
+
 
 
 def P0j():
+    global nb_ia
+    nb_ia = 2
     menu.destroy()
 
-def P1j(): 
+def P1j():
+    global nb_ia 
+    nb_ia = 1
     menu.destroy()
 
 def P2j():
+    global nb_ia
+    nb_ia = 0
     menu.destroy()
     
 def regles():
@@ -129,18 +139,18 @@ def regles():
                    "dispose de 3 jetons.\nUne fois tous les pions posés,\n"
                    "chaque joueur peut à son tour déplacer un pion d'une case\n horizontale,"
                    "verticale ou diagonale\nLe vainqueur est le premier joueur à\naligner"
-                   " 3 de ses jetons sur le plateau.", font=('helvetica','14'))
-    regles.create_text(540, 20, text='RÈGLES DU JEU DU TAPATAN', font=('helvetica','20'))
+                   " 3 de ses jetons sur le plateau.", font=('comic sans ms','14'))
+    regles.create_text(540, 20, text='RÈGLES DU JEU DU TAPATAN', font=('comic sans ms','20'))
     regles.grid(row=0)
     retour.grid(row=1)
 
-fond = tk.Canvas(menu, bg = col, height = 700, width = 1100)
-bck = tk.Canvas(menu, bg = "red", height = 150, width = 400)
-titre = tk.Label(menu, text="Jeu Du Tapatan Win97")
-buttonII = tk.Button(menu, text="0 Joueurs", command = P0j)
-buttonHH = tk.Button(menu, text="1 Joueur", command = P1j)
-buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j)
-button_rules = tk.Button(menu, text='Règles du jeu', command=regles)
+fond = tk.Canvas(menu, height = 700, width = 1100)
+bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)
+titre = tk.Label(menu, text="Jeu Du Tapatan Win97", font=('comic sans ms', '21'), bg = "RoyalBlue1")
+buttonII = tk.Button(menu, text="0 Joueur", command = P0j, font=('comic sans ms', '15'), bg = "coral1")
+buttonHH = tk.Button(menu, text="1 Joueur", command = P1j, font=('comic sans ms', '15'), bg = "coral1")
+buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j, font=('comic sans ms', '15'), bg = "coral1")
+button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")
 
 fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
@@ -149,6 +159,15 @@ buttonII.grid(column = 0, row = 1, padx = 500, pady = 30)
 buttonHH.grid(column = 0, row = 2, pady = 30, )
 buttonHI.grid(column = 0, row = 3, pady = 30)
 button_rules.grid(column=0, row=4, pady=30)
+
+
+red, green, blue = rd.randint(5,250), rd.randint(5,250), rd.randint(5,250)
+fr, fg, fb = rd.randint(-5, 5), rd.randint(-5, 5), rd.randint(-5, 5)
+for i in range (175):
+    red, green, blue = (red + fr) % 250, (green + fg) % 250 , (blue + fb) % 250
+    fond.create_line(0, i * 4, 1100, i * 4 , fill = couleur (red, green, blue))
+
+
 
 
 menu.mainloop()
@@ -161,18 +180,18 @@ plateau = tk.Tk()
 canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
 
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                               command=sauvegarder)
-bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger)
+                               command=sauvegarder, font = ('comic sans ms', '9'))
+bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '9'))
 
 score = tk.Canvas(plateau, height=60, width=300, bg='dark khaki')
 
-score.create_text(SCORE_W, SCORE_H, text='SCORE : ', font=('helvetica', '16'))
-score_rouge = score.create_text(SCORE_W+80, SCORE_H, text=r, font=('helvetica', '16'))
-score.create_text(SCORE_W+100, SCORE_H, text='-', font=('helvetica', '16'))
-score_bleu = score.create_text(SCORE_W+120, SCORE_H, text=b, font=('helvetica', '16'))
+score.create_text(SCORE_W, SCORE_H, text='SCORE : ', font=('comic sans ms', '16'))
+score_rouge = score.create_text(SCORE_W+80, SCORE_H, text=r, font=('comic sans ms', '16'))
+score.create_text(SCORE_W+100, SCORE_H, text='-', font=('comic sans ms', '16'))
+score_bleu = score.create_text(SCORE_W+120, SCORE_H, text=b, font=('comic sans ms', '16'))
 
 indictour = tk.Canvas(plateau, height=60, width=300, bg='light blue') #canvas dans lequel s'affiche à qui est le tour
-tour_texte = indictour.create_text(SCORE_W, SCORE_H, text="tour de bleu", font=('helvetica', '16', ), fill = 'blue')
+tour_texte = indictour.create_text(SCORE_W, SCORE_H, text="tour de bleu", font=('comic sans ms', '16', ), fill = 'blue')
 
 bouton_sauvegarder.grid(row=3, column=0)
 bouton_recharger.grid(row=3, column=1)
@@ -212,6 +231,25 @@ cercle22 = canvas.create_oval((825, 575), (875, 625), fill = "grey", outline = "
 liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
 # ^ liste comportant l'id de tous les cercles pour pouvoir les modifier plus facilement ^   
 
+def matcheur_nul():
+    global fantome_de_tes_matrices_passées
+    '''ajoute dans fantome_de_tes_matrices_passées la derniere matrice en date et verifie si il existe trois matrices identiques, 
+    si c'est le cas alors termine la manche en cours sans attribuer de points'''
+    fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))
+    for i in range (len(fantome_de_tes_matrices_passées)):
+        for j in range (len (fantome_de_tes_matrices_passées)):
+            for k in range (len (fantome_de_tes_matrices_passées)):
+                if fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [j] and fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [k] and i != j and i != k and k != j:
+                    print ("match nul")
+                    msg = tk.Toplevel(plateau)
+                    msg.title("Fin de partie")
+                    nul = tk.Canvas(msg, height=100, width=300, bg='RoyalBlue1')
+                    nul.create_text(130, 60, text='Match Nul', font=('comic sans ms', '16'))
+                    nul.grid()
+                    fantome_de_tes_matrices_passées = []
+                    return 
+                
+                    
 def mapla():
     '''~12) met à jour la couleur des pions sur le plateau'''
     for i in range (3):
@@ -234,6 +272,11 @@ def affiche_tour():
         indictour.itemconfig(tour_texte, text = 'tour de bleu')
 
 
+def IA():
+    '''jsp comment tu comptes exactement faire Hyacinte dcp je sais pas quoi faire'''
+    print ("iam an ai")
+
+
 def Place_Pion(event):
     '''place ou déplace un pion sur le cercle gris cliqué'''
     global tour, nb_pions_b, nb_pions_r
@@ -244,7 +287,7 @@ def Place_Pion(event):
 
             if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
-                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
+                if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 and nb_ia < 2:
                     canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                     tour += 1 
                     nb_pions_b -= 1
@@ -257,8 +300,12 @@ def Place_Pion(event):
                     matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
+                    matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1
-                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
+                    if nb_ia == 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
+                        canvas.after(1, canvas.after(1500, IA))#affiche un msg d'erreur mais fonctionne?
+
+                elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 and nb_ia == 0:
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
@@ -271,6 +318,7 @@ def Place_Pion(event):
                     matrice[i][j] = 1 #j'ai rajouté ça là pour l'instant (NK)
                     affiche_tour()
                     mapla()
+                    matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1  
             else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
@@ -328,9 +376,9 @@ def msg_gagne():
     msg = tk.Toplevel(plateau)
     msg.title("Fin de partie")
     gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
-    gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
-    gagné.create_text(190, 60, text=player, font=('helvetica', '16'))
-    gagné.create_text(280, 60, text='a gagné !', font=('helvetica', '16'))
+    gagné.create_text(130, 60, text='Joueur', font=('comic sans ms', '16'))
+    gagné.create_text(190, 60, text=player, font=('comic sans ms', '16'))
+    gagné.create_text(280, 60, text='a gagné !', font=('comic sans ms', '16'))
     gagné.grid()
     #def fermer_msg():
         #msg.destroy()
@@ -346,7 +394,6 @@ def fin_de_partie():
 
 
 canvas.bind("<Button-1>", Place_Pion)
-
 
 
 plateau.mainloop()
