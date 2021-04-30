@@ -102,11 +102,14 @@ def couleur (r, g, b):
     '''pour que ce soit plus zoli'''
     return '#{:02x}{:02x}{:02x}'.format (r, g, b)
 
+cadavre_exquis =0
 
 def P0j():
-    global nb_ia
+    global nb_ia, cadavre_exquis
     nb_ia = 2
+    cadavre_exquis = 1
     menu.destroy()
+    
 
 def P1j():
     global nb_ia 
@@ -619,16 +622,11 @@ def IA_rouge():
                 bouge_pion_rouge(1, 2, 1, 1)
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+        else:
+            Coup_rd()
     # coup random
     else:
-        posx = rd.randint(0,2)
-        posy = rd.randint(0,2)
-        while matrice[posx][posy] != 0:
-            posx = rd.randint(0,2)
-            posy = rd.randint(0,2)
-        print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
-
-        Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
+        Coup_rd()
 
 
 def IA_bleu():
@@ -966,17 +964,22 @@ def IA_bleu():
                 bouge_pion_bleu(1, 2, 1, 1)
             elif 2 == matrice[2][2]:
                 bouge_pion_bleu(2, 2, 1, 1)
+        else:
+            Coup_rd()
     # coup random
     else:
+        Coup_rd()
+
+def Coup_rd():
+    posx = rd.randint(0,2)
+    posy = rd.randint(0,2)
+    while matrice[posx][posy] != 0:
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-        while matrice[posx][posy] != 0:
-            posx = rd.randint(0,2)
-            posy = rd.randint(0,2)
-        print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
-
-        Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-
+    print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
+    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
+    print ("osti d'calice d'tabarnak")
+print ("vos projets d'info c'est de la     m e r d e")
 def click(event):
     x, y = event.x, event.y
     print (x, y)
@@ -994,6 +997,7 @@ def Place_Pion(x, y):
             if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
+                    print ("et ça fait bim bam boom")
                     canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                     tour += 1 
                     nb_pions_b -= 1
@@ -1004,10 +1008,12 @@ def Place_Pion(x, y):
                     matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1
                     if nb_ia > 0: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
+                        print ("K c'est une constante")
                         canvas.after(900, IA_rouge)#affiche un msg d'erreur mais fonctionne?
                     print (tour)
 
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
+                    print ("chipper arrets de chipper")
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
@@ -1118,6 +1124,7 @@ def rezero():
     global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées
     nb_pions_b = 3
     nb_pions_r = 3
+    tour = 0
     fantome_de_tes_matrices_passées = []
     for i in range(3):
         for j in range(3):
@@ -1159,6 +1166,9 @@ canvas.bind("<Button-1>", click)
 #matrice[0][2] = 1
 #matrice[1][0] = 1
 #mapla()
+
+if cadavre_exquis == 1:
+    canvas.after(2000, Coup_rd)
 
 plateau.mainloop()
 
