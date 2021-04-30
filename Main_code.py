@@ -1044,25 +1044,87 @@ def win_ckeck(matrice):
 
 def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
-    global player
+    global player, r, b
     msg = tk.Toplevel(plateau)
+    def fermer_msg():
+        msg.destroy()
+        canvas.after(1000, rezero())
     msg.title("Fin de partie")
     gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
-    gagné.create_text(130, 60, text='Joueur', font=('comic sans ms', '16'))
-    gagné.create_text(190, 60, text=player, font=('comic sans ms', '16'))
-    gagné.create_text(280, 60, text='a gagné !', font=('comic sans ms', '16'))
-    gagné.grid()
-    #def fermer_msg():
-        #msg.destroy()
+    gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
+    gagné.create_text(190, 60, text=player, font=('helvetica', '16'))
+    gagné.create_text(280, 60, text='a gagné !', font=('helvetica', '16'))
+    button_next_round = tk.Button(msg, text = "next", command = fermer_msg)
+    gagné.grid(row = 0)
+    button_next_round.grid(row = 1)
     
-    #msg.after(3000, fermer_msg()) # ça marche pas????
+
+def msg_vainqueur():
+    '''fenêtre qui souvre quand il ya un vainqueur'''
+    win = tk.Toplevel(plateau)
+    def rejouer():
+        plateau.destroy()
+        menu.mainloop()
+    def quitter():
+        plateau.destroy()
+    gagné = tk.Canvas(win, height=100, width=400, bg='dark khaki')
+    gagné.create_text(130, 60, text='JOUEUR', font=('helvetica', '16'))
+    gagné.create_text(190, 60, text=player, font=('helvetica', '16'))
+    gagné.create_text(280, 60, text='A GAGNE!!!', font = ('helvetica', '16'))
+    button_quit = tk.Button(win, text='Quitter', command = quitter )
+    button_replay = tk.Button(win, text='Recommencer une partie', command = rejouer)
+    gagné.grid(row = 0)
+    button_quit.grid(row=1)
+    button_replay.grid(row=2)
 
 
 def fin_de_partie():
-    """relance une partie tant qu'il n'y a pas de vainqueur"""
-    #global r, b
-    #while r < 4 or b < 4:
-    pass
+    """relance uneif r < 4 or b < 4:
+        #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
+    global r, b
+    if r == 3 or b == 3:
+        msg_vainqueur()
+    elif r < 3 or b < 3:
+        msg_gagne()
+    
+    
+def rezero():
+    '''remet le plateau à 0'''
+    global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées
+    nb_pions_b = 3
+    nb_pions_r = 3
+    tour = 0
+    fantome_de_tes_matrices_passées = []
+    for i in range(3):
+        for j in range(3):
+            matrice[i][j] = 0
+    mapla()        
+    pions_cote()
+
+
+def pions_cote():
+    '''gère les pions à coté'''
+    global nb_pions_r, nb_pions_b
+    if nb_pions_b == 2:
+        canvas.itemconfigure(bleu1, fill = "grey", outline="grey")
+    elif nb_pions_b == 1:
+        canvas.itemconfigure(bleu2, fill = "grey", outline="grey")
+    elif nb_pions_b == 0:
+        canvas.itemconfigure(bleu3, fill = "grey", outline="grey")
+    if nb_pions_r == 2:
+        canvas.itemconfigure(rouge1, fill = "grey", outline="grey")
+    elif nb_pions_r == 1:
+        canvas.itemconfigure(rouge2, fill = "grey", outline="grey")
+    elif nb_pions_r == 0:
+        canvas.itemconfigure(rouge3, fill = "grey", outline="grey")
+    if nb_pions_b == 3:
+        canvas.itemconfigure(bleu1, fill = "blue", outline="blue")
+        canvas.itemconfigure(bleu2, fill = "blue", outline="blue")
+        canvas.itemconfigure(bleu3, fill = "blue", outline="blue")
+    if nb_pions_r == 3:
+        canvas.itemconfigure(rouge1, fill = "red", outline="red")
+        canvas.itemconfigure(rouge2, fill = "red", outline="red")
+        canvas.itemconfigure(rouge3, fill = "red", outline="red")
 
 
 canvas.bind("<Button-1>", Place_Pion)
