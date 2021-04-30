@@ -101,8 +101,6 @@ def couleur (r, g, b):
     return '#{:02x}{:02x}{:02x}'.format (r, g, b)
 
 
-
-
 def P0j():
     global nb_ia
     nb_ia = 2
@@ -267,14 +265,20 @@ def affiche_tour():
 
 def bouge_pion_rouge (a, b, c, d):
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
-    canvas.itemconfigure(liCe[a][b], fill = "grey", outline = "grey")
-    canvas.itemconfigure(lice[c][d], fill = "red", outline = "red")
+    global tour
+    matrice[a][b] = 0
+    matrice[c][d] = 1
+    mapla()
+    tour += 1
 
 
 def bouge_pion_bleu (a, b, c, d):
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
-    canvas.itemconfigure(liCe[a][b], fill = "grey", outline = "grey")
-    canvas.itemconfigure(lice[c][d], fill = "blue", outline = "blue")
+    global tour
+    matrice[a][b] = 0
+    matrice[c][d] = 2
+    mapla()
+    tour += 1
 
 
 def IA_rouge():
@@ -963,31 +967,21 @@ def Place_Pion(event):
                     canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                     tour += 1 
                     nb_pions_b -= 1
-                    if nb_pions_b == 2:
-                        canvas.itemconfigure(bleu1, fill = "grey", outline="grey")
-                    elif nb_pions_b == 1:
-                        canvas.itemconfigure(bleu2, fill = "grey", outline="grey")
-                    elif nb_pions_b == 0:
-                        canvas.itemconfigure(bleu3, fill = "grey", outline="grey")
-                    matrice[i][j] = 2 #j'ai rajouté ça là pour l'instant (NK)
+                    pions_cote()
+                    matrice[i][j] = 2
                     affiche_tour()
                     mapla()
                     matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1
                     if nb_ia == 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                        canvas.after(1, canvas.after(1500, IA))#affiche un msg d'erreur mais fonctionne?
+                        canvas.after(1, canvas.after(1500, IA_rouge()))#affiche un msg d'erreur mais fonctionne?
 
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 and nb_ia == 0:
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
-                    if nb_pions_r == 2:
-                        canvas.itemconfigure(rouge1, fill = "grey", outline="grey")
-                    elif nb_pions_r == 1:
-                        canvas.itemconfigure(rouge2, fill = "grey", outline="grey")
-                    elif nb_pions_r == 0:
-                        canvas.itemconfigure(rouge3, fill = "grey", outline="grey")
-                    matrice[i][j] = 1 #j'ai rajouté ça là pour l'instant (NK)
+                    pions_cote()
+                    matrice[i][j] = 1
                     affiche_tour()
                     mapla()
                     matcheur_nul()
@@ -1125,6 +1119,12 @@ def pions_cote():
 
 canvas.bind("<Button-1>", Place_Pion)
 
+matrice[1][2] = 2
+matrice[0][0] = 2
+matrice[2][0] = 1
+matrice[0][2] = 1
+matrice[1][0] = 1
+mapla()
 
 plateau.mainloop()
 
