@@ -396,13 +396,12 @@ def msg_vainqueur():
     button_replay.grid(row=2)
 
 def fin_de_partie():
-    """relance uneif r < 4 or b < 4:
-        #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
+    """relance une partie tant qu'il n'y a pas de vainqueur"""
     global r, b
-    if r < 2 or b < 2:
-        msg_gagne()
-    elif r == 2 or b == 2:
+    if r == 3 or b == 3:
         msg_vainqueur()
+    elif r < 3 or b < 3:
+        msg_gagne()
     
     
 
