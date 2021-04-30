@@ -1118,7 +1118,6 @@ def rezero():
     global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées
     nb_pions_b = 3
     nb_pions_r = 3
-    tour = 0
     fantome_de_tes_matrices_passées = []
     for i in range(3):
         for j in range(3):
