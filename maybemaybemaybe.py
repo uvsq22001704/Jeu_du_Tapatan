@@ -298,7 +298,7 @@ def Place_Pion(event):
                     matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1
                     if nb_ia == 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                        canvas.after(1, canvas.after(1500, IA))#affiche un msg d'erreur mais fonctionne?
+                        lancer_ia_r = canvas.after(1500, IA_rouge)#affiche un msg d'erreur mais fonctionne?
 
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 and nb_ia == 0:
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
@@ -363,6 +363,7 @@ def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
     global player, r, b
     msg = tk.Toplevel(plateau)
+    pause_ia()
     def fermer_msg():
         msg.destroy()
         canvas.after(1000, rezero())
@@ -381,6 +382,7 @@ def msg_gagne():
 def msg_vainqueur():
     '''fenêtre qui souvre quand il ya un vainqueur'''
     win = tk.Toplevel(plateau)
+    pause_ia()
     def rejouer():
         pass
     def quitter():
@@ -416,7 +418,23 @@ def rezero():
             matrice[i][j] = 0
     mapla()        
     pions_cote()
+    relancer_ia()
 
+    
+def pause_ia():
+    '''met l'ia en pause'''
+    global lancer_ia_b, lancer_ia_r, nb_ia
+    if nb_ia == 1:
+        canvas.after_cancel(lancer_ia_r)
+    elif nb_ia == 2:
+        canvas.after_cancel(lancer_ia_b)
+        canvas.after_cancel(lancer_ia_r)
+    
+def relancer_ia():
+    ''' remet l'ia en marche'''
+    global nb_ia, cadavre_exquis
+    if nb_ia == 2:
+        canvas.after_idle(Coup_rd)
 
 def pions_cote():
     '''gère les pions à coté'''
