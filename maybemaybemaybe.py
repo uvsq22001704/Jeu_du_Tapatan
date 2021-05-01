@@ -41,8 +41,13 @@ print (matrice)
 
 tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour rouge 
 
+# nombre de pions à placer:
 nb_pions_r = 3
 nb_pions_b = 3
+
+#nombre de pions sur le plateau
+pions_rouges = 0
+pions_bleus = 0
 
 r=0 #compteur du score rouge
 b=0 #compteur du score bleu
@@ -639,7 +644,7 @@ def IA_rouge():
             depl_rd_r()
     # coup random
     else:
-        Coup_rd()
+        placement_IA()
 
 #############################################################################################################################################
 def IA_bleu():
@@ -986,8 +991,233 @@ def IA_bleu():
             depl_rd_b()
     # coup random
     else:
-        Coup_rd()
+        placement_IA()
 
+
+def placement_IA():
+    """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
+    global pions_bleus, pions_rouges, tour
+    if pions_bleus == 0 and pions_rouges == 0:
+        Coup_rd()
+        pions_bleus += 1
+    if pions_bleus == 1 and pions_rouges == 0:
+        Coup_rd()
+        pions_rouges += 1
+    if pions_bleus == 1 and pions_rouges == 1:
+        Coup_rd()
+        pions_bleus += 1
+    # aux rouges de jouer pour bloquer les bleus
+    if pions_bleus == 2 and pions_rouges == 1:
+        #alignement horizontal
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
+                matrice[i][2] == 1
+                mapla()
+                pions_cote()
+                tour += 1 
+            if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
+                matrice[i][1] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
+                matrice[i][0] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
+                matrice[2][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
+                matrice[1][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
+                matrice[0][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement diagonal
+        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        else:
+            Coup_rd()
+        pions_rouges += 1
+    # aux bleus de jouer pour bloquer les rouges
+    if pions_bleus == 2 and pions_rouges == 2:
+        #alignement horizontal
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 1 and matrice[i][2] == 0:
+                matrice[i][2] == 2
+                mapla()
+                pions_cote()
+                tour += 1 
+            if matrice[i][0] == matrice[i][2] == 1 and matrice[i][1] == 0:
+                matrice[i][1] == 2
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[i][2] == matrice[i][1] == 1 and matrice[i][0] == 0:
+                matrice[i][0] == 2
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 1 and matrice[2][j] == 0:
+                matrice[2][j] == 2
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[0][j] == matrice[2][j] == 1 and matrice[1][j] == 0:
+                matrice[1][j] == 2
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[2][j] == matrice[1][j] == 1 and matrice[0][j] == 0:
+                matrice[0][j] == 2
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement diagonal
+        if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        if 1 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] == 2
+            mapla()
+            pions_cote()
+            tour += 1
+        else:
+            Coup_rd()
+        pions_bleus += 1
+    # aux rouges de jouer pour bloquer les bleus
+    if pions_bleus == 3 and pions_rouges == 2:
+        #alignement horizontal
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
+                matrice[i][2] == 1
+                mapla()
+                pions_cote()
+                tour += 1 
+            if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
+                matrice[i][1] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
+                matrice[i][0] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
+                matrice[2][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
+                matrice[1][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+            if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
+                matrice[0][j] == 1
+                mapla()
+                pions_cote()
+                tour += 1
+        #alignement diagonal
+        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] == 1
+            mapla()
+            pions_cote()
+            tour += 1
+        else:
+            Coup_rd()
+        pions_rouges += 1
+        
+        
 def Coup_rd():
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
