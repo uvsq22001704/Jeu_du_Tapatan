@@ -1091,7 +1091,7 @@ def Place_Pion(x, y):
                     if nb_ia > 0: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
                         print ("K c'est une constante")
                         
-                        canvas.after(1100, IA_rouge)#affiche un msg d'erreur mais fonctionne?
+                        lancer_ia_r = canvas.after(1100, IA_rouge)#affiche un msg d'erreur mais fonctionne?
                         print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                     print (tour)
 
@@ -1108,7 +1108,7 @@ def Place_Pion(x, y):
                     position_prece[0], position_prece[1] = 1,1  
                     if nb_ia > 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
                         print ("c'est la wati sauce")
-                        canvas.after(1100, IA_bleu)#affiche un msg d'erreur mais fonctionne?
+                        lancer_ia_b = canvas.after(1100, IA_bleu)#affiche un msg d'erreur mais fonctionne?
                         print(";bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 
             else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
@@ -1170,16 +1170,17 @@ def rezero():
             matrice[i][j] = 0
     mapla()        
     pions_cote()
+    relancer_ia()
     print (tour)
 
 def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
     global player, r, b
     msg = tk.Toplevel(plateau)
-    rezero()
+    pause_ia()
     def fermer_msg():
         msg.destroy()
-        
+        canvas.after(2000, rezero)
     msg.title("Fin de partie")
     gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
     gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
@@ -1193,6 +1194,7 @@ def msg_gagne():
 def msg_vainqueur():
     '''fenêtre qui souvre quand il ya un vainqueur'''
     win = tk.Toplevel(plateau)
+    pause_ia()
     def rejouer():
         plateau.destroy()
         menu.mainloop()
@@ -1219,7 +1221,22 @@ def fin_de_partie():
         msg_vainqueur()
     elif r < 3 or b < 3:
         msg_gagne()
+
+
+def pause_ia():
+    '''met l'ia en pause'''
+    global lancer_ia_b, lancer_ia_r, nb_ia
+    if nb_ia == 1:
+        canvas.after_cancel(lancer_ia_r)
+    elif nb_ia == 2:
+        canvas.after_cancel(lancer_ia_b)
+        canvas.after_cancel(lancer_ia_r)
     
+def relancer_ia():
+    ''' remet l'ia en marche'''
+    global nb_ia, cadavre_exquis
+    if nb_ia == 2:
+        canvas.after_idle(Coup_rd)
     
     
 
