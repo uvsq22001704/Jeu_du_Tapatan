@@ -59,7 +59,7 @@ nb_ia = 0
 
 def recharger(): 
     """charger la grille depuis le fichier sauvegarde.txt"""
-    global matrice
+    global matrice, tour, position_prece, nb_pions_b, nb_pions_r
     fic = open("sauvegarde.txt", "r")
     j = 0
     for ligne in fic:
@@ -77,8 +77,28 @@ def recharger():
     fic.close()  
     mapla()
 
+    fic2 = open("sauvegarde2.txt","r")
+    tour_txt = fic2.read()
+    tour = int(tour_txt)
+    fic2.close()
+
+    fic4 = open("sauvegarde4.txt","r")
+    nb_pions_b_txt = fic4.read()
+    nb_pions_b = int(nb_pions_b_txt)
+    fic4.close()
+
+    fic5 = open("sauvegarde5.txt","r")
+    nb_pions_r_txt = fic5.read()
+    nb_pions_r = int(nb_pions_r_txt)
+    fic5.close()
+    
+    return tour, position_prece, nb_pions_b, nb_pions_r
+    
+
+
 def sauvegarder():
      """sauvegarder la grille vers le fichier sauvegarde.txt"""
+     global matrice, tour, position_prece, nb_pions_b, nb_pions_r
      fic = open("sauvegarde.txt", "w")
      for j in range(3):
         for i in range(3):
@@ -90,7 +110,23 @@ def sauvegarder():
                 fic.write("2 ")
         fic.write("\n")
      fic.close()
-
+    
+     fic2 = open("sauvegarde2.txt","w")
+     fic2.write(str(tour))
+     fic2.close()
+        
+     fic3 = open("sauvegarde3.txt","w")
+     fic3.write(str(position_prece))
+     fic3.close()
+    
+     fic4 = open("sauvegarde4.txt","w")
+     fic4.write(str(nb_pions_b))
+     fic4.close()
+        
+     fic5 = open("sauvegarde5.txt","w")
+     fic5.write(str(nb_pions_r))
+     print(nb_pions_r)
+     fic5.close()
 
 ########################
 # menu
