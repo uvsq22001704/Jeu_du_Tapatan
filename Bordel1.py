@@ -33,7 +33,7 @@ for i in range (3):
 for j in range (3):
     for i in range (3):
         matrice[i].append(0)
-print (matrice)
+#print (matrice)
 
 #0 gris
 #1 rouge
@@ -236,7 +236,7 @@ def matcheur_nul():
         for j in range (len (fantome_de_tes_matrices_passées)):
             for k in range (len (fantome_de_tes_matrices_passées)):
                 if fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [j] and fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [k] and i != j and i != k and k != j:
-                    print ("match nul")
+                    #print ("match nul")
                     msg = tk.Toplevel(plateau)
                     msg.title("Fin de partie")
                     nul = tk.Canvas(msg, height=100, width=300, bg='RoyalBlue1')
@@ -272,12 +272,12 @@ def bouge_pion_rouge (a, b, c, d):
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
     global tour, krokmou
     krokmou = 1
-    print (tour)
+    #print (tour)
     matrice[a][b] = 0
     matrice[c][d] = 1
     mapla()
     tour += 1
-    print("David Bowie")
+    #print("David Bowie")
     win_ckeck(matrice)
     if nb_ia == 2:
         IA_bleu()
@@ -286,13 +286,13 @@ def bouge_pion_rouge (a, b, c, d):
 def bouge_pion_bleu (a, b, c, d):
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
     global tour, krokmou
-    print (tour)
+    #print (tour)
     krokmou = 1
     matrice[a][b] = 0
     matrice[c][d] = 2
     mapla()
     tour += 1
-    print("Elton John")
+    #print("Elton John")
     win_ckeck(matrice)
     if nb_ia == 2:
         IA_rouge()
@@ -647,7 +647,7 @@ def IA_bleu():
     """intelligence artificielle du jeu pour un pion bleu"""
     global tour ,pommeau_pathétiquement_croustillant
     krokmou = 0
-    if tour > 5:
+    if tour > 5 and nb_ia == 2:
         
         #IA coup gagnant :
         #cas 1
@@ -981,92 +981,112 @@ def IA_bleu():
             elif 2 == matrice[2][2]:
                 bouge_pion_bleu(2, 2, 1, 1)
         if krokmou == 0 and tour > 5:
-            print(tour)
-            print("mlkjhgfd")
+            #print(tour)
+            #print("mlkjhgfd")
             depl_rd_b()
     # coup random
-    else:
+    elif nb_ia == 2:
         Coup_rd()
 
 def Coup_rd():
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
     while matrice[posy][posx] != 0:
-        print("995", tour)
-        print(matrice)
+        #print("995", tour)
+        #print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-    print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
+    #print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
     Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    print ("osti d'calice d'tabarnak")
-    print (matrice)
+    #print ("osti d'calice d'tabarnak")
+    #print (matrice)
 
 amp = 0
 
 def depl_rd_b():
-    print("Freddie Mercury")
+    #print("Freddie Mercury")
     global amp
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
     while matrice[posy][posx] != 2:
-        print("1012", tour)
-        print(matrice)
+        #print("1012", tour)
+        #print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
+    #print ("choisit de déplacer b",posy, posx)
     Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
 
+    print(matrice)
+    #print(position_prece)
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
-    while matrice[posy][posx] != 0 and posx  - position_prece[0] <= 1 and posx - position_prece[0] >= -1 and posy - position_prece[1] <= 1 and posy - position_prece[1] >= -1:
-        if matrice[posy][posx] != 0 and posx  - position_prece[0] <= 1 and posx - position_prece[0] >= -1 and posy - position_prece[1] <= 1 and posy - position_prece[1] >= -1:
-            break
+    while matrice[posy][posx] != 0 or posy - position_prece[0] >= 1 or posy - position_prece[0] <= -1 or posx - position_prece[1] >= 1 or posx - position_prece[1] <= -1:
+        #print("1022", tour)
+        #print(matrice)
         posx = rd.randint(0,2)
-        print("1022", tour)
-        print(matrice)
         posy = rd.randint(0,2)
-    print("atttta",pommeau_pathétiquement_croustillant[posx][posy])
+        print ("ptdbbbb", posx, posy)
+    #print ("vers b ",posy, posx)
+    #print("atttta",pommeau_pathétiquement_croustillant[posx][posy])
     Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    print("Freddie Mercury2")
+    #print("Freddie Mercury2")
 
 
 def depl_rd_r():
-    print("Village People")
+
+    #print("Village People")
+    
     global amp
-    print (tour)
+    #print (tour)
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
     while matrice[posy][posx] != 1:
-        print("1037", tour)
-        print(matrice)
+        ##print("1037", tour)
+        ##print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
+    #print ("choisit de déplacer r",posy, posx)
     Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    print ("village people 0.5")
+    #print ("village people 0.5")
+    #print(position_prece)
+    
+    print(matrice)
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
-    while matrice[posy][posx] != 0 and posx - position_prece[0] <= 1 and posx - position_prece[0] >= -1 and posy - position_prece[1] <= 1 and posy - position_prece[1] >= -1:
-        if matrice[posy][posx] != 0 and posx  - position_prece[0] <= 1 and posx - position_prece[0] >= -1 and posy - position_prece[1] <= 1 and posy - position_prece[1] >= -1:
-            break
-        posx = rd.randint(0,1)
-        print("1047", tour)
-        print(matrice)
-        posy = rd.randint(0,1)
-    print("otttto",pommeau_pathétiquement_croustillant[posx][posy])
+    #print ("blip bloup", posy, posx)
+    #print(matrice)
+    #print(matrice[posy][posx])
+    #print(posy - position_prece[0])
+    #print(posx - position_prece[1])
+    #if matrice[posy][posx] != 0 and posy - position_prece[0] >= 1 and posy - position_prece[0] <= -1 and posx - position_prece[1] >= 1 and posx - position_prece[1] <= -1:
+    #    #print("pas condi")
+
+
+
+    while matrice[posy][posx] != 0 or posy - position_prece[0] >= 1 or posy - position_prece[0] <= -1 or posx - position_prece[1] >= 1 or posx - position_prece[1] <= -1:
+        ##print("1047", tour)
+        ##print(matrice)
+        posx = rd.randint(0,2)
+        posy = rd.randint(0,2)
+        print ("ptdrrrr", posx, posy)
+
+    #print ("vers r ",posx, posy)
+    #print("otttto",pommeau_pathétiquement_croustillant[posx][posy])
     Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    print("Village People2")
+    #print("Village People2")
 
 def click(event):
     x, y = event.x, event.y
-    print (x, y)
+    #print (x, y)
     Place_Pion (x, y)
 
 
 def Place_Pion(x, y):
-    global tour, nb_pions_b, nb_pions_r
-    print("le pion est en ", x, ",", y,)
-    print ("tour", tour)
     '''place ou déplace un pion sur le cercle gris cliqué'''
+    global tour, nb_pions_b, nb_pions_r
 
+    #print("le pion est en ", x, ",", y,)
+    #print ("tour", tour)
     
     for i in range (3):
         for j in range (3):
@@ -1075,7 +1095,7 @@ def Place_Pion(x, y):
             if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
-                    print ("et ça fait bim bam boom")
+                    #print ("et ça fait bim bam boom")
                     canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                     tour += 1 
                     nb_pions_b -= 1
@@ -1086,14 +1106,14 @@ def Place_Pion(x, y):
                     matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1
                     if nb_ia > 0: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                        print ("K c'est une constante")
+                        #print ("K c'est une constante")
                         
                         canvas.after(1100, IA_rouge)#affiche un msg d'erreur mais fonctionne?
-                        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    print (tour)
+                        #print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    #print (tour)
 
                 elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
-                    print ("chipper arrets de chipper")
+                    #print ("chipper arrets de chipper")
                     canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                     tour += 1
                     nb_pions_r -= 1
@@ -1103,10 +1123,10 @@ def Place_Pion(x, y):
                     mapla()
                     matcheur_nul()
                     position_prece[0], position_prece[1] = 1,1  
-                    if nb_ia > 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                        print ("c'est la wati sauce")
+                    if nb_ia == 2: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
+                        #print ("c'est la wati sauce")
                         canvas.after(1100, IA_bleu)#affiche un msg d'erreur mais fonctionne?
-                        print(";bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+                        #print(";bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 
             else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                 if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
@@ -1121,7 +1141,7 @@ def Place_Pion(x, y):
                     position_prece[0], position_prece[1] = i,j
                 
     
-    #print (position_prece)
+    ##print (position_prece)
                 
     win_ckeck(matrice) #je l'ai associé ici, à voir (NK)
     
@@ -1156,7 +1176,7 @@ def win_ckeck(matrice):
 
 def rezero():
     '''remet le plateau à 0'''
-    print("rezero")
+    #print("rezero")
     global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées
     nb_pions_b = 3
     nb_pions_r = 3
@@ -1167,7 +1187,7 @@ def rezero():
             matrice[i][j] = 0
     mapla()        
     pions_cote()
-    print (tour)
+    #print (tour)
 
 def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
@@ -1209,7 +1229,8 @@ def msg_vainqueur():
 def fin_de_partie():
     """relance uneif r < 4 or b < 4:
         #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
-    print("fin de partie; durée:", tour)
+    #print("fin de partie; durée:", tour)
+    #print(matrice)
 
     global r, b
     if r == 3 or b == 3:
