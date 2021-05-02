@@ -1001,269 +1001,6 @@ def IA_bleu():
             canvas.after(1000, IA_rouge)
 
 
-'''def placement_IA():
-    """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
-    global pions_bleus, pions_rouges, tour
-    if pions_bleus == 0 and pions_rouges == 0:
-        Coup_rd()
-        pions_bleus += 1
-    if pions_bleus == 1 and pions_rouges == 0:
-        Coup_rd()
-        pions_rouges += 1
-    if pions_bleus == 1 and pions_rouges == 1:
-        Coup_rd()
-        pions_bleus += 1
-    # aux rouges de jouer pour bloquer les bleus
-    if pions_bleus == 2 and pions_rouges == 1:
-        #alignement horizontal
-        for i in range(3):
-            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
-                matrice[i][2] = 1
-                mapla()
-                tour += 1 
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
-                matrice[i][1] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
-                matrice[i][0] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        #alignement vertical
-        for j in range(3):
-            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
-                matrice[2][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
-                matrice[1][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
-                matrice[0][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        #alignement diagonal
-        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
-            matrice[2][2] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
-            matrice[0][0] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
-            matrice[1][1] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
-            matrice[1][1] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
-            matrice[0][2] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
-            matrice[2][0] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        else:
-            Coup_rd()
-        pions_rouges += 1
-        pions_cote()
-    # aux bleus de jouer pour bloquer les rouges
-    if pions_bleus == 2 and pions_rouges == 2:
-        #alignement horizontal
-        for i in range(3):
-            if matrice[i][0] == matrice[i][1] == 1 and matrice[i][2] == 0:
-                matrice[i][2] = 2
-                mapla()
-                tour += 1 
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-            if matrice[i][0] == matrice[i][2] == 1 and matrice[i][1] == 0:
-                matrice[i][1] = 2
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-            if matrice[i][2] == matrice[i][1] == 1 and matrice[i][0] == 0:
-                matrice[i][0] = 2
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        #alignement vertical
-        for j in range(3):
-            if matrice[0][j] == matrice[1][j] == 1 and matrice[2][j] == 0:
-                matrice[2][j] = 2
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-            if matrice[0][j] == matrice[2][j] == 1 and matrice[1][j] == 0:
-                matrice[1][j] = 2
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-            if matrice[2][j] == matrice[1][j] == 1 and matrice[0][j] == 0:
-                matrice[0][j] = 2
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        #alignement diagonal
-        if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
-            matrice[2][2] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        if 1 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
-            matrice[0][0] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        if 1 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
-            matrice[1][1] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
-            matrice[1][1] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        if 1 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
-            matrice[0][2] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        if 1 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
-            matrice[2][0] = 2
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
-        else:
-            Coup_rd()
-        pions_bleus += 1
-        pions_cote()
-    # aux rouges de jouer pour bloquer les bleus
-    if pions_bleus == 3 and pions_rouges == 2:
-        #alignement horizontal
-        for i in range(3):
-            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
-                matrice[i][2] = 1
-                mapla()
-                tour += 1 
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
-                matrice[i][1] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
-                matrice[i][0] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        #alignement vertical
-        for j in range(3):
-            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
-                matrice[2][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
-                matrice[1][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-            if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
-                matrice[0][j] = 1
-                mapla()
-                tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        #alignement diagonal
-        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
-            matrice[2][2] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
-            matrice[0][0] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
-            matrice[1][1] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
-            matrice[1][1] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
-            matrice[0][2] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
-            matrice[2][0] = 1
-            mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
-        else:
-            Coup_rd()
-        pions_rouges += 1
-        pions_cote()'''
-
-
 def placement_IA():
     """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
     global tour, nb_pions_r, nb_pions_b
@@ -1360,6 +1097,8 @@ def placement_IA():
             Coup_rd()
         nb_pions_r -= 1
         pions_cote()
+        if nb_ia == 2:
+            canvas.after(1000, IA_bleu())
     # aux bleus de jouer pour bloquer les rouges
     if nb_pions_b == 1 and nb_pions_r == 1:
         #alignement horizontal
@@ -1369,81 +1108,59 @@ def placement_IA():
                 matrice[i][2] = 2
                 mapla()
                 tour += 1 
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
             if matrice[i][0] == matrice[i][2] == 1 and matrice[i][1] == 0:
                 matrice[i][1] = 2
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
             if matrice[i][2] == matrice[i][1] == 1 and matrice[i][0] == 0:
                 matrice[i][0] = 2
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         #alignement vertical
         for j in range(3):
             if matrice[0][j] == matrice[1][j] == 1 and matrice[2][j] == 0:
                 matrice[2][j] = 2
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
             if matrice[0][j] == matrice[2][j] == 1 and matrice[1][j] == 0:
                 matrice[1][j] = 2
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
             if matrice[2][j] == matrice[1][j] == 1 and matrice[0][j] == 0:
                 matrice[0][j] = 2
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         #alignement diagonal
         if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
             matrice[2][2] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         if 1 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
             matrice[0][0] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         if 1 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
             matrice[1][1] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
             matrice[1][1] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         if 1 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
             matrice[0][2] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         if 1 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
             matrice[2][0] = 2
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_rouge())
         else:
             Coup_rd()
         nb_pions_b -= 1
         pions_cote()
+        if nb_ia == 2:
+                    canvas.after(1000, IA_rouge())
     # aux rouges de jouer pour bloquer les bleus
     if nb_pions_b == 0 and nb_pions_r == 1:
         #alignement horizontal
@@ -1453,81 +1170,59 @@ def placement_IA():
                 matrice[i][2] = 1
                 mapla()
                 tour += 1 
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
             if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
                 matrice[i][1] = 1
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
             if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
                 matrice[i][0] = 1
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         #alignement vertical
         for j in range(3):
             if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
                 matrice[2][j] = 1
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
             if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
                 matrice[1][j] = 1
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
             if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
                 matrice[0][j] = 1
                 mapla()
                 tour += 1
-                if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         #alignement diagonal
         if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
             matrice[2][2] = 1
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
             matrice[0][0] = 1
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
             matrice[1][1] = 1
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
             matrice[1][1] = 1
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
             matrice[0][2] = 1
             mapla()
             tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
         if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
             matrice[2][0] = 1
             mapla()
-            tour += 1
-            if nb_ia == 2:
-                    canvas.after(1000, IA_bleu())
+            tour += 1   
         else:
             Coup_rd()
         nb_pions_r -= 1
         pions_cote()
+        if nb_ia == 2:
+                    canvas.after(1000, IA_bleu())
         
         
 def Coup_rd():
