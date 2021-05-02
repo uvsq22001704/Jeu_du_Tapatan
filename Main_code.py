@@ -162,19 +162,21 @@ def regles():
     avec explication des règles. Quand on appuie sur le bouton 'Retour', la fenêtre
     se ferme et on revient au menu"""
     rules = tk.Toplevel(menu)
-    rules.title("Règles du jeu")
+    rules.title("Jvous jure ça marche comme ça")
     regles = tk.Canvas(rules, height=400, width=1000, bg='white')
+    regless = tk.Label(rules, text = 'Les joueurs disposent de 3 jetons.\n A tour de rôle, chaque joueur'
+                        ' pose un pion sur une case disponible (en gris).\n Une fois les 6 pions placés,'
+                        "les joueurs dépalcent un de leur pion\n d'une case selon les lignes (horizontales,"
+                        " verticales, diagonales).\n Le gagnant est le premier joueur à aligner 3 pions sur le"
+                        " plateau.\n Si durant la partie, le plateau revient 3 fois à la\n même configuration de pions,"
+                        " il y a match nul. Une partie se joue en 3 manches", font = ('comic sans ms','16'), bg = 'white', anchor = 'w')
     def close():
         rules.destroy()
     retour = tk.Button(rules, text='Retour', command=close)
-    regles.create_text(500, 200, text="Chacun des deux joueurs "
-                   "dispose de 3 jetons.\nUne fois tous les pions posés,\n"
-                   "chaque joueur peut à son tour déplacer un pion d'une case\n horizontale,"
-                   "verticale ou diagonale\nLe vainqueur est le premier joueur à\naligner"
-                   " 3 de ses jetons sur le plateau.", font=('comic sans ms','14'))
     regles.create_text(540, 20, text='RÈGLES DU JEU DU TAPATAN', font=('comic sans ms','20'))
-    regles.grid(row=0)
-    retour.grid(row=1)
+    regles.grid(row = 0)
+    regless.grid(row = 1)
+    retour.grid(row = 2)
 
 fond = tk.Canvas(menu, height = 700, width = 1100)
 bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)
