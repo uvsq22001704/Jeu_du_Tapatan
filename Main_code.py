@@ -163,8 +163,8 @@ def regles():
     se ferme et on revient au menu"""
     rules = tk.Toplevel(menu)
     rules.title("Jvous jure ça marche comme ça")
-    regles = tk.Canvas(rules, height=400, width=1000, bg='white')
-    regless = tk.Label(rules, text = 'Les joueurs disposent de 3 jetons.\n A tour de rôle, chaque joueur'
+    regles = tk.Label(rules, text ='REGLES DU JEU DU TAPATAN', font=('comic sans ms','20'), padx = 380, pady = 17, bg='white')
+    regless = tk.Label(rules, text ="Les joueurs disposent de 3 jetons.\n A tour de rôle, chaque joueur"
                         ' pose un pion sur une case disponible (en gris).\n Une fois les 6 pions placés,'
                         "les joueurs dépalcent un de leur pion\n d'une case selon les lignes (horizontales,"
                         " verticales, diagonales).\n Le gagnant est le premier joueur à aligner 3 pions sur le"
@@ -173,7 +173,6 @@ def regles():
     def close():
         rules.destroy()
     retour = tk.Button(rules, text='Retour', command=close)
-    regles.create_text(540, 20, text='RÈGLES DU JEU DU TAPATAN', font=('comic sans ms','20'))
     regles.grid(row = 0)
     regless.grid(row = 1)
     retour.grid(row = 2)
