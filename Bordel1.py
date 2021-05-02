@@ -51,7 +51,7 @@ position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete
 
 fantome_de_tes_matrices_passées = [] #index chaques matrices de la manche dans l'éventualité d'un match nul
 
-pommeau_pathétiquement_croustillant = [[[350, 100], [600,100],[850, 100]], [[350,350] , [600, 350], [850, 350]], [[350, 600], [600, 600], [850, 600]]]
+pommeau_pathétiquement_croustillant = [[[350, 100], [350,350],[350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
 
 nb_ia = 0
 ########################
@@ -269,6 +269,7 @@ def affiche_tour():
 
 
 def bouge_pion_rouge (a, b, c, d):
+    print("bouge_pion_rouge (a, b, c, d)")
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
     global tour, krokmou
     krokmou = 1
@@ -281,10 +282,12 @@ def bouge_pion_rouge (a, b, c, d):
     win_ckeck(matrice)
     if nb_ia == 2:
         IA_bleu()
+    affiche_tour()
 
 
 def bouge_pion_bleu (a, b, c, d):
     """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
+    print("bouge_pion_bleu (a, b, c, d)")
     global tour, krokmou
     #print (tour)
     krokmou = 1
@@ -302,6 +305,7 @@ krokmou = 0
 def IA_rouge():
     """intelligence artificielle du jeu pour un pion rouge"""
     global tour, pommeau_pathétiquement_croustillant, krokmou
+    print("IA_rouge()")
         #IA coup gagnant :
         #cas 1
     krokmou = 0
@@ -309,332 +313,451 @@ def IA_rouge():
         if 1 == matrice[0][0] == matrice[0][1] and matrice[0][2] == 0:
             if matrice[0][0] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 2)
+                return
             elif matrice[0][0] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 0, 2)
+                return
         #cas 2 
         if 1 == matrice[0][1] == matrice[0][2] and matrice[0][0] == 0:
             if matrice[0][1] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 0)
+                return
             elif matrice[0][1] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 0, 0)
+                return
         #cas 3
         if 1 == matrice[1][0] == matrice[1][1] and matrice[1][2] == 0:
             if matrice[1][0] == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 2)
+                return
             elif matrice[1][0] == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 2)
+                return
         #cas 4
         if 1 == matrice[1][1] == matrice[1][2] and matrice[1][0] == 0:
             if matrice[1][1] == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 0)
+                return
             elif matrice[1][1] == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 0)
+                return
         #cas 5
         if 1 == matrice[2][0] == matrice[2][1] and matrice[2][2] == 0:
             if matrice[2][0] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 2)
+                return
             elif matrice[2][0] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 2)
+                return
         #cas 6
         if 1 == matrice[2][1] == matrice[2][2] and matrice[2][0] == 0:
             if matrice[2][1] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 0)
+                return
             elif matrice[2][1] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 0)
+                return
         #cas 7
         if 1 == matrice[0][0] == matrice[1][0] and matrice[2][0] == 0:
             if matrice[0][0] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 0)
+                return
             elif matrice[0][0] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 0)
+                return
         #cas 8
         if 1 == matrice[1][0] == matrice[2][0] and matrice[0][0] == 0:
             if matrice[1][0] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 0)
+                return
             elif matrice[1][0] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 0)
+                return
         #cas 9
         if 1 == matrice[0][1] == matrice[1][1] and matrice[2][1] == 0:
             if matrice[0][1] == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 2, 1)
+                return
             elif matrice[0][1] == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 2, 1)
+                return
         #cas 10
         if 1 == matrice[1][1] == matrice[2][1] and matrice[0][1] == 0:
             if matrice[1][1] == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 0, 1)
+                return
             elif matrice[1][1] == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 0, 1)
+                return
         #cas 11
         if 1 == matrice[0][2] == matrice[1][2] and matrice[2][2] == 0:
             if matrice[0][2] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 2)
+                return
             elif matrice[0][2] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 2)
+                return
         #cas 12
         if 1 == matrice[1][2] == matrice[2][2] and matrice[0][2] == 0:
             if matrice[1][2] == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 2)
+                return
             elif matrice[1][2] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 2)
+                return
         #cas 13
         if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
             if matrice[0][0] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 2)
+                return
             elif matrice[0][0] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 2, 2)
+                return
         #cas 14
         if 1 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
             if matrice[1][1] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 0)
+                return
             elif matrice[1][1] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 0, 0)
+                return
         #cas 15
         if 1 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
             if matrice[0][0] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif matrice[0][0] == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif matrice[0][0] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif matrice[0][0] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif matrice[0][0] == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif matrice[0][0] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
         #cas 16
         if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
             if matrice[2][0] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif matrice[2][0] == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif matrice[2][0] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif matrice[2][0] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif matrice[2][0] == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
             elif matrice[2][0] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
         #cas 17
         if 1 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
             if matrice[1][1] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 2)
+                return
             elif matrice[1][1] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 0, 2)
+                return
         #cas 18
         if 1 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
             if matrice[1][1] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 0)
+                return
             elif matrice[1][1] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 0)
+                return
         #cas 19
         if 1 == matrice[0][0] == matrice[2][0] == matrice[1][1] and matrice[1][0] == 0:
                 bouge_pion_rouge(1, 1, 1, 0)
+                return
         #cas 20
         if 1 == matrice[2][0] == matrice[2][2] == matrice[1][1] and matrice[2][1] == 0:
                 bouge_pion_rouge(1, 1, 2, 1)
+                return
         #cas 21
         if 1 == matrice[0][0] == matrice[0][2] == matrice[1][1] and matrice[0][1] == 0:
                 bouge_pion_rouge(1, 1, 0, 1)
+                return
         #cas 22
         if 1 == matrice[0][2] == matrice[2][2] == matrice[1][1] and matrice[1][2] == 0:
                 bouge_pion_rouge(1, 1, 1, 2)
+                return
         #cas 23
         if 1 == matrice[1][0] == matrice[1][2] and matrice[1][1] == 0:
             if matrice[1][0] == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif matrice[1][0] == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif matrice[1][0] == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif matrice[1][0] == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif matrice[1][0] == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
             elif matrice[1][0] == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
         #cas 24
         if 1 == matrice[0][1] == matrice[2][1] and matrice[1][1] == 0:
             if matrice[0][1] == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif matrice[0][1] == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif matrice[0][1] == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif matrice[0][1] == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif matrice[0][1] == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif matrice[0][1] == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
 
         #IA coup pour empecher l'autre de gagner :
         #cas 1
         if 2 == matrice[0][0] == matrice[0][1] and matrice[0][2] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 2)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 0, 2)
+                return
         #cas 2 
         if 2 == matrice[0][1] == matrice[0][2] and matrice[0][0] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 0)
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 0, 0)
+                return
         #cas 3
         if 2 == matrice[1][0] == matrice[1][1] and matrice[1][2] == 0:
             if 1 == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 2)
+                return
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 2)
+                return
         #cas 4
         if 2 == matrice[1][1] == matrice[1][2] and matrice[1][0] == 0:
             if 1 == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 0)
+                return
             elif 1 == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 0)
+                return
         #cas 5
         if 2 == matrice[2][0] == matrice[2][1] and matrice[2][2] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 2)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 2)
+                return
         #cas 6
         if 2 == matrice[2][1] == matrice[2][2] and matrice[2][0] == 0:
             if 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 0)
+                return
             elif 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 0)
+                return
         #cas 7
         if 2 == matrice[0][0] == matrice[1][0] and matrice[2][0] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 0)
+                return
             elif 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 0)
+                return
         #cas 8
         if 2 == matrice[1][0] == matrice[2][0] and matrice[0][0] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 0)
+                return
             elif 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 0)
+                return
         #cas 9
         if 2 == matrice[0][1] == matrice[1][1] and matrice[2][1] == 0:
             if 1 == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 2, 1)
+                return
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 2, 1)
+                return
         #cas 10
         if 2 == matrice[1][1] == matrice[2][1] and matrice[0][1] == 0:
             if 1 == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 0, 1)
+                return
             elif 1 == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 0, 1)
+                return
         #cas 11
         if 2 == matrice[0][2] == matrice[1][2] and matrice[2][2] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 2, 2)
+                return
             elif 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 2)
+                return
         #cas 12
         if 2 == matrice[1][2] == matrice[2][2] and matrice[0][2] == 0:
             if 1 == matrice[1][1]:
                 bouge_pion_rouge(1, 1, 0, 2)
+                return
             elif 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 2)
+                return
         #cas 13
         if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
             if 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 2)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 2, 2)
+                return
         #cas 14
         if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
             if 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 0)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 0, 0)
+                return
         #cas 15
         if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
             if 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif 1 == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif 1 == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
         #cas 16
         if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
             if 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif 1 == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
             elif 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
         #cas 17
         if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
             if 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 0, 2)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 0, 2)
+                return
         #cas 18
         if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
             if 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 2, 0)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 2, 0)
+                return
         #cas 19
         if 2 == matrice[0][0] == matrice[2][0] and 1 == matrice[1][1] and matrice[1][0] == 0:
                 bouge_pion_rouge(1, 1, 1, 0)
+                return
         #cas 20
         if 2 == matrice[2][0] == matrice[2][2] and 1 == matrice[1][1] and matrice[2][1] == 0:
                 bouge_pion_rouge(1, 1, 2, 1)
+                return
         #cas 21
         if 2 == matrice[0][0] == matrice[0][2] and 1 == matrice[1][1] and matrice[0][1] == 0:
                 bouge_pion_rouge(1, 1, 0, 1)
+                return
         #cas 22
         if 2 == matrice[0][2] == matrice[2][2] and 1 == matrice[1][1] and matrice[1][2] == 0:
                 bouge_pion_rouge(1, 1, 1, 2)
+                return
         #cas 23
         if 2 == matrice[1][0] == matrice[1][2] and matrice[1][1] == 0:
             if 1 == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif 1 == matrice[0][1]:
                 bouge_pion_rouge(0, 1, 1, 1)
+                return
             elif 1 == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif 1 == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif 1 == matrice[2][1]:
                 bouge_pion_rouge(2, 1, 1, 1)
+                return
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
         #cas 24
         if 2 == matrice[0][1] == matrice[2][1] and matrice[1][1] == 0:
             if 1 == matrice[0][0]:
                 bouge_pion_rouge(0, 0, 1, 1)
+                return
             elif 1 == matrice[1][0]:
                 bouge_pion_rouge(1, 0, 1, 1)
+                return
             elif 1 == matrice[0][2]:
                 bouge_pion_rouge(0, 2, 1, 1)
+                return
             elif 1 == matrice[2][0]:
                 bouge_pion_rouge(2, 0, 1, 1)
+                return
             elif 1 == matrice[1][2]:
                 bouge_pion_rouge(1, 2, 1, 1)
+                return
             elif 1 == matrice[2][2]:
                 bouge_pion_rouge(2, 2, 1, 1)
+                return
         if krokmou == 0 and tour > 5:
             depl_rd_r()
     # coup random
@@ -645,6 +768,7 @@ def IA_rouge():
 def IA_bleu():
     global krokmou
     """intelligence artificielle du jeu pour un pion bleu"""
+    print("IA_bleu()")
     global tour ,pommeau_pathétiquement_croustillant
     krokmou = 0
     if tour > 5 and nb_ia == 2:
@@ -981,103 +1105,67 @@ def IA_bleu():
             elif 2 == matrice[2][2]:
                 bouge_pion_bleu(2, 2, 1, 1)
         if krokmou == 0 and tour > 5:
-            #print(tour)
-            #print("mlkjhgfd")
             depl_rd_b()
     # coup random
     elif nb_ia == 2:
         Coup_rd()
 
+#[[[350, 100], [350,350],[350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
+
 def Coup_rd():
+    print("Coup_rd()")
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
+    print (posx, posy)
+    print(matrice)
     while matrice[posy][posx] != 0:
-        #print("995", tour)
-        #print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-    #print("nsm",pommeau_pathétiquement_croustillant[posx][posy])
-    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    #print ("osti d'calice d'tabarnak")
-    #print (matrice)
+    print("nsm",pommeau_pathétiquement_croustillant[posy][posx])
+    Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
 
-amp = 0
 
 def depl_rd_b():
-    #print("Freddie Mercury")
-    global amp
+    print("depl_rd_b()")
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
     while matrice[posy][posx] != 2:
-        #print("1012", tour)
-        #print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-    #print ("choisit de déplacer b",posy, posx)
-    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
+    print ("choisit de déplacer b",posy, posx)
+    Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
 
-    print(matrice)
-    #print(position_prece)
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
-    while matrice[posy][posx] != 0 or posy - position_prece[0] >= 1 or posy - position_prece[0] <= -1 or posx - position_prece[1] >= 1 or posx - position_prece[1] <= -1:
-        #print("1022", tour)
-        #print(matrice)
+    while matrice[posy][posx] != 0 or posy - position_prece[0] > 1 or posy - position_prece[0] < -1 or posx - position_prece[1] > 1 or posx - position_prece[1] < -1:
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-        print ("ptdbbbb", posx, posy)
-    #print ("vers b ",posy, posx)
-    #print("atttta",pommeau_pathétiquement_croustillant[posx][posy])
-    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    #print("Freddie Mercury2")
+    print ("vers b ",posy, posx)
+    Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+    affiche_tour()
 
 
 def depl_rd_r():
-
-    #print("Village People")
-    
-    global amp
-    #print (tour)
+    print("depl_rd_r()")
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
     while matrice[posy][posx] != 1:
-        ##print("1037", tour)
-        ##print(matrice)
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-    #print ("choisit de déplacer r",posy, posx)
-    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    #print ("village people 0.5")
-    #print(position_prece)
-    
-    print(matrice)
+    print ("choisit de déplacer r",posy, posx)
+    Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
-    #print ("blip bloup", posy, posx)
-    #print(matrice)
-    #print(matrice[posy][posx])
-    #print(posy - position_prece[0])
-    #print(posx - position_prece[1])
-    #if matrice[posy][posx] != 0 and posy - position_prece[0] >= 1 and posy - position_prece[0] <= -1 and posx - position_prece[1] >= 1 and posx - position_prece[1] <= -1:
-    #    #print("pas condi")
-
-
-
-    while matrice[posy][posx] != 0 or posy - position_prece[0] >= 1 or posy - position_prece[0] <= -1 or posx - position_prece[1] >= 1 or posx - position_prece[1] <= -1:
-        ##print("1047", tour)
-        ##print(matrice)
+    while matrice[posy][posx] != 0 or posy - position_prece[0] > 1 or posy - position_prece[0] < -1 or posx - position_prece[1] > 1 or posx - position_prece[1] < -1:
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-        print ("ptdrrrr", posx, posy)
-
-    #print ("vers r ",posx, posy)
-    #print("otttto",pommeau_pathétiquement_croustillant[posx][posy])
-    Place_Pion(pommeau_pathétiquement_croustillant[posx][posy][0],pommeau_pathétiquement_croustillant[posx][posy][1])
-    #print("Village People2")
+    print ("vers r ",posy, posx)
+    Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+    affiche_tour()
 
 def click(event):
     x, y = event.x, event.y
-    #print (x, y)
     Place_Pion (x, y)
 
 
@@ -1085,8 +1173,9 @@ def Place_Pion(x, y):
     '''place ou déplace un pion sur le cercle gris cliqué'''
     global tour, nb_pions_b, nb_pions_r
 
-    #print("le pion est en ", x, ",", y,)
-    #print ("tour", tour)
+    print("le pion est en ", x, ",", y,)
+    print ("tour", tour)
+    print(matrice)
     
     for i in range (3):
         for j in range (3):
