@@ -243,6 +243,7 @@ def matcheur_nul():
                     nul.create_text(130, 60, text='Match Nul', font=('comic sans ms', '16'))
                     nul.grid()
                     fantome_de_tes_matrices_passées = []
+                    canvas.after(2000, rezero)
                     return 
                 
                     
