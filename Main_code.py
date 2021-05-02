@@ -19,7 +19,7 @@ import random as rd
 ########################
 # constantes
 
-HEIGHT = 800
+HEIGHT = 700
 WIDTH = 1200
 
 SCORE_H = 30
@@ -176,8 +176,8 @@ plateau = tk.Tk()
 canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH)
 
 bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                               command=sauvegarder, font = ('comic sans ms', '9'))
-bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '9'))
+                               command=sauvegarder, font = ('comic sans ms', '20'))
+bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '20'))
 
 score = tk.Canvas(plateau, height=60, width=300, bg='dark khaki')
 
@@ -186,22 +186,21 @@ score_rouge = score.create_text(SCORE_W+80, SCORE_H, text=r, font=('comic sans m
 score.create_text(SCORE_W+100, SCORE_H, text='-', font=('comic sans ms', '16'))
 score_bleu = score.create_text(SCORE_W+120, SCORE_H, text=b, font=('comic sans ms', '16'))
 
-indictour = tk.Canvas(plateau, height=60, width=300, bg='light blue') #canvas dans lequel s'affiche à qui est le tour
-tour_texte = indictour.create_text(SCORE_W, SCORE_H, text="tour de bleu", font=('comic sans ms', '16', ), fill = 'blue')
+tour_rouge = canvas.create_text(175, 250, text="Au tour des rouges", font=('comic sans ms', '20', ), fill = "white")
+tour_bleu = canvas.create_text(1025, 250, text="Au tour des bleus", font=('comic sans ms', '20', ), fill = "white")
 
 bouton_sauvegarder.grid(row=3, column=0)
 bouton_recharger.grid(row=3, column=1)
 canvas.grid(row=1, columnspan=2)
 score.grid(row=0, columnspan=2)
-indictour.grid(row = 2, columnspan=2)
 
-rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")
-rouge2 = canvas.create_oval((50, 600), (100, 650), fill = "red", outline = "red")
-rouge3 = canvas.create_oval((50, 700), (100, 750), fill = "red", outline = "red")
+rouge1 = canvas.create_oval((150, 375), (200, 425), fill = "red", outline = "red")
+rouge2 = canvas.create_oval((150, 475), (200, 525), fill = "red", outline = "red")
+rouge3 = canvas.create_oval((150, 575), (200, 625), fill = "red", outline = "red")
 
-bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill = "blue", outline = "blue")
-bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill = "blue", outline = "blue")
-bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill = "blue", outline = "blue")
+bleu1 = canvas.create_oval((1000, 375), (1050, 425), fill = "blue", outline = "blue")
+bleu2 = canvas.create_oval((1000, 475), (1050, 525), fill = "blue", outline = "blue")
+bleu3 = canvas.create_oval((1000, 575), (1050, 625), fill = "blue", outline = "blue")
 
 canvas.create_line((350, 100), (850, 100), fill = "black")
 canvas.create_line((350, 100), (350, 600), fill = "black")
@@ -261,11 +260,11 @@ def mapla():
 def affiche_tour():
     '''met à jour le compteur de tour'''
     if tour % 2 != 0:
-        indictour.itemconfig(tour_texte, fill = 'red')
-        indictour.itemconfig(tour_texte, text = 'tour de rouge')
+        canvas.itemconfigure(tour_rouge, fill="red")
+        canvas.itemconfigure(tour_bleu, fill="white")
     elif tour % 2 == 0:
-        indictour.itemconfig(tour_texte, fill = 'blue')
-        indictour.itemconfig(tour_texte, text = 'tour de bleu')
+        canvas.itemconfigure(tour_bleu, fill="blue")
+        canvas.itemconfigure(tour_rouge, fill="white")
 
 
 def bouge_pion_rouge (a, b, c, d):
