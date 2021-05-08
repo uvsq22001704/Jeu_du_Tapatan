@@ -44,6 +44,11 @@ tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour 
 nb_pions_r = 3
 nb_pions_b = 3
 
+#nombre de pions sur le plateau
+pions_rouges = 0
+pions_bleus = 0
+
+
 r=0 #compteur du score rouge
 b=0 #compteur du score bleu
 
@@ -53,13 +58,15 @@ fantome_de_tes_matrices_passées = [] #index chaques matrices de la manche dans 
 
 pommeau_pathétiquement_croustillant = [[[350, 100], [350,350],[350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
 
+krokmou = 0
+
 nb_ia = 0
 ########################
 # fonctions
 
 def recharger(): 
     """charger la grille depuis le fichier sauvegarde.txt"""
-    global matrice
+    global matrice, tour, position_prece, nb_pions_b, nb_pions_r
     fic = open("sauvegarde.txt", "r")
     j = 0
     for ligne in fic:
@@ -77,8 +84,27 @@ def recharger():
     fic.close()  
     mapla()
 
+    fic2 = open("sauvegarde2.txt","r")
+    tour_txt = fic2.read()
+    tour = int(tour_txt)
+    fic2.close()
+
+    fic4 = open("sauvegarde4.txt","r")
+    nb_pions_b_txt = fic4.read()
+    nb_pions_b = int(nb_pions_b_txt)
+    fic4.close()
+
+    fic5 = open("sauvegarde5.txt","r")
+    nb_pions_r_txt = fic5.read()
+    nb_pions_r = int(nb_pions_r_txt)
+    fic5.close()
+    
+    return tour, position_prece, nb_pions_b, nb_pions_r
+    
+
 def sauvegarder():
      """sauvegarder la grille vers le fichier sauvegarde.txt"""
+     global matrice, tour, position_prece, nb_pions_b, nb_pions_r
      fic = open("sauvegarde.txt", "w")
      for j in range(3):
         for i in range(3):
@@ -90,6 +116,23 @@ def sauvegarder():
                 fic.write("2 ")
         fic.write("\n")
      fic.close()
+    
+     fic2 = open("sauvegarde2.txt","w")
+     fic2.write(str(tour))
+     fic2.close()
+        
+     fic3 = open("sauvegarde3.txt","w")
+     fic3.write(str(position_prece))
+     fic3.close()
+    
+     fic4 = open("sauvegarde4.txt","w")
+     fic4.write(str(nb_pions_b))
+     fic4.close()
+        
+     fic5 = open("sauvegarde5.txt","w")
+     fic5.write(str(nb_pions_r))
+     print(nb_pions_r)
+     fic5.close()
 
 
 ########################
@@ -98,16 +141,15 @@ def sauvegarder():
 menu = tk.Tk()
 menu.title("Tékaté ça fonctionne")
 
+
 def couleur (r, g, b):  
     '''pour que ce soit plus zoli'''
     return '#{:02x}{:02x}{:02x}'.format (r, g, b)
 
-cadavre_exquis =0
 
 def P0j():
-    global nb_ia, cadavre_exquis
+    global nb_ia
     nb_ia = 2
-    cadavre_exquis = 1
     menu.destroy()
     
 
@@ -116,11 +158,13 @@ def P1j():
     nb_ia = 1
     menu.destroy()
 
+
 def P2j():
     global nb_ia
     nb_ia = 0
     menu.destroy()
-    
+
+
 def regles():
     """fonction liée au bouton 'Règles du jeu'. Ouvre une fenêtre auxiliaire
     avec explication des règles. Quand on appuie sur le bouton 'Retour', la fenêtre
@@ -140,6 +184,7 @@ def regles():
     regles.grid(row=0)
     retour.grid(row=1)
 
+
 fond = tk.Canvas(menu, height = 700, width = 1100)
 bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)
 titre = tk.Label(menu, text="Jeu Du Tapatan 97", font=('comic sans ms', '21'), bg = "RoyalBlue1")
@@ -147,6 +192,7 @@ buttonII = tk.Button(menu, text="0 Joueur", command = P0j, font=('comic sans ms'
 buttonHH = tk.Button(menu, text="1 Joueur", command = P1j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j, font=('comic sans ms', '15'), bg = "coral1")
 button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")
+
 
 fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
@@ -162,8 +208,6 @@ fr, fg, fb = rd.randint(-5, 5), rd.randint(-5, 5), rd.randint(-5, 5)
 for i in range (175):
     red, green, blue = (red + fr) % 250, (green + fg) % 250 , (blue + fb) % 250
     fond.create_line(0, i * 4, 1100, i * 4 , fill = couleur (red, green, blue))
-
-
 
 
 menu.mainloop()
@@ -301,7 +345,6 @@ def bouge_pion_bleu (a, b, c, d):
     if nb_ia == 2:
         IA_rouge()
     
-krokmou = 0
 
 def IA_rouge():
     """intelligence artificielle du jeu pour un pion rouge"""
@@ -763,9 +806,9 @@ def IA_rouge():
             depl_rd_r()
     # coup random
     else:
-        Coup_rd()
+        placement_IA()
 
-#############################################################################################################################################
+
 def IA_bleu():
     global krokmou
     """intelligence artificielle du jeu pour un pion bleu"""
@@ -1109,21 +1152,251 @@ def IA_bleu():
             depl_rd_b()
     # coup random
     elif nb_ia == 2:
-        Coup_rd()
+        placement_IA()
 
-#[[[350, 100], [350,350],[350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
 
 def Coup_rd():
+    #[[[350, 100], [350,350],[350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
+
     print("Coup_rd()")
     posx = rd.randint(0,2)
     posy = rd.randint(0,2)
-    print (posx, posy)
-    print(matrice)
+    #print (posx, posy)
+    #print(matrice)
     while matrice[posy][posx] != 0:
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-    print("nsm",pommeau_pathétiquement_croustillant[posy][posx])
+    #print("nsm",pommeau_pathétiquement_croustillant[posy][posx])
     Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+
+
+def placement_IA():
+    print("zebi placement_ia()")
+
+    global tour, nb_pions_r, nb_pions_b, pions_rouges, pions_bleus
+    print("nb_pions_b", nb_pions_b, "    pions_bleus", pions_bleus, "    nb_pions_r", nb_pions_r, "    pions_rouges", pions_rouges)
+    """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
+
+    if pions_rouges == 0 and pions_rouges <= pions_bleus:
+        print('la peut etre?')
+        Coup_rd()
+        pions_rouges += 1
+    if pions_rouges == 1 and pions_rouges <= pions_bleus:
+        print("censé etre la ptn")
+        Coup_rd()
+        pions_rouges += 1
+    if pions_rouges == 2 and pions_rouges <= pions_bleus:
+        print ("ui")
+        Coup_rd()
+        pions_rouges += 1
+    # aux rouges de jouer pour bloquer les bleus
+    if nb_pions_b == 1 and nb_pions_r == 2:
+        #alignement horizontal
+        print('papaoutai')
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
+                matrice[i][2] = 1
+                mapla()
+                tour += 1 
+                #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+            elif matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
+                matrice[i][1] = 1
+                mapla()
+                tour += 1
+                #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+            elif matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
+                matrice[i][0] = 1
+                mapla()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
+                matrice[2][j] = 1
+                mapla()
+                tour += 1
+                #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+            elif matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
+                matrice[1][j] = 1
+                mapla()
+                tour += 1
+                #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+            elif matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
+                matrice[0][j] = 1
+                mapla()
+                tour += 1
+                #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        #alignement diagonal
+        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        elif 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        elif 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        elif 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        elif 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        elif 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] = 1
+            mapla()
+            tour += 1
+            #if nb_ia == 2:
+                    #canvas.after(1000, IA_bleu())
+        else:
+            Coup_rd()
+        nb_pions_r -= 1
+        pions_cote()
+        if nb_ia == 2:
+            canvas.after(1000, IA_bleu())
+    # aux bleus de jouer pour bloquer les rouges
+    elif nb_pions_b == 1 and nb_pions_r == 1:
+        #alignement horizontal
+        print('where are uuu?')
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 1 and matrice[i][2] == 0:
+                matrice[i][2] = 2
+                mapla()
+                tour += 1 
+            if matrice[i][0] == matrice[i][2] == 1 and matrice[i][1] == 0:
+                matrice[i][1] = 2
+                mapla()
+                tour += 1
+            if matrice[i][2] == matrice[i][1] == 1 and matrice[i][0] == 0:
+                matrice[i][0] = 2
+                mapla()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 1 and matrice[2][j] == 0:
+                matrice[2][j] = 2
+                mapla()
+                tour += 1
+            if matrice[0][j] == matrice[2][j] == 1 and matrice[1][j] == 0:
+                matrice[1][j] = 2
+                mapla()
+                tour += 1
+            if matrice[2][j] == matrice[1][j] == 1 and matrice[0][j] == 0:
+                matrice[0][j] = 2
+                mapla()
+                tour += 1
+        #alignement diagonal
+        if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] = 2
+            mapla()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] = 2
+            mapla()
+            tour += 1
+        if 1 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] = 2
+            mapla()
+            tour += 1
+        if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] = 2
+            mapla()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] = 2
+            mapla()
+            tour += 1
+        if 1 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] = 2
+            mapla()
+            tour += 1
+        else:
+            Coup_rd()
+        nb_pions_b -= 1
+        pions_cote()
+        if nb_ia == 2:
+                    canvas.after(1000, IA_rouge())
+    # aux rouges de jouer pour bloquer les bleus
+    elif nb_pions_b == 0 and nb_pions_r == 1:
+        #alignement horizontal
+        print('go back to sleep and starve')
+        for i in range(3):
+            if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
+                matrice[i][2] = 1
+                mapla()
+                tour += 1 
+            if matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
+                matrice[i][1] = 1
+                mapla()
+                tour += 1
+            if matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
+                matrice[i][0] = 1
+                mapla()
+                tour += 1
+        #alignement vertical
+        for j in range(3):
+            if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
+                matrice[2][j] = 1
+                mapla()
+                tour += 1
+            if matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
+                matrice[1][j] = 1
+                mapla()
+                tour += 1
+            if matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
+                matrice[0][j] = 1
+                mapla()
+                tour += 1
+        #alignement diagonal
+        if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
+            matrice[2][2] = 1
+            mapla()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
+            matrice[0][0] = 1
+            mapla()
+            tour += 1
+        if 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
+            matrice[1][1] = 1
+            mapla()
+            tour += 1
+        if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
+            matrice[1][1] = 1
+            mapla()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
+            matrice[0][2] = 1
+            mapla()
+            tour += 1
+        if 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
+            matrice[2][0] = 1
+            mapla()
+            tour += 1   
+        else:
+            Coup_rd()
+        nb_pions_r -= 1
+        pions_cote()
+        if nb_ia == 2:
+                    canvas.after(1000, IA_bleu())
 
 
 def depl_rd_b():
@@ -1165,6 +1438,7 @@ def depl_rd_r():
     Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
     affiche_tour()
 
+
 def click(event):
     x, y = event.x, event.y
     Place_Pion (x, y)
@@ -1172,11 +1446,13 @@ def click(event):
 
 def Place_Pion(x, y):
     '''place ou déplace un pion sur le cercle gris cliqué'''
+    print ("place-pion")
+
     global tour, nb_pions_b, nb_pions_r
 
-    print("le pion est en ", x, ",", y,)
-    print ("tour", tour)
-    print(matrice)
+    #print("le pion est en ", x, ",", y,)
+    #print ("tour", tour)
+    #print(matrice)
     
     for i in range (3):
         for j in range (3):
@@ -1275,18 +1551,20 @@ def rezero():
     for i in range(3):
         for j in range(3):
             matrice[i][j] = 0
+            
     mapla()        
     pions_cote()
     #print (tour)
+
 
 def msg_gagne():
     """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
     global player, r, b
     msg = tk.Toplevel(plateau)
-    rezero()
+    pause_ia()
     def fermer_msg():
         msg.destroy()
-        
+        canvas.after(2000, rezero)
     msg.title("Fin de partie")
     gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
     gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
@@ -1300,6 +1578,7 @@ def msg_gagne():
 def msg_vainqueur():
     '''fenêtre qui souvre quand il ya un vainqueur'''
     win = tk.Toplevel(plateau)
+    pause_ia()
     def rejouer():
         plateau.destroy()
         menu.mainloop()
@@ -1319,19 +1598,31 @@ def msg_vainqueur():
 def fin_de_partie():
     """relance uneif r < 4 or b < 4:
         #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
-    #print("fin de partie; durée:", tour)
-    #print(matrice)
+    print("fin de partie; durée:", tour)
 
     global r, b
     if r == 3 or b == 3:
         msg_vainqueur()
     elif r < 3 or b < 3:
         msg_gagne()
-    
-    
-    
 
 
+def pause_ia():
+    '''met l'ia en pause'''
+    global lancer_ia_b, lancer_ia_r, nb_ia
+    if nb_ia == 1:
+        canvas.after_cancel(lancer_ia_r)
+    elif nb_ia == 2:
+        canvas.after_cancel(lancer_ia_b)
+        canvas.after_cancel(lancer_ia_r)
+
+
+def relancer_ia():
+    ''' remet l'ia en marche'''
+    global nb_ia
+    if nb_ia == 2:
+        canvas.after_idle(Coup_rd)
+    
 
 def pions_cote():
     '''gère les pions à coté'''
@@ -1360,14 +1651,8 @@ def pions_cote():
 
 canvas.bind("<Button-1>", click)
 
-#matrice[1][2] = 2
-#matrice[0][0] = 2
-#matrice[2][0] = 1
-#matrice[0][2] = 1
-#matrice[1][0] = 1
-#mapla()
 
-if cadavre_exquis == 1:
+if nb_ia == 2:
     canvas.after(2000, Coup_rd)
 
 plateau.mainloop()
