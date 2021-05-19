@@ -144,6 +144,7 @@ def P0j():
     global nb_ia
     nb_ia = 2
     open_plateau()
+    
 
 def P1j():
     global nb_ia 
@@ -154,6 +155,7 @@ def P2j():
     global nb_ia
     nb_ia = 0
     open_plateau()
+    
     
 def regles():
     """fonction liée au bouton 'Règles du jeu'. Ouvre une fenêtre auxiliaire
@@ -326,7 +328,7 @@ def open_plateau():
         print("zebi placement_ia()")
 
         global tour, nb_pions_r, nb_pions_b
-        print("nb_pions_b", nb_pions_b, "    pions_bleus    nb_pions_r", nb_pions_r)
+        print("nb_pions_b", nb_pions_b, "nb_pions_r", nb_pions_r)
         """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
 
         if nb_pions_b == 3 and nb_pions_r == 3:
@@ -353,6 +355,7 @@ def open_plateau():
                     mapla()
                     tour += 1 
                     nb_pions_r -= 1
+                    return
                     #if nb_ia == 2:
                         #canvas.after(1000, IA_bleu())
                     return
@@ -1506,13 +1509,16 @@ def open_plateau():
     def Place_Pion(x, y):
         '''place ou déplace un pion sur le cercle gris cliqué'''
         global tour, nb_pions_b, nb_pions_r
+        print("place-pion()", x, y)
+        print (nb_pions_b, nb_pions_r)
+        
         for i in range (3):
             for j in range (3):
                 x1,y1,x2,y2 = canvas.coords(liCe[i][j]) 
 
                 if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                 #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
-                    if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 and nb_ia < 2:
+                    if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
                         canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
                         tour += 1 
                         nb_pions_b -= 1
@@ -1671,6 +1677,11 @@ def open_plateau():
 
 
     canvas.bind("<Button-1>", click)
+
+    if nb_ia == 2:
+        print("everybody do the flop")
+        placement_IA()
+
 
 menu.mainloop()
 ########################
