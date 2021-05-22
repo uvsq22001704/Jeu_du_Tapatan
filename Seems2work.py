@@ -1818,14 +1818,7 @@ def open_plateau():
         print ("msg vain")
         global r, b
         win = tk.Toplevel()
-        
-        def leave():
-            '''fonction du boutton quitter qui permet de revenir au menu principal après une partie'''
-            menu.state(newstate='normal')
-            rezero()
-            menu.destroy()
-
-
+    
         def rejouer():
             '''fonction du boutton éponyme qui relance une partie'''
             rezero()
@@ -1837,7 +1830,7 @@ def open_plateau():
             
         win.title("Fin de partie")
         gagné = tk.Label(win, text='JOUEUR '+player+' A  GAGNE !!!', font=('helvetica', '16', 'bold'), bg='dark khaki', pady=30, padx=10)
-        button_quit = tk.Button(win, text='Quitter', command = leave)
+        button_quit = tk.Button(win, text='Quitter', command = menu.destroy)
         button_replay = tk.Button(win, text='Recommencer une partie', command = rejouer)
         gagné.grid(row = 0)
         button_quit.grid(row=1)
