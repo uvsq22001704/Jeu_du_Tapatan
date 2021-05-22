@@ -249,7 +249,6 @@ def open_plateau():
             
         fic5 = open("sauvegarde5.txt","w")
         fic5.write(str(nb_pions_r))
-        print(nb_pions_r)
         fic5.close()
 
         fic6 = open("sauvegarde6.txt","w")
