@@ -345,9 +345,10 @@ def open_plateau():
     def matcheur_nul():
         '''termine une manche en match nul lorsque la même configuration de pion est répétée trois fois au cour d'une même manche'''
         global fantome_de_tes_matrices_passées, nb_ia, pause
-        '''ajoute dans fantome_de_tes_matrices_passées la derniere matrice en date et verifie si il existe trois matrices identiques, 
+        '''ajoute dans fantome_de_tes_matrices_passées la derniere matrice en date et vérifie si il existe trois matrices identiques, 
         si c'est le cas alors termine la manche en cours sans attribuer de points'''
-        fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))#ajoute la configuration de pion de ce tour à l'index
+        fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))
+        
         for i in range (len(fantome_de_tes_matrices_passées)):
             for j in range (len (fantome_de_tes_matrices_passées)):
                 for k in range (len (fantome_de_tes_matrices_passées)):
@@ -355,6 +356,8 @@ def open_plateau():
                         print ("match nul")
                         pause = nb_ia
                         nb_ia = 0
+                        
+                        
                         def pauz():
                             '''stop l'ia en cas en fin de manche'''
                             global nb_ia, pause
@@ -375,17 +378,19 @@ def open_plateau():
                         nul.grid(row = 0)
                         button_next_round = tk.Button(msg, text = "next", command = fermer_msg)
                         button_next_round.grid(row = 1)
-                        fantome_de_tes_matrices_passées = []#réinitialise le plateau et ses valeures associéesz
+                        
+                        # Réinitialise le plateau et ses valeurs associées :
+                        fantome_de_tes_matrices_passées = []
                         canvas.after(1500, pauz)
                         print ("nbia", nb_ia)
                     
 
     def mapla():
         ''' met à jour la couleur des pions sur le plateau'''
-        
         pions_cote()
         affiche_tour()
         print("tiiuyftdfg", tour)
+        
         for i in range (3):
             for j in range (3):
                 if matrice [i][j] == 1 :
@@ -413,7 +418,9 @@ def open_plateau():
         matrice[c][d] = 1
         mapla()
         tour += 1
-        krokmou = 1#variable boléene servant à determiner si bouge_pion à déja été exécutée pendant ce tour
+        # Variable booléene servant à déterminer si bouge_pion à déja été exécutée pendant ce tour
+###### CHANGER NOM VARIABLE KROKMOU #####
+        krokmou = 1
         win_ckeck(matrice)
         if nb_ia == 2:
             canvas.after(1000, IA_bleu)
@@ -421,7 +428,7 @@ def open_plateau():
 
 
     def bouge_pion_bleu (a, b, c, d):
-        """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
+        """bouge un pion du cercle (a, b) vers le cercle (c, d)"""
         global tour, krokmou
         krokmou = 1
         matrice[a][b] = 0
@@ -434,27 +441,39 @@ def open_plateau():
 
 
     def placement_IA():
+        """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
+        
         print("zebi placement_ia()")
 
         global tour, nb_pions_r, nb_pions_b
         print("nb_pions_b", nb_pions_b, "nb_pions_r", nb_pions_r)
-        """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
-
+        
+        
+        # Premier coup du joueur bleu
         if nb_pions_b == 3 and nb_pions_r == 3:
             Coup_rd()
             print('first coup rd')
             return
+        
+        
+        # Premier coup du joueur rouge
         if nb_pions_b == 2 and nb_pions_r == 3:
             Coup_rd()
             print('second coup rd')
             return
+        
+        
+        # Deuxième coup du joueur bleu
         if nb_pions_b == 2 and nb_pions_r == 2:
             Coup_rd()
             print('third coup rd')
             return
-        # aux rouges de jouer pour bloquer les bleus
+        
+        
+        # Deuxième coup du joueur rouge, qui peut bloquer le joueur bleu
         if nb_pions_b == 1 and nb_pions_r == 2:
-            #alignement horizontal
+            
+            # Alignement horizontal
             print('papaoutai')
             for i in range(3):
                 print("i", i)
@@ -488,7 +507,8 @@ def open_plateau():
                         return
                     else:
                         return
-            #alignement vertical
+                    
+            # Alignement vertical
             for j in range(3):
                 print ("j", j)
                 if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
@@ -521,7 +541,8 @@ def open_plateau():
                         return
                     else:
                         return
-        #alignement diagonal droite à gauche
+                    
+            # Alignement diagonal \
             if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
                 matrice[2][2] = 1
                 mapla()
@@ -553,7 +574,8 @@ def open_plateau():
                         return
                 else:
                         return
-        #alignement diagonale gauche à droite
+                    
+            # Alignement diagonal /
             elif 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
                 matrice[1][1] = 1
                 mapla()
@@ -588,10 +610,12 @@ def open_plateau():
                 Coup_rd()
                 #nb_pions_r -= 1
                 return
-        # aux bleus de jouer pour bloquer les rouges
-
+            
+            
+        # Troisième coup du joueur bleu, qui peut bloquer le joueur rouge
         elif nb_pions_b == 1 and nb_pions_r == 1:
-            #alignement horizontal
+            
+            # Alignement horizontal
             print('where are uuu?')
             for i in range(3):
                 if matrice[i][0] == matrice[i][1] == 1 and matrice[i][2] == 0:
@@ -618,7 +642,8 @@ def open_plateau():
                     mapla()
                     canvas.after(1000, IA_rouge)
                     return
-            #alignement vertical
+                
+            # Alignement vertical
             for j in range(3):
                 if matrice[0][j] == matrice[1][j] == 1 and matrice[2][j] == 0:
                     matrice[2][j] = 2
@@ -642,7 +667,8 @@ def open_plateau():
                     mapla()
                     canvas.after(1000, IA_rouge)
                     return
-            #alignement diagonal
+                
+            # Alignement diagonal \
             if 1 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
                 matrice[2][2] = 2
                 tour += 1
@@ -663,6 +689,8 @@ def open_plateau():
                 nb_pions_b -= 1
                 mapla()
                 return
+            
+            # Alignement diagonal /
             if 1 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
                 matrice[1][1] = 2
                 tour += 1
@@ -687,9 +715,12 @@ def open_plateau():
                 Coup_rd()
                 #nb_pions_b -= 1
                 return
-        # aux rouges de jouer pour bloquer les bleus
+            
+            
+        # Troisième coup du joueur rouge, qui peut bloquer le joueur bleu
         elif nb_pions_b == 0 and nb_pions_r == 1:
-            #alignement horizontal
+            
+            # Alignement horizontal
             print('go back to sleep and starve')
             for i in range(3):
                 if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
@@ -722,7 +753,8 @@ def open_plateau():
                         return
                     else:
                         return
-            #alignement vertical
+                    
+            # Alignement vertical
             for j in range(3):
                 if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
                     matrice[2][j] = 1
@@ -755,7 +787,7 @@ def open_plateau():
                     else:
                         return
 
-            #alignement diagonal
+            # Alignement diagonal \
             if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
                 matrice[2][2] = 1
                 tour += 1
@@ -787,6 +819,8 @@ def open_plateau():
                         return
                 else:
                         return
+                    
+            # Alignement diagonal /
             if 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
                 matrice[1][1] = 1
                 tour += 1
@@ -825,7 +859,7 @@ def open_plateau():
 
 
     def depl_rd_b():
-        '''tire aléatoire des coordonées de déplacement autorisées pour un pion bleu et le transmet à place_pion'''
+        '''tire aléatoirement des coordonnées de déplacement autorisées pour un pion bleu et le transmet à place_pion'''
         print("depl_rd_b()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
@@ -870,10 +904,11 @@ def open_plateau():
         """intelligence artificielle du jeu pour un pion rouge"""
         global tour, pommeau_pathétiquement_croustillant, krokmou
         print("IA_rouge()")
-            #IA coup gagnant :
-            #cas 1
+            
         krokmou = 0
         if tour >5:
+            #IA coup gagnant :
+            #cas 1
             if 1 == matrice[0][0] == matrice[0][1] and matrice[0][2] == 0:
                 if matrice[0][0] == matrice[1][1]:
                     bouge_pion_rouge(1, 1, 0, 2)
@@ -1098,7 +1133,7 @@ def open_plateau():
                     bouge_pion_rouge(2, 2, 1, 1)
                     return
 
-            #IA coup pour empecher l'autre de gagner :
+            #IA coup pour empêcher l'autre de gagner :
             #cas 1
             if 2 == matrice[0][0] == matrice[0][1] and matrice[0][2] == 0:
                 if 1 == matrice[1][1]:
@@ -1503,7 +1538,7 @@ def open_plateau():
                 elif matrice[0][1] == matrice[2][2]:
                     bouge_pion_bleu(2, 2, 1, 1)
 
-            #IA coup pour empecher l'autre de gagner :
+            #IA coup pour empêcher l'autre de gagner :
             #cas 1
             if 1 == matrice[0][0] == matrice[0][1] and matrice[0][2] == 0:
                 if 2 == matrice[1][1]:
@@ -1676,7 +1711,7 @@ def open_plateau():
 
 
     def Coup_rd():
-        '''Tire aléatoirement des coordonées pour poser un pion sur le plateau puis les transmets à place_pions'''
+        '''Tire aléatoirement des coordonnées pour poser un pion sur le plateau puis les transmet à place_pion'''
         print("Coup_rd()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
@@ -1690,13 +1725,13 @@ def open_plateau():
 
 
     def click(event):
-        '''communique à placepion les cordonées d'un click de joueur'''
+        '''communique à place_pion les cordonnées d'un click de joueur'''
         x, y = event.x, event.y
         Place_Pion (x, y)
 
 
     def Place_Pion(x, y):
-        '''place ou déplace un pion sur le cercle gris dont les coordonées sont données par un click ou l'ia'''
+        '''place ou déplace un pion sur le cercle gris dont les coordonnées sont données par un click ou l'IA'''
         global tour, nb_pions_b, nb_pions_r
         print("place-pion()", x, y)
         print (nb_pions_b, nb_pions_r)
@@ -1756,8 +1791,8 @@ def open_plateau():
         
 
     def win_ckeck(matrice):
-        '''évalue après chaque tour si qqn a gagné. s'il y a un gagnant, un msg 
-        s'affiche dans une nouvelle fenêtre. Lance une nouvelle partie'''
+        '''évalue après chaque tour si un joueur a gagné, s'il y a un gagnant, un message 
+        s'affiche dans une nouvelle fenêtre et lance une nouvelle manche'''
         global r, b, player
         player = ''
         for i in range(3):
@@ -1788,18 +1823,18 @@ def open_plateau():
 
 
     def msg_gagne():
-        """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau et arrete l'ia tant que l'utilisateur n'as pas fermé la fenetre"""
+        """"fenêtre auxiliaire qui affiche message 'Gagné' par dessus le plateau et arrête l'IA tant que l'utilisateur n'a pas fermé la fenêtre"""
         print ("msg g  g")
         global player, r, b, nb_ia, pause
         msg = tk.Toplevel()
         msg.lift()
         def fermer_msg():
-            '''ferme le message et reinitialise le plateau'''
+            '''ferme le message et réinitialise le plateau'''
             msg.destroy()
             canvas.after(200, rezero())
         
         def pauz():
-            '''met en pause l'ia'''
+            '''met en pause l'IA'''
             global nb_ia, pause
             nb_ia = pause
             pause = 0
@@ -1814,19 +1849,21 @@ def open_plateau():
 
 
     def msg_vainqueur():
-        '''fenêtre qui s'ouvre quand il ya un vainqueur, permet de choisir entre relancer une partie et revenir au menu principal'''
+        '''fenêtre qui s'ouvre quand il y a un vainqueur, permet de choisir entre relancer une partie et revenir au menu principal'''
         print ("msg vain")
         global r, b
         win = tk.Toplevel()
     
+    
         def rejouer():
-            '''fonction du boutton éponyme qui relance une partie'''
+            '''fonction du bouton éponyme qui relance une partie'''
             rezero()
             if nb_ia == 2:
                 canvas.after(1000, placement_IA)
             win.destroy()
             plateau.destroy()
             menu.state(newstate='normal')
+            
             
         win.title("Fin de partie")
         gagné = tk.Label(win, text='JOUEUR '+player+' A  GAGNE !!!', font=('helvetica', '16', 'bold'), bg='dark khaki', pady=30, padx=10)
