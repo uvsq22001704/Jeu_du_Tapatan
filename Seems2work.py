@@ -10,7 +10,7 @@
 ########################
 
 ########################
-# import des librairies
+# IMPORT DES LIBRAIRIES
 
 import tkinter as tk
 import copy as cp
@@ -18,55 +18,61 @@ import random as rd
 from tkinter.constants import COMMAND
 
 ########################
-# constantes
+# CONSTANTES ET VARIABLES
 
+# Hauteur et largeur du canvas :
 HEIGHT = 800
 WIDTH = 1200
 
-SCORE_H = 30
-SCORE_W = 100
-
-
-matrice = []   # on créer une liste 2D dans laquelle se trouvent la couleur de chaque cases du plateau
+# On crée une liste 2D dans laquelle se trouve la couleur de chaque case du plateau :
+matrice = [] 
 for i in range (3):
     matrice.append([])
 
-for j in range (3): #création d'une liste 2D contenant dans laquelle sont inscrites les positions des pions
+for j in range (3):
     for i in range (3):
         matrice[i].append(0)
-print (matrice)
 
-#0 gris
-#1 rouge
-#2 bleu
+# Dans la matrice, chaque couleur d'une case du plateau est attribué à un chiffre: 
+# 0 correspond à une case grise, donc une case non utilisée par les pions des joueurs
+# 1 correspond à une case rouge
+# 2 correspond à une case bleue
 
-tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour rouge 
+# Variable gérant le nombre de tours, elle est paire si c'est au tour du joueur bleu, impaire pour le tour du joueur rouge :
+tour = 0 
 
-nb_pions_r = 3 #nommbre de pions pas encore placés sur le plateau
+# Variables définissant le nombre de pions qui ne sont pas encore placés sur le plateau pour chaque joueur :
+nb_pions_r = 3 
 nb_pions_b = 3
-pause = 0 #stocke la valeur de nb_ia pendant la remise à zero du plateau
 
-r = 0 #compteur du score rouge
-b = 0 #compteur du score bleu
+# Variable qui stocke la valeur de nb_ia pendant la remise à zero du plateau
+pause = 0 
 
-position_prece = [1,1] #sert à connaitre la position du pion que l'on s'apprete à déplacer
+# Compteur du score rouge
+r = 0 
+# Compteur du score bleu
+b = 0 
 
-fantome_de_tes_matrices_passées = [] #index chaques matrices de la manche dans l'éventualité d'un match nul
+# Variable qui permet de connaitre la position du pion que l'on s'apprete à déplacer
+position_prece = [1,1] 
 
+# Liste qui ajoute chaque matrice de position des pions d'une manche pour déterminer si il se produit un match nul
+fantome_de_tes_matrices_passées = [] 
+
+# Variable qui décompte le nombre d'IA présentes dans la partie selon si c'est une partie 0, 1, ou 2 joueurs
 nb_ia = 0
 
-pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]] #liste contenat des coordonées de déplacement hypothéthiques pour que l'ia puisse utiliser la fonction place_pion détaillée plus bas
-
-########################
-# fonctions
-
+# Liste contenant des coordonnées de déplacements hypothéthiques pour que l'IA puisse utiliser la fonction place_pion détaillée plus bas
+pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]] 
 
 
 ########################
-# menu
+# MENU
 
-menu = tk.Tk() #création de la fenetre menu contenant le choix des modes de jeu
+# Création de la fenêtre menu contenant le choix des modes de jeu
+menu = tk.Tk() 
 menu.title("Tapatan 97")
+
 
 def couleur (r, g, b):  
     '''tire aléatoirement une couleur RGB'''
@@ -88,6 +94,7 @@ def P1j():
     menu.state(newstate='iconic')
     open_plateau()
 
+    
 def P2j():
     '''lance une partie Joueur vs Joueur'''
     global nb_ia
@@ -114,14 +121,19 @@ def regles():
     regless.grid(row = 1)
     retour.grid(row = 2)
 
-fond = tk.Canvas(menu, height = 700, width = 1100) #fond coloré purement cosmetique
-bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)#Idem
+    
+# Création d'un fond coloré pour le menu 
+fond = tk.Canvas(menu, height = 700, width = 1100)
+bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)
+
+# Création des widgets du menu
 titre = tk.Label(menu, text="Jeu Du Tapatan Win97", font=('comic sans ms', '21'), bg = "RoyalBlue1")
 buttonII = tk.Button(menu, text="0 Joueur", command = P0j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHH = tk.Button(menu, text="1 Joueur", command = P1j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j, font=('comic sans ms', '15'), bg = "coral1")
 button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")#bouton executant regles()
 
+# Placement des widgets du menu
 fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
 titre.grid(column = 0, row = 0, columnspan = 3,padx = 300)
@@ -131,25 +143,25 @@ buttonHI.grid(column = 0, row = 3, pady = 30)
 button_rules.grid(column=0, row=4, pady=30)
 
 
-red, green, blue = rd.randint(5,250), rd.randint(5,250), rd.randint(5,250)#placement de lignes de couleur décoratives au demarage du menu
+# Placement de lignes de couleur décoratives au démarrage du menu
+red, green, blue = rd.randint(5,250), rd.randint(5,250), rd.randint(5,250)
 fr, fg, fb = rd.randint(-5, 5), rd.randint(-5, 5), rd.randint(-5, 5)
 for i in range (175):
     red, green, blue = (red + fr) % 250, (green + fg) % 250 , (blue + fb) % 250
     fond.create_line(0, i * 4, 1100, i * 4 , fill = couleur (red, green, blue))
 
 
-
-
-
-
 ########################
-# plateau
+# PLATEAU 
+
+
 def open_plateau():
-    '''fait apparaitre le plateau et contient toute ses fonctions'''
+    '''fait apparaitre le plateau et contient toutes ses fonctions'''
     global nb_ia, tour, nb_pions_b, nb_pions_r, r, b, position_prece, fantome_de_tes_matrices_passées
     plateau = tk.Toplevel()
 
-    #####SAUVEGARDE ET CHARGEMENT#####
+    ##### Fonctions de sauvegarde et de chargement #####
+    
     
     def recharger(): 
         """charger la grille depuis le fichier sauvegarde.txt"""
@@ -202,6 +214,7 @@ def open_plateau():
     
         return tour, position_prece, nb_pions_b, nb_pions_r, r, b
 
+    
     def sauvegarder():
         """sauvegarder la grille vers le fichier sauvegarde.txt"""
         global matrice, tour, position_prece, nb_pions_b, nb_pions_r, r, b
@@ -243,7 +256,9 @@ def open_plateau():
         fic7.close()
 
 
-    #####CREATION DU PLATEAU#####
+    ##### Création du plateau #####
+    
+    
     def reset():
         '''Ferme le plateau et réinitialise ses valeures'''
         global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées, r, b
@@ -340,10 +355,7 @@ def open_plateau():
                         fantome_de_tes_matrices_passées = []#réinitialise le plateau et ses valeures associéesz
                         canvas.after(1500, pauz)
                         print ("nbia", nb_ia)
-                        canvas.after(1000, placement_IA)#et relance une manche
                     
-    
-
 
     def mapla():
         ''' met à jour la couleur des pions sur le plateau'''
@@ -1776,9 +1788,6 @@ def open_plateau():
         button_next_round.grid(row = 1)
         canvas.after(1500, pauz)
         print ("nbia", nb_ia)
-        if nb_ia > 1:
-            canvas.after(1000, placement_IA)
-        
 
 
     def msg_vainqueur():
