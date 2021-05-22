@@ -1823,9 +1823,7 @@ def open_plateau():
             '''fonction du boutton quitter qui permet de revenir au menu principal après une partie'''
             menu.state(newstate='normal')
             rezero()
-            plateau.destroy()
-            win.destroy()
-            #menu.destroy() ??
+            menu.destroy()
 
 
         def rejouer():
