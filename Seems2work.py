@@ -31,7 +31,7 @@ matrice = []   # on créer une liste 2D dans laquelle se trouvent la couleur de 
 for i in range (3):
     matrice.append([])
 
-for j in range (3):
+for j in range (3): #création d'une liste 2D contenant dans laquelle sont inscrites les positions des pions
     for i in range (3):
         matrice[i].append(0)
 print (matrice)
@@ -42,7 +42,7 @@ print (matrice)
 
 tour = 0 #incrémentée à chaques tours, si pair alors tour du bleu sinon tour rouge 
 
-nb_pions_r = 3
+nb_pions_r = 3 #nommbre de pions pas encore placés sur le plateau
 nb_pions_b = 3
 pause = 0 #stocke la valeur de nb_ia pendant la remise à zero du plateau
 
@@ -55,7 +55,7 @@ fantome_de_tes_matrices_passées = [] #index chaques matrices de la manche dans 
 
 nb_ia = 0
 
-pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]]
+pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]] #liste contenat des coordonées de déplacement hypothéthiques pour que l'ia puisse utiliser la fonction place_pion détaillée plus bas
 
 ########################
 # fonctions
@@ -65,15 +65,16 @@ pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[6
 ########################
 # menu
 
-menu = tk.Tk()
+menu = tk.Tk() #création de la fenetre menu contenant le choix des modes de jeu
 menu.title("Tapatan 97")
 
 def couleur (r, g, b):  
-    '''pour que ce soit plus zoli'''
+    '''tire aléatoirement une couleur RGB'''
     return '#{:02x}{:02x}{:02x}'.format (r, g, b)
 
 
 def P0j():
+    '''lance une partie IA vs IA'''
     global nb_ia
     nb_ia = 2
     menu.state(newstate='iconic')
@@ -81,12 +82,14 @@ def P0j():
     
 
 def P1j():
+    '''lance une partie Joueur vs IA'''
     global nb_ia 
     nb_ia = 1
     menu.state(newstate='iconic')
     open_plateau()
 
 def P2j():
+    '''lance une partie Joueur vs Joueur'''
     global nb_ia
     nb_ia = 0
     menu.state(newstate='iconic')
@@ -111,13 +114,13 @@ def regles():
     regless.grid(row = 1)
     retour.grid(row = 2)
 
-fond = tk.Canvas(menu, height = 700, width = 1100)
-bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)
+fond = tk.Canvas(menu, height = 700, width = 1100) #fond coloré purement cosmetique
+bck = tk.Canvas(menu, bg = "RoyalBlue1", height = 150, width = 400)#Idem
 titre = tk.Label(menu, text="Jeu Du Tapatan Win97", font=('comic sans ms', '21'), bg = "RoyalBlue1")
 buttonII = tk.Button(menu, text="0 Joueur", command = P0j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHH = tk.Button(menu, text="1 Joueur", command = P1j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j, font=('comic sans ms', '15'), bg = "coral1")
-button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")
+button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")#bouton executant regles()
 
 fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
 bck.grid(column = 0, row = 0, columnspan = 3,padx = 300)
@@ -128,7 +131,7 @@ buttonHI.grid(column = 0, row = 3, pady = 30)
 button_rules.grid(column=0, row=4, pady=30)
 
 
-red, green, blue = rd.randint(5,250), rd.randint(5,250), rd.randint(5,250)
+red, green, blue = rd.randint(5,250), rd.randint(5,250), rd.randint(5,250)#placement de lignes de couleur décoratives au demarage du menu
 fr, fg, fb = rd.randint(-5, 5), rd.randint(-5, 5), rd.randint(-5, 5)
 for i in range (175):
     red, green, blue = (red + fr) % 250, (green + fg) % 250 , (blue + fb) % 250
@@ -142,10 +145,12 @@ for i in range (175):
 ########################
 # plateau
 def open_plateau():
+    '''fait apparaitre le plateau et contient toute ses fonctions'''
     global nb_ia, tour, nb_pions_b, nb_pions_r, r, b, position_prece, fantome_de_tes_matrices_passées
     plateau = tk.Toplevel()
 
-
+    #####SAUVEGARDE ET CHARGEMENT#####
+    
     def recharger(): 
         """charger la grille depuis le fichier sauvegarde.txt"""
         global matrice, tour, position_prece, nb_pions_b, nb_pions_r, r, b
@@ -238,6 +243,7 @@ def open_plateau():
         fic7.close()
 
 
+    #####CREATION DU PLATEAU#####
     def reset():
         '''Ferme le plateau et réinitialise ses valeures'''
         global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées, r, b
@@ -268,7 +274,7 @@ def open_plateau():
     score.grid(row=0, columnspan=2)
     
 
-    rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")
+    rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")#Placement des pions à jouer sur le bord du plateau
     rouge2 = canvas.create_oval((50, 600), (100, 650), fill = "red", outline = "red")
     rouge3 = canvas.create_oval((50, 700), (100, 750), fill = "red", outline = "red")
 
@@ -276,7 +282,7 @@ def open_plateau():
     bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill = "blue", outline = "blue")
     bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill = "blue", outline = "blue")
 
-    canvas.create_line((350, 100), (850, 100), fill = "black")
+    canvas.create_line((350, 100), (850, 100), fill = "black")#placement de lignes du plateau
     canvas.create_line((350, 100), (350, 600), fill = "black")
     canvas.create_line((350, 600), (850, 600), fill = "black")
     canvas.create_line((350, 350), (850, 350), fill = "black")
@@ -285,7 +291,7 @@ def open_plateau():
     canvas.create_line((600, 100), (600, 600), fill = "black")
     canvas.create_line((850, 100), (850, 600), fill = "black")
 
-    cercle00 = canvas.create_oval((325, 75), (375, 125), fill = "grey", outline = "grey")
+    cercle00 = canvas.create_oval((325, 75), (375, 125), fill = "grey", outline = "grey")#placement des cases du plteau
     cercle01 = canvas.create_oval((325, 325), (375, 375), fill = "grey", outline = "grey")
     cercle02 = canvas.create_oval((325, 575), (375, 625), fill = "grey", outline = "grey")
     cercle10 = canvas.create_oval((575, 75), (625, 125), fill = "grey", outline = "grey")
@@ -299,10 +305,11 @@ def open_plateau():
     # ^ liste comportant l'id de tous les cercles pour pouvoir les modifier plus facilement ^   
 
     def matcheur_nul():
+        '''termine une manche en match nul lorsque la même configuration de pion est répétée trois fois au cour d'une même manche'''
         global fantome_de_tes_matrices_passées, nb_ia, pause
         '''ajoute dans fantome_de_tes_matrices_passées la derniere matrice en date et verifie si il existe trois matrices identiques, 
         si c'est le cas alors termine la manche en cours sans attribuer de points'''
-        fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))
+        fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))#ajoute la configuration de pion de ce tour à l'index
         for i in range (len(fantome_de_tes_matrices_passées)):
             for j in range (len (fantome_de_tes_matrices_passées)):
                 for k in range (len (fantome_de_tes_matrices_passées)):
@@ -311,13 +318,17 @@ def open_plateau():
                         pause = nb_ia
                         nb_ia = 0
                         def pauz():
+                            '''stop l'ia en cas en fin de manche'''
                             global nb_ia, pause
                             nb_ia = pause
                             pause = 0
                             
+                            
                         def fermer_msg():
                             msg.destroy()
                             canvas.after(1000, rezero())
+                            
+                            
                         msg = tk.Toplevel()
                         msg.lift()
                         msg.title("Fin de partie")
@@ -326,10 +337,10 @@ def open_plateau():
                         nul.grid(row = 0)
                         button_next_round = tk.Button(msg, text = "next", command = fermer_msg)
                         button_next_round.grid(row = 1)
-                        fantome_de_tes_matrices_passées = []
+                        fantome_de_tes_matrices_passées = []#réinitialise le plateau et ses valeures associéesz
                         canvas.after(1500, pauz)
                         print ("nbia", nb_ia)
-                        canvas.after(1000, placement_IA)
+                        canvas.after(1000, placement_IA)#et relance une manche
                     
     
 
@@ -367,7 +378,7 @@ def open_plateau():
         matrice[c][d] = 1
         mapla()
         tour += 1
-        krokmou = 1
+        krokmou = 1#variable boléene servant à determiner si bouge_pion à déja été exécutée pendant ce tour
         win_ckeck(matrice)
         if nb_ia == 2:
             canvas.after(1000, IA_bleu)
@@ -779,6 +790,7 @@ def open_plateau():
 
 
     def depl_rd_b():
+        '''tire aléatoire des coordonées de déplacement autorisées pour un pion bleu et le transmet à place_pion'''
         print("depl_rd_b()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
@@ -799,6 +811,7 @@ def open_plateau():
 
 
     def depl_rd_r():
+        '''tire aléatoire des coordonées de déplacement autorisées pour un pion rouge et le transmet à place_pion'''
         print("depl_rd_r()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
@@ -1276,7 +1289,7 @@ def open_plateau():
                     return
             if krokmou == 0 and tour > 5:
                 depl_rd_r()
-        # coup random
+           # coup aléatoire dans le cas où l'IA ne trouve rien à jouer
         else:
             placement_IA()
 
@@ -1622,18 +1635,19 @@ def open_plateau():
                     bouge_pion_bleu(2, 2, 1, 1)
             if krokmou == 0 and tour > 5:
                 depl_rd_b()
-        # coup random
+        # coup aléatoire dans le cas où l'IA ne trouve rien à jouer
         elif nb_ia == 2:
             placement_IA()  
 
 
     def Coup_rd():
+        '''Tire aléatoirement des coordonées pour poser un pion sur le plateau puis les transmets à place_pions'''
         print("Coup_rd()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
         #print (posx, posy)
         #print(matrice)
-        while matrice[posy][posx] != 0:
+        while matrice[posy][posx] != 0:#cherche une position non occupée sur le plateau
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
         print("nsm",pommeau_pathétiquement_croustillant[posy][posx])
@@ -1641,21 +1655,23 @@ def open_plateau():
 
 
     def click(event):
+        '''communique à placepion les cordonées d'un click de joueur'''
         x, y = event.x, event.y
         Place_Pion (x, y)
 
 
     def Place_Pion(x, y):
-        '''place ou déplace un pion sur le cercle gris cliqué'''
+        '''place ou déplace un pion sur le cercle gris dont les coordonées sont données par un click ou l'ia'''
         global tour, nb_pions_b, nb_pions_r
         print("place-pion()", x, y)
         print (nb_pions_b, nb_pions_r)
         
         for i in range (3):
             for j in range (3):
-                x1,y1,x2,y2 = canvas.coords(liCe[i][j]) 
+                x1,y1,x2,y2 = canvas.coords(liCe[i][j]) #prend tour à tour les coordonées des 9 emplacements du plateaux
 
                 if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
+                #pion bleu
                 #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
                     if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
                         canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
@@ -1668,8 +1684,8 @@ def open_plateau():
                         matcheur_nul()
                         position_prece[0], position_prece[1] = 1,1
                         if nb_ia >= 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                            canvas.after(1100, IA_rouge)#affiche un msg d'erreur mais fonctionne?
-
+                            canvas.after(1100, IA_rouge)
+                 #pion rouge
                     elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 :
                         canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
                         tour += 1
@@ -1730,16 +1746,18 @@ def open_plateau():
 
 
     def msg_gagne():
-        """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
+        """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau et arrete l'ia tant que l'utilisateur n'as pas fermé la fenetre"""
         print ("msg g  g")
         global player, r, b, nb_ia, pause
         msg = tk.Toplevel()
         msg.lift()
         def fermer_msg():
+            '''ferme le message et reinitialise le plateau'''
             msg.destroy()
             canvas.after(200, rezero())
         
         def pauz():
+            '''met en pause l'ia'''
             global nb_ia, pause
             nb_ia = pause
             pause = 0
@@ -1758,27 +1776,40 @@ def open_plateau():
         
 
     def leave():
+        '''fonction du boutton quitter qui permet de revenir au menu principal après une partie'''
         menu.state(newstate='normal')
         rezero()
         plateau.destroy()
 
 
     def rejouer():
+        '''fonction du boutton éponyme qui relance une partie'''
         rezero()
         if nb_ia == 2:
             canvas.after(1000, placement_IA)
 
 
     def msg_vainqueur():
-        '''fenêtre qui souvre quand il ya un vainqueur'''
+        '''fenêtre qui s'ouvre quand il ya un vainqueur, permet de choisir entre relancer une partie et revenir au menu principal'''
         print ("msg vain")
         global r, b
         win = tk.Toplevel()
-        def rejouer():
+        
+        
+        def leave():
+            '''fonction du boutton quitter qui permet de revenir au menu principal après une partie'''
+            menu.state(newstate='normal')
+            rezero()
             plateau.destroy()
-            win.destroy()
-        def quitter():
-            menu.quit()
+
+
+        def rejouer():
+            '''fonction du boutton éponyme qui relance une partie'''
+            rezero()
+            if nb_ia == 2:
+                canvas.after(1000, placement_IA)
+            
+        
         gagné = tk.Label(win, text='JOUEUR '+player+'A  GAGNE !!!', font=('helvetica', '16'), bg='dark khaki', pady=30, padx=10)
         button_quit = tk.Button(win, text='Quitter', command = leave )
         button_replay = tk.Button(win, text='Recommencer une partie', command = rejouer)
@@ -1793,8 +1824,7 @@ def open_plateau():
 
 
     def fin_de_partie():
-        """relance une if r < 4 or b < 4:
-            #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
+        """relance une manche tant qu'il n'y a pas de vainqueur"""
         global pause, nb_ia, r, b
         print("fin de partie")
         pause = nb_ia
