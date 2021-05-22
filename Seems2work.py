@@ -258,9 +258,73 @@ def open_plateau():
 
     ##### Création du plateau #####
     
+                
+    # Création du canvas et des widgets
+    canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH, bg = "white")
+    
+    bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
+                                command = sauvegarder, font = ('comic sans ms', '9'))
+    bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '9'))
+    
+    score = tk.Label(plateau, text='SCORE : ' + str(r) + ' - ' + str(b), font=('comic sans ms', '16'), pady=10, padx=20, bg='dark khaki')
+    
+    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
+    
+
+    # Placement des widgets
+    bouton_sauvegarder.grid(row=3, column=0)
+    bouton_recharger.grid(row=3, column=1)
+    canvas.grid(row=1, columnspan=2)
+    score.grid(row=0, columnspan=2)
+    quitter.grid(row = 0, sticky = 'w')
+    
+    
+    # Création d'un affichage permettant de dire à quel joueur c'est le tour
+    tour_rouge = canvas.create_text(175, 250, text="Au tour des rouges", font=('comic sans ms', '20', ), fill = "white")
+    tour_bleu = canvas.create_text(1025, 250, text="Au tour des bleus", font=('comic sans ms', '20', ), fill = "white")
+    
+
+    # Création des pions sur les cotés du plateau, indiquant les pions qui restent à poser sur le plateau
+    rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")
+    rouge2 = canvas.create_oval((50, 600), (100, 650), fill = "red", outline = "red")
+    rouge3 = canvas.create_oval((50, 700), (100, 750), fill = "red", outline = "red")
+
+    bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill = "blue", outline = "blue")
+    bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill = "blue", outline = "blue")
+    bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill = "blue", outline = "blue")
+    
+    
+    # Création les lignes formant le plateau
+    canvas.create_line((350, 100), (850, 100), fill = "black")
+    canvas.create_line((350, 100), (350, 600), fill = "black")
+    canvas.create_line((350, 600), (850, 600), fill = "black")
+    canvas.create_line((350, 350), (850, 350), fill = "black")
+    canvas.create_line((350, 100), (850, 600), fill = "black")
+    canvas.create_line((350, 600), (850, 100), fill = "black")
+    canvas.create_line((600, 100), (600, 600), fill = "black")
+    canvas.create_line((850, 100), (850, 600), fill = "black")
+
+    
+    # Création des cases du plateau sur lesquelles les joueurs pourront poser et déplacer des pions
+    cercle00 = canvas.create_oval((325, 75), (375, 125), fill = "grey", outline = "grey")
+    cercle01 = canvas.create_oval((325, 325), (375, 375), fill = "grey", outline = "grey")
+    cercle02 = canvas.create_oval((325, 575), (375, 625), fill = "grey", outline = "grey")
+    cercle10 = canvas.create_oval((575, 75), (625, 125), fill = "grey", outline = "grey")
+    cercle11 = canvas.create_oval((575, 325), (625, 375), fill = "grey", outline = "grey")
+    cercle12 = canvas.create_oval((575, 575), (625, 625), fill = "grey", outline = "grey")
+    cercle20 = canvas.create_oval((825, 75), (875, 125), fill = "grey", outline = "grey")
+    cercle21 = canvas.create_oval((825, 325), (875, 375), fill = "grey", outline = "grey")
+    cercle22 = canvas.create_oval((825, 575), (875, 625), fill = "grey", outline = "grey")
+
+    
+    # Liste de tous les emplacements du plateau 
+    liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
+   
+
+    ##### Fonctions liées au plateau #####
     
     def reset():
-        '''Ferme le plateau et réinitialise ses valeures'''
+        '''Ferme le plateau et réinitialise ses valeurs'''
         global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées, r, b
         plateau.destroy()
         menu.state(newstate = 'normal')
@@ -272,53 +336,8 @@ def open_plateau():
         for i in range(3):
             for j in range(3):
                 matrice[i][j] = 0
-
-    canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH, bg = "white")
-    bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                                command = sauvegarder, font = ('comic sans ms', '9'))
-    bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '9'))
-    score = tk.Label(plateau, text='SCORE : ' + str(r) + ' - ' + str(b), font=('comic sans ms', '16'), pady=10, padx=20, bg='dark khaki')
-    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
-    quitter.grid(row = 0, sticky = 'w')
-
-    tour_rouge = canvas.create_text(175, 250, text="Au tour des rouges", font=('comic sans ms', '20', ), fill = "white")
-    tour_bleu = canvas.create_text(1025, 250, text="Au tour des bleus", font=('comic sans ms', '20', ), fill = "white")
-    bouton_sauvegarder.grid(row=3, column=0)
-    bouton_recharger.grid(row=3, column=1)
-    canvas.grid(row=1, columnspan=2)
-    score.grid(row=0, columnspan=2)
-    
-
-    rouge1 = canvas.create_oval((50, 500), (100, 550), fill = "red", outline = "red")#Placement des pions à jouer sur le bord du plateau
-    rouge2 = canvas.create_oval((50, 600), (100, 650), fill = "red", outline = "red")
-    rouge3 = canvas.create_oval((50, 700), (100, 750), fill = "red", outline = "red")
-
-    bleu1 = canvas.create_oval((1100, 500), (1150, 550), fill = "blue", outline = "blue")
-    bleu2 = canvas.create_oval((1100, 600), (1150, 650), fill = "blue", outline = "blue")
-    bleu3 = canvas.create_oval((1100, 700), (1150, 750), fill = "blue", outline = "blue")
-
-    canvas.create_line((350, 100), (850, 100), fill = "black")#placement de lignes du plateau
-    canvas.create_line((350, 100), (350, 600), fill = "black")
-    canvas.create_line((350, 600), (850, 600), fill = "black")
-    canvas.create_line((350, 350), (850, 350), fill = "black")
-    canvas.create_line((350, 100), (850, 600), fill = "black")
-    canvas.create_line((350, 600), (850, 100), fill = "black")
-    canvas.create_line((600, 100), (600, 600), fill = "black")
-    canvas.create_line((850, 100), (850, 600), fill = "black")
-
-    cercle00 = canvas.create_oval((325, 75), (375, 125), fill = "grey", outline = "grey")#placement des cases du plteau
-    cercle01 = canvas.create_oval((325, 325), (375, 375), fill = "grey", outline = "grey")
-    cercle02 = canvas.create_oval((325, 575), (375, 625), fill = "grey", outline = "grey")
-    cercle10 = canvas.create_oval((575, 75), (625, 125), fill = "grey", outline = "grey")
-    cercle11 = canvas.create_oval((575, 325), (625, 375), fill = "grey", outline = "grey")
-    cercle12 = canvas.create_oval((575, 575), (625, 625), fill = "grey", outline = "grey")
-    cercle20 = canvas.create_oval((825, 75), (875, 125), fill = "grey", outline = "grey")
-    cercle21 = canvas.create_oval((825, 325), (875, 375), fill = "grey", outline = "grey")
-    cercle22 = canvas.create_oval((825, 575), (875, 625), fill = "grey", outline = "grey")
-
-    liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
-    # ^ liste comportant l'id de tous les cercles pour pouvoir les modifier plus facilement ^   
-
+                
+                
     def matcheur_nul():
         '''termine une manche en match nul lorsque la même configuration de pion est répétée trois fois au cour d'une même manche'''
         global fantome_de_tes_matrices_passées, nb_ia, pause
