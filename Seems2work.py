@@ -187,30 +187,35 @@ def open_plateau():
         tour_txt = fic2.read()
         tour = int(tour_txt)
         fic2.close()
+        affiche_tour()
 
         fic4 = open("sauvegarde4.txt","r")
         nb_pions_b_txt = fic4.read()
         nb_pions_b = int(nb_pions_b_txt)
         fic4.close()
+        pions_cote()
+        affiche_tour()
 
         fic5 = open("sauvegarde5.txt","r")
         nb_pions_r_txt = fic5.read()
         nb_pions_r = int(nb_pions_r_txt)
         fic5.close()
+        pions_cote()
+        affiche_tour()
         
         fic6 = open("sauvegarde6.txt","r")
         r_txt = fic6.read()
         r = int(r_txt)
         fic6.close()
-
         affiche_tour()
+        score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
 
         fic7 = open("sauvegarde7.txt","r")
         b_txt = fic7.read()
         b = int(b_txt)
         fic7.close()
-
         affiche_tour()
+        score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
     
         return tour, position_prece, nb_pions_b, nb_pions_r, r, b
 
