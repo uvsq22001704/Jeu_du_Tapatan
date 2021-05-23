@@ -438,7 +438,7 @@ def open_plateau():
         # Variable booléene servant à déterminer si bouge_pion à déja été exécutée pendant ce tour
 ###### CHANGER NOM VARIABLE KROKMOU #####
         krokmou = 1
-        win_ckeck(matrice)
+        win_check(matrice)
         if nb_ia == 2:
             canvas.after(vitesse_IA, IA_bleu)
         affiche_tour()
@@ -452,7 +452,7 @@ def open_plateau():
         matrice[c][d] = 2
         mapla()
         tour += 1
-        win_ckeck(matrice)
+        win_check(matrice)
         if nb_ia == 2:
             canvas.after(vitesse_IA, IA_rouge)
 
@@ -1760,7 +1760,40 @@ def open_plateau():
                 return True
             else :
                 return False  
-        
+
+
+    def win_check(matrice):
+        '''évalue après chaque tour si un joueur a gagné, s'il y a un gagnant, un message 
+        s'affiche dans une nouvelle fenêtre et lance une nouvelle manche'''
+        global r, b, player
+        player = ''
+        for i in range(3):
+            #vérifie s'il y a un alignement horizontal OU vertical des pions rouges
+            if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1 or matrice[0][i] == matrice[1][i] == matrice[2][i] == 1:
+                player = '1'
+                r += 1
+                score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
+                fin_de_partie()
+            #vérifie s'il y a un alignement vertical OU horizontal des pions bleus
+            elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2 or matrice[0][i] == matrice[1][i] == matrice[2][i] ==2:
+                player = '2'
+                b += 1
+                score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
+                fin_de_partie()
+        #vérifie l'alignement diagonal des pions rouges
+        if matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 1 or matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 1:
+            player = '1'
+            r += 1
+            score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
+            fin_de_partie()
+        #vérifie l'alignement diagonal des pions bleus
+        if matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 2 or matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 2:
+            player = '2'
+            b += 1
+            score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
+            fin_de_partie()
+
+
     def Place_Pion(x, y):
         '''place ou déplace un pion sur le cercle gris dont les coordonnées sont données par un click ou l'IA'''
         global tour, nb_pions_b, nb_pions_r
@@ -1821,38 +1854,6 @@ def open_plateau():
         print (position_prece)
                     
         #win_ckeck(matrice)
-        
-
-    def win_ckeck(matrice):
-        '''évalue après chaque tour si un joueur a gagné, s'il y a un gagnant, un message 
-        s'affiche dans une nouvelle fenêtre et lance une nouvelle manche'''
-        global r, b, player
-        player = ''
-        for i in range(3):
-            #vérifie s'il y a un alignement horizontal OU vertical des pions rouges
-            if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1 or matrice[0][i] == matrice[1][i] == matrice[2][i] == 1:
-                player = '1'
-                r += 1
-                score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
-                fin_de_partie()
-            #vérifie s'il y a un alignement vertical OU horizontal des pions bleus
-            elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2 or matrice[0][i] == matrice[1][i] == matrice[2][i] ==2:
-                player = '2'
-                b += 1
-                score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
-                fin_de_partie()
-        #vérifie l'alignement diagonal des pions rouges
-        if matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 1 or matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 1:
-            player = '1'
-            r += 1
-            score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
-            fin_de_partie()
-        #vérifie l'alignement diagonal des pions bleus
-        if matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 2 or matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 2:
-            player = '2'
-            b += 1
-            score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
-            fin_de_partie()
 
 
     def msg_gagne():
