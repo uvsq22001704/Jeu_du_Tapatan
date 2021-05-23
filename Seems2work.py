@@ -272,7 +272,6 @@ def open_plateau():
     
     score = tk.Label(plateau, text='SCORE : ' + str(r) + ' - ' + str(b), font=('comic sans ms', '16'), pady=10, padx=20, bg='dark khaki')
     
-    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
     
 
     # Placement des widgets
@@ -280,7 +279,7 @@ def open_plateau():
     bouton_recharger.grid(row=3, column=1)
     canvas.grid(row=1, columnspan=2)
     score.grid(row=0, columnspan=2)
-    quitter.grid(row = 0, sticky = 'w')
+    
     
     
     # Création d'un affichage permettant de dire à quel joueur c'est le tour
@@ -369,7 +368,9 @@ def open_plateau():
                             msg.destroy()
                             canvas.after(1000, rezero())
                             
-                            
+
+                        canvas.itemconfigure(tour_rouge, fill="white")
+                        canvas.itemconfigure(tour_bleu, fill="white")    
                         msg = tk.Toplevel()
                         msg.lift()
                         msg.title("Fin de partie")
@@ -479,8 +480,8 @@ def open_plateau():
                 print("i", i)
                 if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
                     matrice[i][2] = 1
-                    mapla()
                     tour += 1 
+                    mapla()
                     nb_pions_r -= 1
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
@@ -489,9 +490,9 @@ def open_plateau():
                         return
                 elif matrice[i][0] == matrice[i][2] == 2 and matrice[i][1] == 0:
                     matrice[i][1] = 1
-                    mapla()
                     tour += 1
                     nb_pions_r -= 1
+                    mapla()
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -499,9 +500,9 @@ def open_plateau():
                         return
                 elif matrice[i][2] == matrice[i][1] == 2 and matrice[i][0] == 0:
                     matrice[i][0] = 1
-                    mapla()
                     tour += 1
                     nb_pions_r -= 1
+                    mapla()
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -513,9 +514,9 @@ def open_plateau():
                 print ("j", j)
                 if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
                     matrice[2][j] = 1
-                    mapla()
                     tour += 1
                     nb_pions_r -= 1
+                    mapla()
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -523,9 +524,9 @@ def open_plateau():
                         return
                 elif matrice[0][j] == matrice[2][j] == 2 and matrice[1][j] == 0:
                     matrice[1][j] = 1
-                    mapla()
                     tour += 1
                     nb_pions_r -= 1
+                    mapla()
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -533,9 +534,9 @@ def open_plateau():
                         return
                 elif matrice[2][j] == matrice[1][j] == 2 and matrice[0][j] == 0:
                     matrice[0][j] = 1
-                    mapla()
                     tour += 1
                     nb_pions_r -= 1
+                    mapla()
                     if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -545,9 +546,9 @@ def open_plateau():
             # Alignement diagonal \
             if 2 == matrice[0][0] == matrice[1][1] and matrice[2][2] == 0:
                 matrice[2][2] = 1
-                mapla()
                 tour += 1
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -555,9 +556,9 @@ def open_plateau():
                         return
             elif 2 == matrice[1][1] == matrice[2][2] and matrice[0][0] == 0:
                 matrice[0][0] = 1
-                mapla()
                 tour += 1
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -565,10 +566,9 @@ def open_plateau():
                         return
             elif 2 == matrice[0][0] == matrice[2][2] and matrice[1][1] == 0:
                 matrice[1][1] = 1
-                mapla()
                 tour += 1
-                
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -578,9 +578,9 @@ def open_plateau():
             # Alignement diagonal /
             elif 2 == matrice[2][0] == matrice[0][2] and matrice[1][1] == 0:
                 matrice[1][1] = 1
-                mapla()
                 tour += 1
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -588,9 +588,9 @@ def open_plateau():
                         return
             elif 2 == matrice[1][1] == matrice[2][0] and matrice[0][2] == 0:
                 matrice[0][2] = 1
-                mapla()
                 tour += 1
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -598,9 +598,9 @@ def open_plateau():
                         return
             elif 2 == matrice[1][1] == matrice[0][2] and matrice[2][0] == 0:
                 matrice[2][0] = 1
-                mapla()
                 tour += 1
                 nb_pions_r -= 1
+                mapla()
                 if nb_ia == 2:
                         canvas.after(1000, IA_bleu)
                         return
@@ -1838,7 +1838,8 @@ def open_plateau():
             global nb_ia, pause
             nb_ia = pause
             pause = 0
-        
+        canvas.itemconfigure(tour_rouge, fill="white")
+        canvas.itemconfigure(tour_bleu, fill="white")
         msg.title("Fin de manche")
         gagné = tk.Label(msg, text='Joueur '+player+' a gagné!',font=('helvetica', '16'), padx=20, pady=30,  bg='dark khaki')
         button_next_round = tk.Button(msg, text = "next", command = fermer_msg)
@@ -1927,6 +1928,9 @@ def open_plateau():
             canvas.itemconfigure(rouge2, fill = "red", outline="red")
             canvas.itemconfigure(rouge3, fill = "red", outline="red")
 
+
+    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
+    quitter.grid(row = 0, sticky = 'w')
 
     canvas.bind("<Button-1>", click)
 
