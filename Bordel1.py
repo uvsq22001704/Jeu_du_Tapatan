@@ -1746,6 +1746,21 @@ def open_plateau():
         Place_Pion (x, y)
 
 
+    def forbidden(p, i, j):
+        '''retourne VRAI en cas de déplacement interdit, c'est-à-dire d'un bord milieu à un autre.
+        (en haut, à droite, en bas, à gauche). prend en argument la position précédente du pion et 
+        la position nouvelle dans la matrice'''
+        if  (p[0] == 1 and p[1] == 0) or (p[0] == 1 and p[1] == 2):
+            if ((i == 0 and j == 1) or (i == 2 and j == 1)) and nb_ia == 0:
+                return True
+            else :
+                return False
+        elif (p[0] == 0 and p[1] == 1 ) or (p[0] == 2 and p[1] == 1):
+            if ((i == 1 and j == 0) or (i == 1 and j == 2)) and nb_ia == 0:
+                return True
+            else :
+                return False  
+        
     def Place_Pion(x, y):
         '''place ou déplace un pion sur le cercle gris dont les coordonnées sont données par un click ou l'IA'''
         global tour, nb_pions_b, nb_pions_r
@@ -1760,34 +1775,36 @@ def open_plateau():
                 #pion bleu
                 #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
                     if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
-                        canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
-                        tour += 1 
-                        nb_pions_b -= 1
-                        pions_cote()
-                        matrice[i][j] = 2
-                        affiche_tour()
-                        mapla()
-                        matcheur_nul()
-                       
-                        position_prece[0], position_prece[1] = 1,1
-                        win_ckeck(matrice)
-                        if nb_ia >= 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                            canvas.after(vitesse_IA, IA_rouge)
+                        if not forbidden(position_prece, i, j):
+                            canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
+                            tour += 1 
+                            nb_pions_b -= 1
+                            pions_cote()
+                            matrice[i][j] = 2
+                            affiche_tour()
+                            mapla()
+                            matcheur_nul()
+                        
+                            position_prece[0], position_prece[1] = 1,1
+                            win_check(matrice)
+                            if nb_ia >= 1: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
+                                canvas.after(1100, IA_rouge)
                  #pion rouge
                     elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 :
-                        canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
-                        tour += 1
-                        nb_pions_r -= 1
-                        pions_cote()
-                        matrice[i][j] = 1
-                        affiche_tour()
-                        mapla()
-                        matcheur_nul()
-                        position_prece[0], position_prece[1] = 1,1  
-                        win_ckeck(matrice)
-                        if nb_ia == 2: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                            print ("c'est la wati sauce")
-                            canvas.after(vitesse_IA, IA_bleu)
+                        if not forbidden(position_prece, i, j):
+                            canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
+                            tour += 1
+                            nb_pions_r -= 1
+                            pions_cote()
+                            matrice[i][j] = 1
+                            affiche_tour()
+                            mapla()
+                            matcheur_nul()
+                            position_prece[0], position_prece[1] = 1,1  
+                            win_check(matrice)
+                            if nb_ia == 2: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
+                                print ("c'est la wati sauce")
+                                canvas.after(1100, IA_bleu)
                 else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                     if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
                         canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1', outline = 'RoyalBlue1')
