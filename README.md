@@ -1,4 +1,5 @@
 Jeu du Tapatan
+
 Versions pour 2 joueurs, 1 joueur contre une IA, et IA contre IA.
 
 Fonctionnement du jeu :
