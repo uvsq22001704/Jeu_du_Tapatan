@@ -63,10 +63,11 @@ fantome_de_tes_matrices_passées = []
 nb_ia = 0
 
 # Liste contenant des coordonnées de déplacements hypothéthiques pour que l'IA puisse utiliser la fonction place_pion détaillée plus bas
-pommeau_pathétiquement_croustillant = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]] 
+Liste_Coord = [[[350, 100], [350,350], [350, 600]], [[600,100] , [600, 350], [600, 600]], [[850, 100], [850, 350], [850, 600]]] 
 
 #Variable définisant le temps entre chaques coups de l'IA
 vitesse_IA = 1000
+
 
 ########################
 # MENU
@@ -267,11 +268,10 @@ def open_plateau():
 
     def changeVitesse(signe):
         global vitesse_IA
-        if signe == 1 and vitesse_IA > 500:
+        if signe == 1 and vitesse_IA > 1000:
             vitesse_IA -= 100
         if signe == -1 and vitesse_IA < 3000:
             vitesse_IA += 100
-        print (vitesse_IA)
         
                 
     # Création du canvas et des widgets
@@ -337,7 +337,7 @@ def open_plateau():
 
     
     # Liste de tous les emplacements du plateau 
-    liCe = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
+    Liste_Cercle = [[ cercle00, cercle01, cercle02], [ cercle10, cercle11, cercle12], [ cercle20, cercle21, cercle22]] 
    
 
     ##### Fonctions liées au plateau #####
@@ -368,7 +368,6 @@ def open_plateau():
             for j in range (len (fantome_de_tes_matrices_passées)):
                 for k in range (len (fantome_de_tes_matrices_passées)):
                     if fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [j] and fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [k] and i != j and i != k and k != j:
-                        print ("match nul")
                         pause = nb_ia
                         nb_ia = 0
                         
@@ -399,23 +398,21 @@ def open_plateau():
                         # Réinitialise le plateau et ses valeurs associées :
                         fantome_de_tes_matrices_passées = []
                         canvas.after(1500, pauz)
-                        print ("nbia", nb_ia)
                     
 
     def mapla():
         ''' met à jour la couleur des pions sur le plateau'''
         pions_cote()
         affiche_tour()
-        print("tiiuyftdfg", tour)
         
         for i in range (3):
             for j in range (3):
                 if matrice [i][j] == 1 :
-                    canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
+                    canvas.itemconfig(Liste_Cercle[i][j], fill = 'red', outline = "red")
                 if matrice [i][j] == 2 :
-                    canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
+                    canvas.itemconfig(Liste_Cercle[i][j], fill = 'blue', outline = "blue")
                 if matrice [i][j] == 0 :
-                    canvas.itemconfig(liCe[i][j], fill = 'grey', outline = "grey")
+                    canvas.itemconfig(Liste_Cercle[i][j], fill = 'grey', outline = "grey")
 
 
     def affiche_tour():
@@ -430,14 +427,13 @@ def open_plateau():
 
     def bouge_pion_rouge (a, b, c, d):
         """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
-        global tour, krokmou
+        global tour, nb_bouge_pion_ce_tour
         matrice[a][b] = 0
         matrice[c][d] = 1
         mapla()
         tour += 1
         # Variable booléene servant à déterminer si bouge_pion à déja été exécutée pendant ce tour
-###### CHANGER NOM VARIABLE KROKMOU #####
-        krokmou = 1
+        nb_bouge_pion_ce_tour = 1
         win_check(matrice)
         if nb_ia == 2:
             canvas.after(vitesse_IA, IA_bleu)
@@ -446,8 +442,8 @@ def open_plateau():
 
     def bouge_pion_bleu (a, b, c, d):
         """bouge un pion du cercle (a, b) vers le cercle (c, d)"""
-        global tour, krokmou
-        krokmou = 1
+        global tour, nb_bouge_pion_ce_tour
+        nb_bouge_pion_ce_tour = 1
         matrice[a][b] = 0
         matrice[c][d] = 2
         mapla()
@@ -460,30 +456,25 @@ def open_plateau():
     def placement_IA():
         """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
         
-        print("zebi placement_ia()")
 
         global tour, nb_pions_r, nb_pions_b
-        print("nb_pions_b", nb_pions_b, "nb_pions_r", nb_pions_r)
         
         
         # Premier coup du joueur bleu
         if nb_pions_b == 3 and nb_pions_r == 3:
             Coup_rd()
-            print('first coup rd')
             return
         
         
         # Premier coup du joueur rouge
         if nb_pions_b == 2 and nb_pions_r == 3:
             Coup_rd()
-            print('second coup rd')
             return
         
         
         # Deuxième coup du joueur bleu
         if nb_pions_b == 2 and nb_pions_r == 2:
             Coup_rd()
-            print('third coup rd')
             return
         
         
@@ -491,9 +482,7 @@ def open_plateau():
         if nb_pions_b == 1 and nb_pions_r == 2:
             
             # Alignement horizontal
-            print('papaoutai')
             for i in range(3):
-                print("i", i)
                 if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
                     matrice[i][2] = 1
                     tour += 1 
@@ -527,7 +516,6 @@ def open_plateau():
                     
             # Alignement vertical
             for j in range(3):
-                print ("j", j)
                 if matrice[0][j] == matrice[1][j] == 2 and matrice[2][j] == 0:
                     matrice[2][j] = 1
                     tour += 1
@@ -632,7 +620,6 @@ def open_plateau():
         elif nb_pions_b == 1 and nb_pions_r == 1:
             
             # Alignement horizontal
-            print('where are uuu?')
             for i in range(3):
                 if matrice[i][0] == matrice[i][1] == 1 and matrice[i][2] == 0:
                     matrice[i][2] = 2
@@ -737,7 +724,6 @@ def open_plateau():
         elif nb_pions_b == 0 and nb_pions_r == 1:
             
             # Alignement horizontal
-            print('go back to sleep and starve')
             for i in range(3):
                 if matrice[i][0] == matrice[i][1] == 2 and matrice[i][2] == 0:
                     matrice[i][2] = 1
@@ -829,7 +815,6 @@ def open_plateau():
                 tour += 1
                 nb_pions_r -= 1
                 mapla()
-                print("gjgytctfytguifytfyfjhgjhg", tour, nb_pions_r)
                 if nb_ia == 2:
                         canvas.after(vitesse_IA, IA_bleu)
                         return
@@ -876,52 +861,45 @@ def open_plateau():
 
     def depl_rd_b():
         '''tire aléatoirement des coordonnées de déplacement autorisées pour un pion bleu et le transmet à place_pion'''
-        print("depl_rd_b()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
         while matrice[posy][posx] != 2:
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
-        print ("choisit de déplacer b",posy, posx)
-        Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+        Place_Pion(Liste_Coord[posy][posx][0],Liste_Coord[posy][posx][1])
 
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
         while matrice[posy][posx] != 0 or posy - position_prece[0] > 1 or posy - position_prece[0] < -1 or posx - position_prece[1] > 1 or posx - position_prece[1] < -1:
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
-        print ("vers b ",posy, posx)
-        Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+        Place_Pion(Liste_Coord[posy][posx][0],Liste_Coord[posy][posx][1])
         affiche_tour()
 
 
     def depl_rd_r():
         '''tire aléatoire des coordonées de déplacement autorisées pour un pion rouge et le transmet à place_pion'''
-        print("depl_rd_r()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
         while matrice[posy][posx] != 1:
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
-        print ("choisit de déplacer r",posy, posx)
-        Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+        Place_Pion(Liste_Coord[posy][posx][0],Liste_Coord[posy][posx][1])
 
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
         while matrice[posy][posx] != 0 or posy - position_prece[0] > 1 or posy - position_prece[0] < -1 or posx - position_prece[1] > 1 or posx - position_prece[1] < -1:
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
-        print ("vers r ",posy, posx)
-        Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+        Place_Pion(Liste_Coord[posy][posx][0],Liste_Coord[posy][posx][1])
         affiche_tour()
 
 
     def IA_rouge():
         """intelligence artificielle du jeu pour un pion rouge"""
-        global tour, pommeau_pathétiquement_croustillant, krokmou
-        print("IA_rouge()")
+        global tour, Liste_Coord, nb_bouge_pion_ce_tour
             
-        krokmou = 0
+        nb_bouge_pion_ce_tour = 0
         if tour >5:
             #IA coup gagnant :
             #cas 1
@@ -1373,7 +1351,7 @@ def open_plateau():
                 elif 1 == matrice[2][2]:
                     bouge_pion_rouge(2, 2, 1, 1)
                     return
-            if krokmou == 0 and tour > 5:
+            if nb_bouge_pion_ce_tour == 0 and tour > 5:
                 depl_rd_r()
            # coup aléatoire dans le cas où l'IA ne trouve rien à jouer
         else:
@@ -1381,11 +1359,10 @@ def open_plateau():
 
 
     def IA_bleu():
-        global krokmou
+        global nb_bouge_pion_ce_tour
         """intelligence artificielle du jeu pour un pion bleu"""
-        print("IA_bleu()")
-        global tour ,pommeau_pathétiquement_croustillant
-        krokmou = 0
+        global tour ,Liste_Coord
+        nb_bouge_pion_ce_tour = 0
         if tour > 5 and nb_ia == 2:
             
             #IA coup gagnant :
@@ -1719,7 +1696,7 @@ def open_plateau():
                     bouge_pion_bleu(1, 2, 1, 1)
                 elif 2 == matrice[2][2]:
                     bouge_pion_bleu(2, 2, 1, 1)
-            if krokmou == 0 and tour > 5:
+            if nb_bouge_pion_ce_tour == 0 and tour > 5:
                 depl_rd_b()
         # coup aléatoire dans le cas où l'IA ne trouve rien à jouer
         elif nb_ia == 2:
@@ -1728,16 +1705,12 @@ def open_plateau():
 
     def Coup_rd():
         '''Tire aléatoirement des coordonnées pour poser un pion sur le plateau puis les transmet à place_pion'''
-        print("Coup_rd()")
         posx = rd.randint(0,2)
         posy = rd.randint(0,2)
-        #print (posx, posy)
-        #print(matrice)
         while matrice[posy][posx] != 0:#cherche une position non occupée sur le plateau
             posx = rd.randint(0,2)
             posy = rd.randint(0,2)
-        print("nsm",pommeau_pathétiquement_croustillant[posy][posx])
-        Place_Pion(pommeau_pathétiquement_croustillant[posy][posx][0],pommeau_pathétiquement_croustillant[posy][posx][1])
+        Place_Pion(Liste_Coord[posy][posx][0],Liste_Coord[posy][posx][1])
 
 
     def click(event):
@@ -1770,25 +1743,25 @@ def open_plateau():
         for i in range(3):
             #vérifie s'il y a un alignement horizontal OU vertical des pions rouges
             if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1 or matrice[0][i] == matrice[1][i] == matrice[2][i] == 1:
-                player = '1'
+                player = 'Rouge'
                 r += 1
                 score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
                 fin_de_partie()
             #vérifie s'il y a un alignement vertical OU horizontal des pions bleus
             elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2 or matrice[0][i] == matrice[1][i] == matrice[2][i] ==2:
-                player = '2'
+                player = 'Bleu'
                 b += 1
                 score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
                 fin_de_partie()
         #vérifie l'alignement diagonal des pions rouges
         if matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 1 or matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 1:
-            player = '1'
+            player = 'Rouge'
             r += 1
             score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
             fin_de_partie()
         #vérifie l'alignement diagonal des pions bleus
         if matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 2 or matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 2:
-            player = '2'
+            player = 'Bleu'
             b += 1
             score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
             fin_de_partie()
@@ -1797,19 +1770,17 @@ def open_plateau():
     def Place_Pion(x, y):
         '''place ou déplace un pion sur le cercle gris dont les coordonnées sont données par un click ou l'IA'''
         global tour, nb_pions_b, nb_pions_r
-        print("place-pion()", x, y)
-        print (nb_pions_b, nb_pions_r)
         
         for i in range (3):
             for j in range (3):
-                x1,y1,x2,y2 = canvas.coords(liCe[i][j]) #prend tour à tour les coordonées des 9 emplacements du plateaux
+                x1,y1,x2,y2 = canvas.coords(Liste_Cercle[i][j]) #prend tour à tour les coordonées des 9 emplacements du plateaux
 
                 if nb_pions_b > 0 or nb_pions_r > 0: # permet de placer un pion si il en reste en stock
                 #pion bleu
                 #si: coord cliquées sont dans coord du cercle     & tour de bleu    & si case vide         & si la nouvelle position du pion est dans un rayon de 1 de la précédente position
                     if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1:
                         if not forbidden(position_prece, i, j):
-                            canvas.itemconfig(liCe[i][j], fill = 'blue', outline = "blue")
+                            canvas.itemconfig(Liste_Cercle[i][j], fill = 'blue', outline = "blue")
                             tour += 1 
                             nb_pions_b -= 1
                             pions_cote()
@@ -1825,7 +1796,7 @@ def open_plateau():
                  #pion rouge
                     elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 0 and i - position_prece[0] <= 1 and i - position_prece[0] >= -1 and j - position_prece[1] <= 1 and j - position_prece[1] >= -1 :
                         if not forbidden(position_prece, i, j):
-                            canvas.itemconfig(liCe[i][j], fill = 'red', outline = "red")
+                            canvas.itemconfig(Liste_Cercle[i][j], fill = 'red', outline = "red")
                             tour += 1
                             nb_pions_r -= 1
                             pions_cote()
@@ -1836,29 +1807,24 @@ def open_plateau():
                             position_prece[0], position_prece[1] = 1,1  
                             win_check(matrice)
                             if nb_ia == 2: # ajoute un delay avant d'executer l'ia si partie à 1 joueur
-                                print ("c'est la wati sauce")
                                 canvas.after(1100, IA_bleu)
                 else: #récuperre un pion placé et le remet en stock, tant que le pion n'est pas placé il est affiché dans une couleur différente
                     if x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 == 0 and matrice[i][j] == 2:
-                        canvas.itemconfig(liCe[i][j], fill = 'RoyalBlue1', outline = 'RoyalBlue1')
+                        canvas.itemconfig(Liste_Cercle[i][j], fill = 'RoyalBlue1', outline = 'RoyalBlue1')
                         matrice[i][j] = 0
                         nb_pions_b += 1
                         position_prece[0], position_prece[1] = i,j
                     elif x <= x2 and y <= y2 and x >= x1 and y >= y1 and tour % 2 != 0 and matrice[i][j] == 1:
-                        canvas.itemconfig(liCe[i][j], fill = 'coral1', outline = 'coral1')
+                        canvas.itemconfig(Liste_Cercle[i][j], fill = 'coral1', outline = 'coral1')
                         matrice[i][j] = 0
                         nb_pions_r += 1
                         position_prece[0], position_prece[1] = i,j
                     
-        print (tour)
-        print (position_prece)
                     
-        #win_ckeck(matrice)
 
 
     def msg_gagne():
         """"fenêtre auxiliaire qui affiche message 'Gagné' par dessus le plateau et arrête l'IA tant que l'utilisateur n'a pas fermé la fenêtre"""
-        print ("msg g  g")
         global player, r, b, nb_ia, pause
         msg = tk.Toplevel()
         msg.lift()
@@ -1867,11 +1833,14 @@ def open_plateau():
             msg.destroy()
             canvas.after(200, rezero())
         
+
         def pauz():
             '''met en pause l'IA'''
             global nb_ia, pause
             nb_ia = pause
             pause = 0
+
+
         canvas.itemconfigure(tour_rouge, fill="white")
         canvas.itemconfigure(tour_bleu, fill="white")
         msg.title("Fin de manche")
@@ -1880,12 +1849,10 @@ def open_plateau():
         gagné.grid(row = 0)
         button_next_round.grid(row = 1)
         canvas.after(1500, pauz)
-        print ("nbia", nb_ia)
 
 
     def msg_vainqueur():
         '''fenêtre qui s'ouvre quand il y a un vainqueur, permet de choisir entre relancer une partie et revenir au menu principal'''
-        print ("msg vain")
         global r, b
         win = tk.Toplevel()
     
@@ -1913,7 +1880,6 @@ def open_plateau():
     def fin_de_partie():
         """relance une manche tant qu'il n'y a pas de vainqueur"""
         global pause, nb_ia, r, b
-        print("fin de partie")
         pause = nb_ia
         nb_ia = 0
 
@@ -1969,7 +1935,6 @@ def open_plateau():
     canvas.bind("<Button-1>", click)
 
     if nb_ia == 2:
-        print("everybody do the flop")
         canvas.after(1000, placement_IA)
 
 
