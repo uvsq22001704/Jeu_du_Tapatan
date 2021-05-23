@@ -1,11 +1,11 @@
 ########################
 # Groupe 2 LDDMP
-# Arthur CHAUVEAU
-# Noémie KAUFMANN
-# Titouan BIGET
-# Diary ANDRIANARIVO
+# Arthur CHAUVEAU (n° 22001569)
+# Noémie KAUFMANN (n° 22004316)
+# Titouan BIGET (n° 22001704)
+# Diary ANDRIANARIVO (n° 21914118)
 # Mohamed IBOUROI
-# Hyacinthe MORASSE
+# Hyacinthe MORASSE (n° 22003744)
 # https://github.com/uvsq22001704/Jeu_du_Tapatan
 ########################
 
@@ -133,7 +133,7 @@ titre = tk.Label(menu, text="Jeu Du Tapatan Win97", font=('comic sans ms', '21')
 buttonII = tk.Button(menu, text="0 Joueur", command = P0j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHH = tk.Button(menu, text="1 Joueur", command = P1j, font=('comic sans ms', '15'), bg = "coral1")
 buttonHI = tk.Button(menu, text="2 Joueurs", command = P2j, font=('comic sans ms', '15'), bg = "coral1")
-button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")#bouton executant regles()
+button_rules = tk.Button(menu, text='Règles du jeu', command=regles, font=('comic sans ms', '15'), bg = "coral1")
 
 # Placement des widgets du menu
 fond.grid(row = 0, column = 0, columnspan = 3, rowspan = 5)
@@ -267,9 +267,9 @@ def open_plateau():
 
     def changeVitesse(signe):
         global vitesse_IA
-        if signe == -1 and vitesse_IA > 500:
+        if signe == 1 and vitesse_IA > 500:
             vitesse_IA -= 100
-        if signe == 1 and vitesse_IA < 3000:
+        if signe == -1 and vitesse_IA < 3000:
             vitesse_IA += 100
         print (vitesse_IA)
         
