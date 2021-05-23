@@ -1,29 +1,13 @@
-![Screenshot 2021-05-02 04 05 51](https://user-images.githubusercontent.com/71564594/119239964-0e328580-bb4d-11eb-8a88-66ecdb63a03c.png)
-# Jeu_du_Tapatan
+Jeu du Tapatan
+Versions pour 2 joueurs, 1 joueur contre une IA, et IA contre IA.
 
-Notations:
-
-    pour la matrice:
-    0 gris
-    1 rouge
-    2 bleu
-
-
-
-Jeu du Tapatan pour deux joueurs, soit un joueur réel et une IA, soit deux IA l'une contre l'autre. 
-
-Chacun des deux joueurs dispose de 3 jetons. Le vainqueur est le premier joueur à aligner 3 de ses jetons sur le plateau.
-
-Le jeu se déroule en deux étapes:
-- l’étape de placement: au début le plateau est vide, puis les joueurs posent un jeton à tour de rôle sur une intersection libre du plateau;
-- l’étape de déplacement: s’il n’y a pas déjà un vainqueur, les joueurs bougent à tour de rôle un jeton sur une intersection voisine (atteignable en empruntant une des droites) libre;
-si l’on tombe une troisième fois sur la même disposition des jetons sur le plateau, alors le match est déclaré nul.
-
-Votre interface graphique doit permettre à 2 humains de jouer au jeu. Faire une version ou chaque victoire rapporte un point et le jeu s’arrête dès qu’un des joueurs à 3 points et est alors déclaré vainqueur. A chaque partie, il faut changer le joueur qui débute la partie. Un match nul n’apporte aucun point.
-
-En plus de la programmation du jeu, vous programmerez les fonctionnalités suivantes:
-- pouvoir sauvegarder une partie en cours, et la recharger ensuite;
-- ajouter une version humain contre IA et IA contre IA; une IA simple consiste à jouer de la manière suivante que ce soit pour l’étape de placement ou de déplacement (mais vous pouvez proposer autre chose):
-    - jouer un coup qui fait gagner la partir s’il y en a un
-    - sinon jouer pour éviter que l’adversaire ait un coup qui le fasse gagner s’il y en a un
-    - sinon jouer un coup au hasard
+Fonctionnement du jeu :
+Chaque joueur possède 3 pions, et le but est d'aligner ses trois pions sur le plateau de façon horizontale, verticale ou diagonale. Il faut d'abord poser ses trois pions sur le plateau en cliquant sur l'emplacement gris où vous voulez poser votre pion, puis on peut déplacer un pion vers un emplacement libre en suivant un des traits noirs formés par le plateau. Pour cela, il suffit de cliquer d'abord sur le pion que l'on veut déplacer, et ensuite sur l'emplacement vide vers lequel on veut déplacer le pion. Attention, on ne peut pas annuler la sélection d'un pion pour le bouger. Si le pion sélectionné ne peut pas être déplacé, il faut cliquer à nouveau sur ce pion et ainsi passer son tour. 
+Le gagnant d'une manche est donc le premier joueur à aligner ses trois pions sur le plateau, et le gagnant de la partie est le premier joueur à gagner 3 manches. 
+Une manche est déclarée "match nul" lorsque la même configuration du plateau se produit trois fois.
+Pour quitter une partie en cours, il faut cliquer sur le bouton "Quitter" et non pas fermer la fenêtre du plateau. 
+Les boutons "Sauvegarder la partie" et "Recharger la partie" permettent respectivement d'enregistrer une partie en cours pour la reprendre plus tard, et de continuer une partie déjà commencée qui a été sauvegardée précédemment.
+Les boutons "+" et "-" de "Vitesse de l'IA" permettent respectivement d'augmenter et de diminuer la vitesse de l'IA afin d'avoir une IA qui joue plus ou moins rapidement.
+Fonctionnement du code : 
+Pour créer notre jeu du Tapatan, nous avons utilisé une matrice 3 x 3 déterminant les 9 emplacements possibles du plateau, dans laquelle nous avons indiqué par les chiffres 0, 1 et 2 la couleur de l'emplacement. 0 indique que l'emplacement est gris, donc vide, 1 indique que l'emplacement est rouge, donc occupé par un pion rouge, et 2 indique que l'emplacement est bleu, donc occupé par un pion bleu.
+Lorsqu'on lance le programme, un menu s'affiche pour nous demander quel type de partie on veut lancer, ou si l'on veut voir les règles du jeu. Le bouton "0 joueur" lance une partie IA contre IA, le bouton "1 joueur" lance une partie joueur contre IA, et le bouton "2 joueurs" lance une partie joueur contre joueur.
