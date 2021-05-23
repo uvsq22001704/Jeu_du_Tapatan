@@ -1,8 +1,8 @@
-Jeu du Tapatan
+# Jeu du Tapatan
 
 Versions pour 2 joueurs, 1 joueur contre une IA, et IA contre IA.
 
-Fonctionnement du jeu :
+## Fonctionnement du jeu :
 
 Chaque joueur possède 3 pions, et le but est d'aligner ses trois pions sur le plateau de façon horizontale, verticale ou diagonale. 
 Il faut d'abord poser ses trois pions sur le plateau en cliquant sur l'emplacement gris où vous voulez poser votre pion, puis on peut déplacer un pion vers un emplacement libre en suivant un des traits noirs formés par le plateau. 
@@ -18,7 +18,7 @@ Les boutons "Sauvegarder la partie" et "Recharger la partie" permettent respecti
 
 Les boutons "+" et "-" de "Vitesse de l'IA" permettent respectivement d'augmenter et de diminuer la vitesse de l'IA afin d'avoir une IA qui joue plus ou moins rapidement.
 
-Fonctionnement du code : 
+## Fonctionnement du code : 
 
 Pour créer notre jeu du Tapatan, nous avons utilisé une matrice 3 x 3 déterminant les 9 emplacements possibles du plateau, dans laquelle nous avons indiqué par les chiffres 0, 1 et 2 la couleur de l'emplacement. 0 indique que l'emplacement est gris, donc vide, 1 indique que l'emplacement est rouge, donc occupé par un pion rouge, et 2 indique que l'emplacement est bleu, donc occupé par un pion bleu.
 
