@@ -75,16 +75,19 @@ def couleur (r, g, b):
 def P0j():
     global nb_ia
     nb_ia = 2
+    menu.iconify()
     open_plateau()
 
 def P1j():
     global nb_ia 
     nb_ia = 1
+    menu.iconify()
     open_plateau()
 
 def P2j():
     global nb_ia
     nb_ia = 0
+    menu.iconify()
     open_plateau()
     
 def regles():
@@ -1587,31 +1590,34 @@ def open_plateau():
 
     def win_ckeck(matrice):
         '''évalue après chaque tour si qqn a gagné. s'il y a un gagnant, un msg 
-        s'affiche dans une nouvelle fenêtre. Lance une nouvelle partie'''
+        s'affiche dans une nouvelle fenêtre. Fermer le message lance une nouvelle partie'''
         global r, b, player
         player = ''
         for i in range(3):
+            #vérifie l'alignement horizontal puis vertical des pions rouges
             if matrice[i][0] == matrice[i][1] == matrice[i][2] == 1 or matrice[0][i] == matrice[1][i] == matrice[2][i] == 1:
                 player = '1'
                 r += 1
                 score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
                 fin_de_partie()
+            #vérifie l'alignement  horizontal puis vertical des pions bleus
             elif matrice[i][0] == matrice[i][1] == matrice[i][2] == 2 or matrice[0][i] == matrice[1][i] == matrice[2][i] ==2:
                 player = '2'
                 b += 1
                 score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
                 fin_de_partie()
+        #vérfie l'alignement des deux diagonales pour les pions rouges   
         if matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 1 or matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 1:
             player = '1'
             r += 1
             score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
             fin_de_partie()
+        #vérifie l'lignement des deux diagonales pour les pions bleus
         if matrice[2][0] ==  matrice[1][1] == matrice[0][2] == 2 or matrice[0][0] ==  matrice[1][1] == matrice[2][2] == 2:
             player = '2'
             b += 1
             score.configure(text='SCORE : ' + str(r) + ' - ' + str(b))
             fin_de_partie()
-
 
     def msg_gagne():
         """"fenetre auxiliaire qui affiche message 'Gagné' par dessus le plateau"""
@@ -1621,11 +1627,8 @@ def open_plateau():
         def fermer_msg():
             msg.destroy()
             canvas.after(1000, rezero())
-        msg.title("Fin de partie")
-        gagné = tk.Canvas(msg, height=100, width=400, bg='dark khaki')
-        gagné.create_text(130, 60, text='Joueur', font=('helvetica', '16'))
-        gagné.create_text(190, 60, text=player, font=('helvetica', '16'))
-        gagné.create_text(280, 60, text='a gagné !', font=('helvetica', '16'))
+        msg.title("Fin de manche")
+        gagné = tk.Label(msg, text='Joueur '+player+' a gagné!',font=('helvetica', '16'), padx=20, pady=30,  bg='dark khaki')
         button_next_round = tk.Button(msg, text = "next", command = fermer_msg)
         gagné.grid(row = 0)
         button_next_round.grid(row = 1)
@@ -1636,12 +1639,13 @@ def open_plateau():
         global r, b
         win = tk.Toplevel()
         def rejouer():
+            rezero()
             plateau.destroy()
             win.destroy()
-        def quitter():
-            menu.quit()
-        gagné = tk.Label(win, text='JOUEUR '+player+'A  GAGNE !!!', font=('helvetica', '16'), bg='dark khaki', pady=30, padx=10)
-        button_quit = tk.Button(win, text='Quitter', command = quitter )
+            menu.deiconify()
+        win.title("Fin de partie")
+        gagné = tk.Label(win, text='JOUEUR '+player+' A  GAGNE !!!', font=('helvetica', '16'), bg='dark khaki', pady=30, padx=10)
+        button_quit = tk.Button(win, text='Quitter', command =menu.destroy )
         button_replay = tk.Button(win, text='Recommencer une partie', command = rejouer)
         gagné.grid(row = 0)
         button_quit.grid(row=1)
@@ -1651,8 +1655,7 @@ def open_plateau():
 
 
     def fin_de_partie():
-        """relance uneif r < 4 or b < 4:
-            #canvas.after(5000, rezero()) partie tant qu'il n'y a pas de vainqueur"""
+        """relance une partie tant qu'il n'y a pas de vainqueur"""
         global r, b
         if r == 3 or b == 3:
             msg_vainqueur()
