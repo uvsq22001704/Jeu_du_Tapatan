@@ -167,7 +167,7 @@ def open_plateau():
     
     
     def recharger(): 
-        """charger la grille depuis le fichier sauvegarde.txt"""
+        """renvoie les valeurs sauvegardées dans les fichiers .txt"""
         global matrice, tour, position_prece, nb_pions_b, nb_pions_r, r, b
         fic = open("sauvegarde.txt", "r")
         j = 0
@@ -224,7 +224,7 @@ def open_plateau():
 
     
     def sauvegarder():
-        """sauvegarder la grille vers le fichier sauvegarde.txt"""
+        """sauvegarder les valeurs en global dans des fichiers .txt"""
         global matrice, tour, position_prece, nb_pions_b, nb_pions_r, r, b
         fic = open("sauvegarde.txt", "w")
         for j in range(3):
