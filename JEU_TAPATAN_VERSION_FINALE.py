@@ -4,7 +4,7 @@
 # Noémie KAUFMANN (n° 22004316)
 # Titouan BIGET (n° 22001704)
 # Diary ANDRIANARIVO (n° 21914118)
-# Mohamed IBOUROI
+# Mohamed IBOUROI (n° 22015090)
 # Hyacinthe MORASSE (n° 22003744)
 # https://github.com/uvsq22001704/Jeu_du_Tapatan
 ########################
@@ -53,11 +53,11 @@ r = 0
 # Compteur du score bleu
 b = 0 
 
-# Variable qui permet de connaitre la position du pion que l'on s'apprete à déplacer
+# Variable qui permet de connaitre la position du pion que l'on s'apprete à déplacer. Sa valeur par défaut est [1, 1]
 position_prece = [1,1] 
 
 # Liste qui ajoute chaque matrice de position des pions d'une manche pour déterminer si il se produit un match nul
-fantome_de_tes_matrices_passées = [] 
+matrices_passées = [] 
 
 # Variable qui décompte le nombre d'IA présentes dans la partie selon si c'est une partie 0, 1, ou 2 joueurs
 nb_ia = 0
@@ -160,7 +160,7 @@ for i in range (175):
 
 def open_plateau():
     '''fait apparaitre le plateau et contient toutes ses fonctions'''
-    global nb_ia, tour, nb_pions_b, nb_pions_r, r, b, position_prece, fantome_de_tes_matrices_passées
+    global nb_ia, tour, nb_pions_b, nb_pions_r, r, b, position_prece, matrices_passées
     plateau = tk.Toplevel()
 
     ##### Fonctions de sauvegarde et de chargement #####
@@ -273,12 +273,24 @@ def open_plateau():
         if signe == -1 and vitesse_IA < 3000:
             vitesse_IA += 100
         
+    def reset():
+        '''Ferme le plateau et réinitialise ses valeurs'''
+        global nb_pions_r, nb_pions_b, tour, matrices_passées, r, b
+        plateau.destroy()
+        menu.state(newstate = 'normal')
+        nb_pions_b = 3
+        nb_pions_r = 3
+        r, b = 0, 0
+        tour = 0
+        matrices_passées = []
+        for i in range(3):
+            for j in range(3):
+                matrice[i][j] = 0    
                 
     # Création du canvas et des widgets
     canvas = tk.Canvas(plateau, height=HEIGHT, width=WIDTH, bg = "white")
     
-    bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie',
-                                command = sauvegarder, font = ('comic sans ms', '9'))
+    bouton_sauvegarder = tk.Button(plateau, text='Sauvegarder la partie', command = sauvegarder, font = ('comic sans ms', '9'))
     bouton_recharger = tk.Button(plateau, text='Recharger la partie', command=recharger, font = ('comic sans ms', '9'))
     
     score = tk.Label(plateau, text='SCORE : ' + str(r) + ' - ' + str(b), font=('comic sans ms', '16'), pady=10, padx=20, bg='dark khaki')
@@ -286,6 +298,8 @@ def open_plateau():
     vitIA = tk.Label(plateau, text="VITESSE DE L'IA", font=('comic sans ms', '16'), pady=10, padx=10, bg='pale green')
     vitIAp = tk.Button(plateau, text='+', font = ('comic sans ms', '15'), command= lambda : changeVitesse(1))
     vitIAm = tk.Button(plateau, text='-', font = ('comic sans ms', '15'), command= lambda : changeVitesse(-1))
+
+    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
 
     # Placement des widgets
     bouton_sauvegarder.grid(row=3, column=0)
@@ -295,8 +309,8 @@ def open_plateau():
     vitIA.grid(row = 1, column= 0, sticky = 'nw')
     vitIAp.grid(row = 1, column= 0, sticky = 'nw', padx= 258, ipadx= 15, ipady= 0)
     vitIAm.grid(row = 1, column= 0, sticky = 'nw', padx= 322, ipadx= 15, ipady= 0)
-    
-    
+    quitter.grid(row = 0, sticky = 'w')
+
     
     # Création d'un affichage permettant de dire à quel joueur c'est le tour
     tour_rouge = canvas.create_text(175, 250, text="Au tour des rouges", font=('comic sans ms', '20', ), fill = "white")
@@ -341,33 +355,18 @@ def open_plateau():
    
 
     ##### Fonctions liées au plateau #####
-    
-    def reset():
-        '''Ferme le plateau et réinitialise ses valeurs'''
-        global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées, r, b
-        plateau.destroy()
-        menu.state(newstate = 'normal')
-        nb_pions_b = 3
-        nb_pions_r = 3
-        r, b = 0, 0
-        tour = 0
-        fantome_de_tes_matrices_passées = []
-        for i in range(3):
-            for j in range(3):
-                matrice[i][j] = 0
-                
                 
     def matcheur_nul():
         '''termine une manche en match nul lorsque la même configuration de pion est répétée trois fois au cour d'une même manche'''
-        global fantome_de_tes_matrices_passées, nb_ia, pause
-        '''ajoute dans fantome_de_tes_matrices_passées la derniere matrice en date et vérifie si il existe trois matrices identiques, 
+        global matrices_passées, nb_ia, pause
+        '''ajoute dans matrices_passées la derniere matrice en date et vérifie si il existe trois matrices identiques, 
         si c'est le cas alors termine la manche en cours sans attribuer de points'''
-        fantome_de_tes_matrices_passées.append(cp.deepcopy(matrice))
+        matrices_passées.append(cp.deepcopy(matrice))
         
-        for i in range (len(fantome_de_tes_matrices_passées)):
-            for j in range (len (fantome_de_tes_matrices_passées)):
-                for k in range (len (fantome_de_tes_matrices_passées)):
-                    if fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [j] and fantome_de_tes_matrices_passées [i] == fantome_de_tes_matrices_passées [k] and i != j and i != k and k != j:
+        for i in range (len(matrices_passées)):
+            for j in range (len (matrices_passées)):
+                for k in range (len (matrices_passées)):
+                    if matrices_passées [i] == matrices_passées [j] and matrices_passées [i] == matrices_passées [k] and i != j and i != k and k != j:
                         pause = nb_ia
                         nb_ia = 0
                         
@@ -396,7 +395,7 @@ def open_plateau():
                         button_next_round.grid(row = 1)
                         
                         # Réinitialise le plateau et ses valeurs associées :
-                        fantome_de_tes_matrices_passées = []
+                        matrices_passées = []
                         canvas.after(1500, pauz)
                     
 
@@ -425,7 +424,7 @@ def open_plateau():
             canvas.itemconfigure(tour_rouge, fill="white")
 
 
-    def bouge_pion_rouge (a, b, c, d):
+    def bouge_pion_rouge(a, b, c, d):
         """bouge un pion du cercle(a,b) vers le cercle(c,d)"""
         global tour, nb_bouge_pion_ce_tour
         matrice[a][b] = 0
@@ -440,7 +439,7 @@ def open_plateau():
         affiche_tour()
 
 
-    def bouge_pion_bleu (a, b, c, d):
+    def bouge_pion_bleu(a, b, c, d):
         """bouge un pion du cercle (a, b) vers le cercle (c, d)"""
         global tour, nb_bouge_pion_ce_tour
         nb_bouge_pion_ce_tour = 1
@@ -454,29 +453,23 @@ def open_plateau():
 
 
     def placement_IA():
-        """place les pions au début de l'IA (supposément que pour une partie 0 joueurs ?!)"""
-        
-
+        """place les pions au début de l'IA , soit les 5 premiers tours"""
         global tour, nb_pions_r, nb_pions_b
-        
-        
+          
         # Premier coup du joueur bleu
         if nb_pions_b == 3 and nb_pions_r == 3:
             Coup_rd()
             return
         
-        
         # Premier coup du joueur rouge
         if nb_pions_b == 2 and nb_pions_r == 3:
             Coup_rd()
-            return
-        
+            return    
         
         # Deuxième coup du joueur bleu
         if nb_pions_b == 2 and nb_pions_r == 2:
             Coup_rd()
-            return
-        
+            return     
         
         # Deuxième coup du joueur rouge, qui peut bloquer le joueur bleu
         if nb_pions_b == 1 and nb_pions_r == 2:
@@ -614,8 +607,7 @@ def open_plateau():
                 Coup_rd()
                 #nb_pions_r -= 1
                 return
-            
-            
+                
         # Troisième coup du joueur bleu, qui peut bloquer le joueur rouge
         elif nb_pions_b == 1 and nb_pions_r == 1:
             
@@ -718,7 +710,6 @@ def open_plateau():
                 Coup_rd()
                 #nb_pions_b -= 1
                 return
-            
             
         # Troisième coup du joueur rouge, qui peut bloquer le joueur bleu
         elif nb_pions_b == 0 and nb_pions_r == 1:
@@ -857,7 +848,6 @@ def open_plateau():
                 #nb_pions_r -= 1
                 return
             
-
 
     def depl_rd_b():
         '''tire aléatoirement des coordonnées de déplacement autorisées pour un pion bleu et le transmet à place_pion'''
@@ -1821,8 +1811,6 @@ def open_plateau():
                         position_prece[0], position_prece[1] = i,j
                     
                     
-
-
     def msg_gagne():
         """"fenêtre auxiliaire qui affiche message 'Gagné' par dessus le plateau et arrête l'IA tant que l'utilisateur n'a pas fermé la fenêtre"""
         global player, r, b, nb_ia, pause
@@ -1891,11 +1879,11 @@ def open_plateau():
         
     def rezero():
         '''remet le plateau à 0'''
-        global nb_pions_r, nb_pions_b, tour, fantome_de_tes_matrices_passées
+        global nb_pions_r, nb_pions_b, tour, matrices_passées
         nb_pions_b = 3
         nb_pions_r = 3
         tour = 0
-        fantome_de_tes_matrices_passées = []
+        matrices_passées = []
         for i in range(3):
             for j in range(3):
                 matrice[i][j] = 0
@@ -1929,11 +1917,9 @@ def open_plateau():
             canvas.itemconfigure(rouge3, fill = "red", outline="red")
 
 
-    quitter = tk.Button(plateau, text='Quitter', font = ('comic sans ms', '16'), command = reset)
-    quitter.grid(row = 0, sticky = 'w')
-
     canvas.bind("<Button-1>", click)
 
+    #permet de démarrer l'IA bleu pour une partie IA vs IA (le "kick off")
     if nb_ia == 2:
         canvas.after(1000, placement_IA)
 
