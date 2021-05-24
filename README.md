@@ -18,8 +18,17 @@ Les boutons "Sauvegarder la partie" et "Recharger la partie" permettent respecti
 
 Les boutons "+" et "-" de "Vitesse de l'IA" permettent respectivement d'augmenter et de diminuer la vitesse de l'IA afin d'avoir une IA qui joue plus ou moins rapidement.
 
+Le joueur bleu commence toujours. En mode 1 joueur, le joueur commence toujours à jouer car l'IA joue toujours rouge. De la même manière, en 0 joueur, l'IA bleu commence toujours la manche.
+
 ## Fonctionnement du code : 
 
 Pour créer notre jeu du Tapatan, nous avons utilisé une matrice 3 x 3 déterminant les 9 emplacements possibles du plateau, dans laquelle nous avons indiqué par les chiffres 0, 1 et 2 la couleur de l'emplacement. 0 indique que l'emplacement est gris, donc vide, 1 indique que l'emplacement est rouge, donc occupé par un pion rouge, et 2 indique que l'emplacement est bleu, donc occupé par un pion bleu.
 
 Lorsqu'on lance le programme, un menu s'affiche pour nous demander quel type de partie on veut lancer, ou si l'on veut voir les règles du jeu. Le bouton "0 joueur" lance une partie IA contre IA, le bouton "1 joueur" lance une partie joueur contre IA, et le bouton "2 joueurs" lance une partie joueur contre joueur.
+
+###### Schéma de fonctionnement
+
+schéma non exhaustif de l'organisationn des fonctions du plateau
+
+![schéma_fonctions](https://user-images.githubusercontent.com/71564594/119404132-aceeeb80-bcdf-11eb-984c-caf74946d8f2.jpg)
+
