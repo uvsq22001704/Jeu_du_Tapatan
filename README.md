@@ -32,3 +32,5 @@ schéma non exhaustif de l'organisationn des fonctions du plateau
 
 ![schéma_fonctions](https://user-images.githubusercontent.com/71564594/119404132-aceeeb80-bcdf-11eb-984c-caf74946d8f2.jpg)
 
+![Screenshot 2021-05-24 22 31 52](https://user-images.githubusercontent.com/71564594/119404287-e4f62e80-bcdf-11eb-873b-650cc0b54866.png)
+
