@@ -47,7 +47,7 @@ nb_pions_b = 3
 
 # Variable qui stocke la valeur de nb_ia pendant la remise à zero du plateau
 pause = 0 
-
+ 
 # Compteur du score rouge
 r = 0 
 # Compteur du score bleu
